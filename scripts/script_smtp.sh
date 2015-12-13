@@ -2,7 +2,7 @@
 # $1 1:Ajout 2:Supression
 # $2 Utilisateur 
 
-source /var/www/postwork/scripts/source.sh
+source /var/www/postwork/postwork.itinet.fr/scripts/source.sh
 
 cd /etc/postfix/
 test=`sudo cat vmailbox | grep $2`

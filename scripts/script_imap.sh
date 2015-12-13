@@ -3,7 +3,7 @@
 # $2 Utilisateur 
 # $3 mot de passe
 
-source /var/www/postwork/scripts/source.sh
+source /var/www/postwork/postwork.itinet.fr/scripts/source.sh
 
 cd /etc/courier/
 test=`sudo cat userdb | grep "/$2|"`  

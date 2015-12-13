@@ -2,7 +2,7 @@
 # $1 Où stocker le QRcode 1 3:Documentroot 2 4:Envoi par mail
 # $2 Utilisateur 
 # $3 FQDN
-source /var/www/postwork/scripts/source.sh
+source /var/www/postwork/postwork.itinet.fr/scripts/source.sh
 
 case $1 in
 	1 )

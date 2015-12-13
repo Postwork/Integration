@@ -4,7 +4,7 @@
 # $3 Mot de passe
 
 
-source /var/www/postwork/scripts/source.sh
+source /var/www/postwork/postwork.itinet.fr/scripts/source.sh
 
 script_user.sh $1 $2 $3
 script_bdd.sh $1 $2 $3

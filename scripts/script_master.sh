@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source /var/www/postwork/scripts/source.sh
+source /var/www/postwork/postwork.itinet.fr/scripts/source.sh
 
 while :
  do

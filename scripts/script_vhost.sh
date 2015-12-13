@@ -3,7 +3,7 @@
 # $2 Nom de Machine
 # $3 Documentroot
 
-source /var/www/postwork/scripts/source.sh
+source /var/www/postwork/postwork.itinet.fr/scripts/source.sh
 
 case $1 in
 	1 )

@@ -3,7 +3,7 @@
 # $2 Utilisateur ou Nom de machine
 # $3 IP Public (optionnel)
 
-source /var/www/postwork/scripts/source.sh
+source /var/www/postwork/postwork.itinet.fr/scripts/source.sh
 
 cd /etc/tinydns/root/
 url=$2$fqdn

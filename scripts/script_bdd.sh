@@ -3,7 +3,7 @@
 # $2 Utilisateur 
 # $3 mot de passe
 
-source /var/www/postwork/scripts/source.sh
+source /var/www/postwork/postwork.itinet.fr/scripts/source.sh
 
 requete=$(mysql -u $mysql_login -p$mysql_pass -e "SELECT user FROM mysql.user WHERE user='$2';")
 nom=`echo $requete | awk '{ print $2}'`
