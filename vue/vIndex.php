@@ -5,7 +5,7 @@
   <title>Postwork</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <link rel="stylesheet" href=" vue/contenu/bootstrap/css/bootstrap.min.css">   
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script> 
   <style>
@@ -20,14 +20,7 @@
     background-color: #f2f2f2;
     padding: 25px;
   }
-
-  .carousel-inner img {
-    width: 100%; /* Set width to 100% */
-    margin: auto;
-    min-height:200px;
-  }
-
-  /* Hide the carousel text when the screen is less than 600 pixels wide */
+/* Hide the carousel text when the screen is less than 600 pixels wide */
   @media (max-width: 600px) {
     .carousel-caption {
       display: none; 

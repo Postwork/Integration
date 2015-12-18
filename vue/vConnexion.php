@@ -1,23 +1,42 @@
-<html lang="fr">
-<head>
-  <title>Connexion</title>
-  <meta charset="utf-8">
-  <link rel="stylesheet" href="contenu/bootstrap/css/bootstrap.css">
-</head>
-<body>
-  <div class="container-fluid">
-    <h1>Connexion</h1>
-    <form class="form-inline" method="POST" role="form" action="?page=connexion">
-      <div class="form-group">
-        <label for="pseudo">Pseudo:</label>
-        <input type="text" class="form-control" name="pseudo">
-      </div>
-      <div class="form-group">
-        <label for="pwd">Password:</label>
-        <input type="password" class="form-control" name="pwd">
-      </div>
-      <button type="submit" class="btn btn-default" name="envoyer">Envoyer</button>
-    </form>
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="UTF-8">
+    <title>Inscription</title>
+    <link rel="stylesheet" href=" vue/contenu/bootstrap/css/bootstrap.css">        
+    <link rel="stylesheet" href=" vue/style.css"> 
+  </head>
+
+  <body>
+
+  <div class="container">
+    <div class="wrapper2" >
+    <h1> Connectez  vous</h1>
+    
+    <form class="form" method="POST" role="form" action="?page=connexion">
+      <input type="text" name="pseudo" placeholder="Pseudo">
+      <input type="password" name="motdepasse" placeholder="Mot de passe">
+      <button type="submit" name="envoyer">Se connecter</button>
+    </form> 
   </div>
-</body>
+  
+  <ul class="bg-bubbles">
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+  </ul>
+</div>
+
+
+    
+    
+    
+  </body>
 </html>

@@ -20,11 +20,11 @@
 
                 <div class="col-xs-6 col-sm-3 column">
                   <h4>Les membres de l'équipe </h4>
-                  <a href="http://www.intechinfo.fr">Chef de projet: Freddy Hauteville</a>
+                  <a href="http://www.intechinfo.fr"> <strong>Freddy Hauteville</strong></a>
                   <br>
-                  <a href="http://www.intechinfo.fr">Membre: Jean-Christophe Thiburce</a>
+                  <a href="http://www.intechinfo.fr">Jean-Christophe Thiburce</a>
                   <br>
-                  <a href="http://www.intechinfo.fr">Membre: Bastian Bel-Ange</a>
+                  <a href="http://www.intechinfo.fr">Bastian Bel-Ange</a>
                 </div>
                 <div class="col-xs-6 col-sm-3 column">
                 </div>

@@ -1,5 +1,5 @@
 
-
+<link rel="stylesheet" href=" vue/contenu/bootstrap/css/bootstrap.min.css"> 
   <?php
 	session_start();
 

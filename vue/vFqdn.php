@@ -5,20 +5,15 @@
     <title>Inscription</title>
     
         <link rel="stylesheet" href=" vue/contenu/bootstrap/css/bootstrap.css">      
-        <link rel="stylesheet" href=" vue/style.css"> 
+     <!--    <link rel="stylesheet" href=" vue/style.css">  -->
     
   </head>
   <body>
     <div class="container">
-      <h1> Inscrivez vous</h1>
-    
+      <h1> Creer votre FQDN</h1>   
       <form class="form" action="?page=inscription">
-        <input type="text" name="pseudo" placeholder="Pseudo">
-        <input type="text" name="nom" placeholder="Nom">
-        <input type="text" name="prenom" placeholder="Prenom">
-        <input type="date" name="datenaissance" placeholder="Date Naissance">
-        <input type="password" name="motdepasse" placeholder="Mot de passe">
-        <input type="password" name="motdepasse2" placeholder="Vérification mot de passe">
+        <input type="text" name="nom" placeholder="Nom de Machine/Utilisateur">
+        <input type="text" name="IP" placeholder="Adresse IP">
         <button type="submit" name="envoyer">S'enregistrer</button>
       </form>
     </div>
