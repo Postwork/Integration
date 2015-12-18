@@ -3,18 +3,17 @@
   <head>
     <meta charset="UTF-8">
     <title>Inscription</title>
-    
-        <link rel="stylesheet" href=" contenu/style.css">    
-    
+    <link rel="stylesheet" href=" vue/contenu/bootstrap/css/bootstrap.css">        
+    <link rel="stylesheet" href=" vue/style.css"> 
   </head>
 
   <body>
 
-    <div class="wrapper">
   <div class="container">
+    <div class="wrapper">
     <h1> Inscrivez vous</h1>
     
-    <form class="form" action="?page=inscri">
+    <form class="form" action="?page=inscription">
       <input type="text" name="pseudo" placeholder="Pseudo">
       <input type="text" name="nom" placeholder="Nom">
       <input type="text" name="prenom" placeholder="Prenom">
@@ -38,9 +37,7 @@
     <li></li>
   </ul>
 </div>
-    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
 
-        <script src="js/index.js"></script>
 
     
     

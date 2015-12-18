@@ -1,4 +1,6 @@
-<?php
+
+
+  <?php
 	session_start();
 
 	#$bdd = PDO('mysql:host=localhost;dbname=postwork', 'postwork', 'postwork');
@@ -10,3 +12,4 @@
 		include('controleur/index.php');
 	}
 ?>
+
