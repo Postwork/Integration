@@ -14,8 +14,8 @@
     <h1> Connectez  vous</h1>
     
     <form class="form" method="POST" role="form" action="?page=connexion">
-      <input type="text" name="pseudo" placeholder="Pseudo">
-      <input type="password" name="motdepasse" placeholder="Mot de passe">
+      <input type="text" name="pseudo" placeholder="Pseudo" required>
+      <input type="password" name="motdepasse" placeholder="Mot de passe" required>
       <button type="submit" name="envoyer">Se connecter</button>
     </form> 
   </div>
