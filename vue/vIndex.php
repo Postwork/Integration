@@ -187,11 +187,10 @@
       </div>
     </div>
   </div>
-</body>
-<?php
+  <?php
   include_once("vFooter.php");
   ?>
-
+</body>
 </html>
 
 
