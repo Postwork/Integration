@@ -9,14 +9,20 @@
     
   </head>
   <body>
+      <?php
+    include_once("vNavco.php");
+  ?>
     <div class="container">
       <h1> Creer votre FQDN</h1>   
-      <form class="form" action="?page=inscription">
+      <form class="form" method="POST" role="form" action="?page=inscription">
         <input type="text" name="nom" placeholder="Nom de Machine/Utilisateur">
         <input type="text" name="IP" placeholder="Adresse IP">
         <button type="submit" name="envoyer">S'enregistrer</button>
       </form>
     </div>
+      <?php
+    include_once("vFooter.php");
+  ?>
   </body>
 </html>
 
