@@ -1,15 +1,13 @@
 <style type="text/css">
-
 .foot {
   background: #090707;
   padding: 15px;
 }
-
 </style>
 
 <footer class="text-center">
   
-        <div class="navbar navbar-fixed-bottom foot">
+        <div class="navbar navbar-bottom foot">
         <!-- <div class="container-fluid foot"> -->
             <div class="row">
                 <div class="col-xs-6 col-sm-3 column">
