@@ -2,13 +2,15 @@
 
 .foot {
   background: #090707;
+  padding: 15px;
 }
 
 </style>
 
-<footer class="container-fluid text-center foot">
+<footer class="text-center">
   
-        <div class="container-fluid">
+        <div class="navbar navbar-fixed-bottom foot">
+        <!-- <div class="container-fluid foot"> -->
             <div class="row">
                 <div class="col-xs-6 col-sm-3 column">
                     <h4>En savoir plus sur l'équipe</h4>
