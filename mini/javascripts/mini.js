@@ -6112,16 +6112,16 @@ var DEVELOPER = null;
 var REGISTER_API = null;
 
 // Jappix hosts configuration
-var HOST_MAIN = null;
-var HOST_MUC = null;
-var HOST_PUBSUB = null;
-var HOST_VJUD = null;
-var HOST_ANONYMOUS = null;
+var HOST_MAIN = "chat.postwork.itinet.fr";
+var HOST_MUC = "muc.postwork.itinet.fr";
+var HOST_PUBSUB = "pubsub.postwork.itinet.fr";
+var HOST_VJUD = "vjud.postwork.itinet.fr";
+var HOST_ANONYMOUS = "anonymous.postwork.itinet.fr";
 var HOST_STUN = null;
 var HOST_TURN = null;
 var HOST_TURN_USERNAME = null;
 var HOST_TURN_PASSWORD = null;
-var HOST_BOSH = null;
+var HOST_BOSH = "http://bosh.postwork.itinet.fr:5280/http-bind/;
 var HOST_BOSH_MAIN = null;
 var HOST_BOSH_MINI = null;
 var HOST_WEBSOCKET = null;
@@ -6129,12 +6129,12 @@ var HOST_STATIC = null;
 var HOST_UPLOAD = null;
 
 // Anonymous mode
-var ANONYMOUS_ROOM = null;
+var ANONYMOUS_ROOM = "anonymous.postwork.itinet.fr";
 var ANONYMOUS_NICK = null;
 
 // Node parameters
 var JAPPIX_LOCATION = JappixSystem.location();
-var JAPPIX_MINI_CSS = null;
+var JAPPIX_MINI_CSS = "/mini/stylesheets/mini.css";
 var BOSH_SAME_ORIGIN = false;
 
 // XMPP error stanzas

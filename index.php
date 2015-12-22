@@ -1,37 +1,15 @@
 
-#<?php
+<link rel="stylesheet" href=" vue/contenu/bootstrap/css/bootstrap.min.css"> 
+  <?php
+	session_start();
 
-	
-#	echo "<h1> Bienvenue sur Postwork </h1>";
-#	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-#     <script type="text/javascript" src="/mini/javascripts/mini.js"></script>
- #    <script type="text/javascript">
-  #     jQuery(document).ready(function() {
-   #      JAPPIX_STATIC = "/mini/";
-    #     HOST_BOSH = "http://bosh.postwork.itinet.fr:5280/http-bind";
+	#$bdd = PDO('mysql:host=localhost;dbname=postwork', 'postwork', 'postwork');
 
-     #    JappixMini.launch({
-      #     connection: {
-             #user: 'username',
-             #password: 'password',
-       #      domain: 'anonymous.postwork.itinet.fr',
-        #   },
-         #  application: {
-          #   network: {
-          #     autoconnect: true,
-           #  },
-            # interface: {
-             #  showpane: true,
-            # },
-	    # user: {
-             # random_nickname: true,
-          # },
+	if (!empty($_GET['page']) AND is_file('controleur/'.$_GET['page'].'.php')) {
+		include('controleur/'.$_GET['page'].'.php');
+	}
+	else {
+		include('controleur/index.php');
+	}
+?>
 
-           #groupchat: {
-            #  open: ["portfolio@muc.postwork.itinet.fr"],
-          # },
-          # },
-        # });
-    # }); 
-     #</script>
-#?>

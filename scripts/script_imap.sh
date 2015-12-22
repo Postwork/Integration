@@ -1,9 +1,9 @@
 #!/bin/bash
-# $1 1:Ajout 2:Supression
+# $1 1:Ajout 2:Supression 3:Activer IMAP 4:Desactiver IMAP
 # $2 Utilisateur 
 # $3 mot de passe
 
-source /var/www/postwork/scripts/source.sh
+source /var/www/postwork/postwork.itinet.fr/scripts/source.sh
 
 cd /etc/courier/
 test=`sudo cat userdb | grep "/$2|"`  
@@ -18,6 +18,23 @@ case $1 in
 		fi
 	;;
 	2)
+		if [[ -n $test ]];
+		then
+			sudo sed -i -e "s&$test&&g" userdb
+			sudo sed -i -e '/^$/d' userdb
+		else
+			exit 1
+		fi
+	;;
+	3)
+		if [[ -z $test ]];
+		then
+			sudo userdb $2 set imappw=$(openssl passwd -1 $3) uid=5000 gid=5000 home=$mail$2 mail=$mail$2
+		else
+			exit 1
+		fi
+	;;
+	4)
 		if [[ -n $test ]];
 		then
 			sudo sed -i -e "s&$test&&g" userdb

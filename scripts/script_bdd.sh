@@ -2,8 +2,9 @@
 # $1 1:Ajout 2:Supression
 # $2 Utilisateur 
 # $3 mot de passe
+# $4 Nom de la base
 
-source /var/www/postwork/scripts/source.sh
+source /var/www/postwork/postwork.itinet.fr/scripts/source.sh
 
 requete=$(mysql -u $mysql_login -p$mysql_pass -e "SELECT user FROM mysql.user WHERE user='$2';")
 nom=`echo $requete | awk '{ print $2}'`
@@ -13,8 +14,8 @@ case $1 in
                 then
                         mysql -u $mysql_login -p$mysql_pass -e "
                         CREATE USER "$2"@"localhost" IDENTIFIED BY '$3';
-                        CREATE DATABASE $2;
-                        GRANT CREATE,DROP,SELECT,INSERT,DELETE,UPDATE ON $2.* TO "$2"@"localhost" ;
+                        CREATE DATABASE $4;
+                        GRANT CREATE,DROP,SELECT,INSERT,DELETE,UPDATE ON $4.* TO "$2"@"localhost" ;
                         FLUSH PRIVILEGES ;"
                 else
                         exit 1
@@ -25,8 +26,8 @@ case $1 in
                 if [[ -n $nom ]];
                 then
                         mysql -u $mysql_login -p$mysql_pass -e "
-                        DROP USER "$2"@"localhost" ;
-                        DROP DATABASE $2 ;
+                        DROP USER IF EXIST "$2"@"localhost" ;
+                        DROP DATABASE $4 ;
                         FLUSH PRIVILEGES ;"
                 else
                         exit 1
