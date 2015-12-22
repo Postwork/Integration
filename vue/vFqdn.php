@@ -17,7 +17,7 @@
       <form class="form" method="POST" role="form" action="?page=inscription">
         <input type="text" name="nom" placeholder="Nom de Machine/Utilisateur">
         <input type="text" name="IP" placeholder="Adresse IP">
-        <button type="submit" name="envoyer">S'enregistrer</button>
+        <button type="submit" name="envoyer">Création</button>
       </form>
     </div>
       <?php
