@@ -28,7 +28,8 @@
     </thead>
     <body>
   <?php
- //     foreach($news as $n)
+     // foreach($StatusBDD == 1) 
+        //  //sites actifs
  //     {
  //         echo '
  //         <tr>
@@ -52,6 +53,36 @@
  //             .$nom
  //           </td>
  //           <td><button type="submit" name="envoyer">supprimer</button></td>
+ //           <td> <input type="button" name="lien1" value="nom du lien" onclick="self.location.href='page=$'" style="background-color:#3cb371" style="color:white; font-weight:bold"onclick>
+ //         </tr>'
+ // }
+
+
+ // foreach($news == 2)
+  // // sites desactivé
+ //     {
+ //         echo '
+ //         <tr>
+ //            <td> 
+ //              <input type="checkbox" name="lien1" value="nom du lien"  font-weight:bold"onclick">
+ //               activé
+ //            </td>
+ //           <td>
+ //            .$LOL['nom']
+ //           </td>
+ //           <td> 
+ //             .$LOL['IP']
+ //           </td>
+ //           <td>
+ //             <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" checked> active
+ //           </td>
+ //           <td>
+ //             .$LOL
+ //           </td>
+ //           <td>
+ //             .$nom
+ //           </td>
+ //           <td> <button type="submit" name="envoyer">supprimer</button></td>
  //           <td> <input type="button" name="lien1" value="nom du lien" onclick="self.location.href='page=$'" style="background-color:#3cb371" style="color:white; font-weight:bold"onclick>
  //         </tr>'
  // }

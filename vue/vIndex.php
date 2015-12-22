@@ -17,7 +17,7 @@
 
   /* Add a gray background color and some padding to the footer */
   footer {
-    background-color: #f2f2f2;
+    background-color: #090707;
     padding: 25px;
   }
 /* Hide the carousel text when the screen is less than 600 pixels wide */
@@ -65,6 +65,49 @@
 }
 
 </style>
+<!-- 
+
+ <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+    <script type="text/javascript">
+      jQuery.ajaxSetup({cache: true});
+
+      jQuery.getScript('http://chat.postwork.itinet.fr/server/get.php?l=fr&t=js&g=mini.xml', function() {
+        // Configure application & connect user
+        // Notice: exclude "user" and "password" if using anonymous login
+        JappixMini.launch({
+          connection: {
+            domain: 'anonymous.postwork.itinet.fr',
+            resource: 'Jappix'
+          },
+
+          application: {
+            network: {
+              autoconnect: false
+            },
+
+            interface: {
+              showpane: true,
+              animate: true
+            },
+
+            user: {
+              random_nickname: true
+            },
+
+            chat: {
+              open: []
+            },
+
+            groupchat: {
+              open: ['portfolio@muc.postwork.itinet.fr'],
+              open_passwords: []
+            }
+          }
+        });
+      });
+    </script>
+ -->
 </head>
 <body>
 

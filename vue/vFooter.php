@@ -9,8 +9,8 @@
 
 <footer class="text-center">
   
-        <div class="navbar navbar-fixed-bottom foot">
-        <!-- <div class="container-fluid foot"> -->
+        <div class="navbar navbar-bottom foot">
+        <div class="container-fluid foot">
             <div class="row">
                 <div class="col-xs-6 col-sm-3 column">
                     <h4>En savoir plus sur l'équipe</h4>
@@ -37,6 +37,7 @@
             <br/>
             <span class="pull-right text-muted small">Postwork ©2015 </span>
         </div>
+      </div>
 
 
 </footer>
