@@ -9,7 +9,9 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script> 
   <style>
-  /* Remove the navbar's default margin-bottom and rounded borders */ 
+  /* Remove the navbar's default margin-bottom and rounded borders */
+
+
   .navbar {
     margin-bottom: 0;
     border-radius: 0;
@@ -18,7 +20,6 @@
   /* Add a gray background color and some padding to the footer */
   footer {
     background-color: #090707;
-    padding: 25px;
   }
 /* Hide the carousel text when the screen is less than 600 pixels wide */
   @media (max-width: 600px) {

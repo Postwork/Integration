@@ -5,15 +5,14 @@
 
 
 <link rel="stylesheet" href=" vue/contenu/bootstrap/css/bootstrap.min.css"> 
+<link rel="stylesheet" href=" vue/contenu/style.css"> 
 
 
  
 
 <style type="text/css">
 
-.foot {
-  background: #090707;
-}
+
 
 </style>
 </head>

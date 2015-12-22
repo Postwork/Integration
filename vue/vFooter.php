@@ -5,11 +5,17 @@
   padding: 15px;
 }
 
+  .lol {
+    margin-bottom: 0;
+} 
+
 </style>
+
+
 
 <footer class="text-center">
   
-        <div class="navbar navbar-bottom foot">
+        <div class="navbar navbar-bottom foot lol">
         <div class="container-fluid foot">
             <div class="row">
                 <div class="col-xs-6 col-sm-3 column">

@@ -6,13 +6,21 @@
 
   <link rel="stylesheet" href=" vue/contenu/bootstrap/css/bootstrap.css">      
   <!--  <link rel="stylesheet" href=" vue/style.css">  -->
-
+<style>
+  .petit {
+    min-height: calc(100% - 270px);
+  }
+    .lol {
+    margin-bottom: 0;
+    background: black;
+  } 
+</style>
 </head>
 <body>
   <?php
     include_once("vNavco.php");
   ?>
-  <div class="container"x>
+  <div class="container petit">
     <h1> Activer ou desactiver sa boite mail</h1>   
   </br>
   <form class="form" action="?page=inscription">
