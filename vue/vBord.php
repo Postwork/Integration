@@ -56,11 +56,11 @@
 <div class="container-fluid text-center couleur2">    
   <div class="row content petit">
     <div class="col-sm-2 sidenav couleur2">
-      <p><a href="#">Acceder a sa boite mail</a></p>
-      <p><a href="#">Acceder a son cloud</a></p>
-      <p><a href="#">Créer votre nom de domaine</a></p>
-      <p><a href="#">Heberger Une base de données</a></p>
-      <p><a href="#">Heberger son site web</a></p>
+      <p><a href="index.php?page=cresite">Créer un site </a></p>
+      <p><a href="index.php?page=sites">Voir l'état de ses sites</a></p>
+      <p><a href="index.php?page=mail">Etat de sa boite mail</a></p>
+      <p><a href="index.php?page=fqdn">Creer un FQDN</a></p>
+      <p><a href="index.php?page=delfqdn">Supptimer un FQDN</a></p>
       
     </div>
     <div class="col-sm-8 text-left"> 
@@ -70,27 +70,23 @@
       <div class="container text-center">    
         <div class="row">
           <div class="col-xs-5 col-md-5 couleur">
-            <p>Acces a son cloud</p>
-            <img src="contenu/image/cloud.png" class="img-circle" alt="Cinque Terre" width="304" height="236">
+            <p>Acces a sa boite mail</p>
+            <a href="#"> <img src="vue/contenu/image/e-mail.png" class="img-rounded" alt="Cinque Terre" width="304" height="236"> </a>
           </div>
           <div class="col-xs-5 col-md-5 couleur"> 
             <p>Acces a sa BDD</p>
-            <img src="contenu/image/rainloop.png" class="img-circle" alt="Cinque Terre" width="304" height="236">   
+            <a href="#"> <img src="vue/contenu/image/basededonnée.png" class="img-rounded" alt="Cinque Terre" width="304" height="236"> </a>   
           </div>
-          <div class="col-xs-5 col-md-5 couleur"> 
-            <p>Acces a sa boite mail</p>
-            <img src="contenu/image/cloud.png" class="img-rounded" alt="Cinque Terre" width="304" height="236">   
-          </div>
-          <div class="col-xs-4 col-md-5 couleur"> 
-            <p>Créez une boite mail</p>
-            <!-- <img src="contenu/image/cloud.png" class="img-rounded" width="304" height="236">    -->
+          <div class="col-xs-10 col-md-10 couleur"> 
+             <p>Acces a son cloud</p> </a>
+            <a href="#"> <img src="vue/contenu/image/nuage.png" class="img-rounded" alt="Cinque Terre" width="304" height="236"> </a>  
           </div>
         </div>
       </div> 
     </div>
         <div class="col-sm-2 sidenav couleur2">
       <div class="well">
-       <p><a href="#">Gérer son compte utilisateur</a></p>
+       <p><a href="index.php?page=Putilisateur">Gérer son compte utilisateur</a></p>
       </div>
       <div class="well">
         <p><a href="#">Contactez nous</a></p>

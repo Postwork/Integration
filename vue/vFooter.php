@@ -10,6 +10,7 @@
 } 
   .petit {
     min-height: calc(100% - 270px);
+}
 </style>
 
 

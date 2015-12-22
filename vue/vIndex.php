@@ -205,7 +205,7 @@
             </div>
             <p>Postwork vous permet d'avoir une recherche d'emploi plus active avec notre service tchat, vous pourrez prendre contact avec des entreprises directement depuis notre site. </p>
             <div class="text-center">
-              <a href="#" 
+              <a href="#"
               class="templatemo-btn-read-more btn btn-orange">Plus d'information</a>
             </div>
             <br class="clearfix"/>
