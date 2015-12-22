@@ -13,3 +13,6 @@ fqdn=.$dname
 
 mysql_login=adduser
 mysql_pass=Hfeufier
+
+postwork_login=postwork
+postwork_pass=BxGw4J9pmyQFT8G4

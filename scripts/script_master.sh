@@ -66,7 +66,7 @@ while :
 		;;
 
 		6)
-			read -p "Tapez 1 pour creer, 2 pour supprimer " var1
+			read -p "Tapez 1 pour creer, 2 pour supprimer, 3 pour activer, 4 pour desactiver " var1
 			read -p "Nom de machine: " var2
                         if [[ $var1 = 1 ]]; then
                                 read -p "Documentroot: " var3
@@ -75,7 +75,7 @@ while :
 		;;
 
 		7)
-			read -p "Tapez 1 pour creer, 2 pour supprimer, 3 pour activer, 4 pour desactiver " var1
+			read -p "Tapez 1 pour creer, 2 pour supprimer " var1
 			read -p "Identifiant/nom de machine: " var2
                         if [[ $var1 = 1 ]]; then
                                 read -s -p "Mot de passe: " var3

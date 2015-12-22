@@ -1,6 +1,6 @@
 #!/bin/bash
 # $1 1:Ajout 2:Supression
-# $2 Utilisateur ou Nom de machine
+# $2 Nom de machine
 # $3 IP Public (optionnel)
 
 source /var/www/postwork/postwork.itinet.fr/scripts/source.sh
@@ -29,6 +29,7 @@ if [[ $url != $fqdn ]]; then
 				exit 1
 			fi
 		;;
+
 	esac
 	sudo make
 	sudo ssh -i /home/freddy/.ssh/id_rsa root@dedibox.itinet.fr

@@ -13,13 +13,13 @@
     <div class="wrapper">
     <h1> Inscrivez vous</h1>
     
-    <form class="form" action="?page=inscription">
-      <input type="text" name="pseudo" placeholder="Pseudo">
-      <input type="text" name="nom" placeholder="Nom">
-      <input type="text" name="prenom" placeholder="Prenom">
-      <input type="date" name="datenaissance" placeholder="Date Naissance">
-      <input type="password" name="motdepasse" placeholder="Mot de passe">
-      <input type="password" name="motdepasse2" placeholder="Vérification mot de passe">
+    <form class="form" method="POST" action="?page=inscription">
+      <input type="text" name="pseudo" placeholder="Pseudo" required>
+      <input type="text" name="nom" placeholder="Nom" required>
+      <input type="text" name="prenom" placeholder="Prenom" required>
+      <input type="date" name="datenaissance" placeholder="Date Naissance" required>
+      <input type="password" name="motdepasse" placeholder="Mot de passe" required>
+      <input type="password" name="motdepasse2" placeholder="Vérification mot de passe" required>
       <button type="submit" name="envoyer">S'enregistrer</button>
     </form>
   </div>

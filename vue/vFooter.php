@@ -1,20 +1,14 @@
 <style type="text/css">
-
 .foot {
   background: #090707;
   padding: 15px;
 }
-
   .lol {
     margin-bottom: 0;
 } 
-
 </style>
 
-
-
 <footer class="text-center">
-  
         <div class="navbar navbar-bottom foot lol">
         <div class="container-fluid foot">
             <div class="row">

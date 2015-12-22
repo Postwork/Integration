@@ -1,7 +1,7 @@
 #!/bin/bash
 # $1 1:Ajout 2:Supression 3:Activation Vhost 4:Désactivation Vhost
-# $2 Nom de Machine
-# $3 Documentroot
+# $2 Utilisateur
+# $3 Nom de Machine
 
 source /var/www/postwork/postwork.itinet.fr/scripts/source.sh
 
@@ -10,13 +10,13 @@ case $1 in
 		sudo bash -c "echo -E 'server {
         listen 80;
 
-        root $www$3/;
+        root $www$2/$3$fqdn;
         index index.php index.html index.htm;
 
-        server_name $2$fqdn;
+        server_name $3$fqdn;
 
-        #access_log /var/log/nginx/$2$fqdn.access.log;
-        #error_log /var/log/nginx/$2$fqdn.error.log;
+        #access_log /var/log/nginx/$3$fqdn.access.log;
+        #error_log /var/log/nginx/$3$fqdn.error.log;
 
         location / {
                 try_files \$uri \$uri/ =404;
@@ -26,21 +26,29 @@ case $1 in
                include snippets/fastcgi-php.conf;
                fastcgi_pass unix:/var/run/php5-fpm.sock;
         }
-        }' > /etc/nginx/sites-available/$2$fqdn"
-		sudo ln -s /etc/nginx/sites-available/$2$fqdn /etc/nginx/sites-enabled/
+        }' > /etc/nginx/sites-available/$3$fqdn"
+		sudo ln -s /etc/nginx/sites-available/$3$fqdn /etc/nginx/sites-enabled/
 	;;
 	2 )
-		if [[ -f /etc/nginx/sites-available/$2$fqdn ]]; then
-			sudo rm /etc/nginx/sites-available/$2$fqdn | sudo rm /etc/nginx/sites-enabled/$2$fqdn
+		if [[ -f /etc/nginx/sites-available/$3$fqdn ]]; then
+			sudo rm /etc/nginx/sites-available/$3$fqdn | sudo rm /etc/nginx/sites-enabled/$3$fqdn
 		else
 			exit 1
 		fi
 	;;
 	3 )
-		sudo ln -s /etc/nginx/sites-available/$2$fqdn /etc/nginx/sites-enabled/
+		if [[ -f /etc/nginx/sites-available/$3$fqdn ]]; then
+			sudo ln -s /etc/nginx/sites-available/$3$fqdn /etc/nginx/sites-enabled/
+		else
+			exit 1
+		fi
 	;;
 	4 )
-		sudo rm /etc/nginx/sites-enabled/$2$fqdn
+		if [[ -f /etc/nginx/sites-enabled/$3$fqdn ]]; then
+			sudo rm /etc/nginx/sites-enabled/$3$fqdn
+		else
+			exit 1
+		fi
 	;;
 esac
 sudo nginx -s reload
