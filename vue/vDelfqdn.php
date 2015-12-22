@@ -6,6 +6,11 @@
     
         <link rel="stylesheet" href=" vue/contenu/bootstrap/css/bootstrap.css">      
        <!--  <link rel="stylesheet" href=" vue/style.css">  -->
+       <style>
+  .petit {
+    min-height: calc(100% - 270px);
+  }
+</style>
     
   </head>
   <body>
@@ -22,7 +27,7 @@
   //           <td><button type="submit" name="envoyer">supprimer</button></td>
   //       </tr>'
 ?> -->
-    <div class="container">
+    <div class="container petit">
       <h1> Supprimer un FQDN</h1> 
       </br>  
      <table class="table table-striped">
@@ -41,6 +46,7 @@
         <td> <button type="submit" name="envoyer">Envoyer</button> </td>
     </body>
 </table>
+</div>
     </div>
       <?php
     include_once("vFooter.php");

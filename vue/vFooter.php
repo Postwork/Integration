@@ -3,10 +3,16 @@
   background: #090707;
   padding: 15px;
 }
+
+
   .lol {
     margin-bottom: 0;
 } 
+  .petit {
+    min-height: calc(100% - 270px);
 </style>
+
+
 
 <footer class="text-center">
         <div class="navbar navbar-bottom foot lol">
