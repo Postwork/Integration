@@ -7,7 +7,7 @@
 
 <footer class="text-center">
   
-        <div class="navbar navbar-bottom foot">
+        <div class="navbar foot">
         <!-- <div class="container-fluid foot"> -->
             <div class="row">
                 <div class="col-xs-6 col-sm-3 column">
