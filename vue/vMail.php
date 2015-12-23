@@ -10,10 +10,7 @@
   .petit {
     min-height: calc(100% - 270px);
   }
-    .lol {
-    margin-bottom: 0;
-    background: black;
-  } 
+
 </style>
 </head>
 <body>

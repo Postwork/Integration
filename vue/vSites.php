@@ -12,7 +12,7 @@
       <?php
     include_once("vNavco.php");
   ?>
-    <div class="container">
+    <div class="container petit">
       <h1> Activer ou desactiver ses sites</h1> 
       </br>  
      <table class="table table-striped">
@@ -23,10 +23,9 @@
             <th>IP</th>
             <th>BDD</th>
             <th>Suppression du site</th>
-            <th></th>
         </tr>
     </thead>
-    <body>
+    
   <?php
      // foreach($StatusBDD == 1) 
         //  //sites actifs
@@ -47,7 +46,7 @@
  //             <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" checked> active
  //           </td>
  //           <td>
- //             .$LOL
+ //             <input type="checkbox" name="lien1" value="nom du lien"  font-weight:bold"onclick" checked> .$LOL['BDD'] 
  //           </td>
  //           <td>
  //             .$nom
@@ -77,7 +76,7 @@
  //             <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" checked> active
  //           </td>
  //           <td>
- //             .$LOL
+ //             <input type="checkbox" name="lien1" value="nom du lien"  font-weight:bold"onclick"> .$LOL['BDD'] 
  //           </td>
  //           <td>
  //             .$nom
@@ -96,7 +95,9 @@
             </td>
             <td>John</td>
             <td>Carter</td>
-            <td>Carter</td>
+            <td> 
+              <input type="checkbox" name="lien1" value="nom du lien"  font-weight:bold"onclick" checked> base
+            </td>
             <td><button type="submit" name="envoyer">supprimer</button></td>
         </tr>
         <tr>
@@ -104,9 +105,11 @@
               <input type="checkbox" name="lien1" value="nom du lien" font-weight:bold"onclick" checked>
                activé
             </td>
-            <td>John</td>
-            <td>Carter</td>
-            <td>Carter</td>
+            <td>toto</td>
+            <td>Corto</td>
+            <td>
+              <input type="checkbox" name="lien1" value="nom du lien"  font-weight:bold"onclick" checked> base2
+            </td>
             <td><button type="submit" name="envoyer">supprimer</button></td>
         </tr>
         <tr>
@@ -114,13 +117,15 @@
               <input type="checkbox" name="lien1" value="nom du lien" font-weight:bold"onclick" checked>
                activé
             </td>
-            <td>John</td>
-            <td>Carter</td>
-            <td>Carter</td>
+            <td>Jean</td>
+            <td>Perre</td>
+            <td> 
+             <input type="checkbox" name="lien1" value="nom du lien"  font-weight:bold"onclick" checked> Base3 
+            </td>
             <td><button type="submit" name="envoyer">supprimer</button></td>
         </tr>
         <td> <button type="submit" name="envoyer">Envoyer</button> </td>
-    </body>
+
 </table>
     </div>
       <?php

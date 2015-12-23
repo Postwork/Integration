@@ -64,9 +64,12 @@
 .couleur2 {
   background: #C4C3C3;
 }
+.logo {
+ padding-bottom: 100px
+}
 
 </style>
-<!-- 
+
 
  <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 
@@ -108,7 +111,7 @@
         });
       });
     </script>
- -->
+
 </head>
 <body>
 
@@ -117,7 +120,13 @@
   ?>
 
   <div id="headerwrap" >
-   <img src="vue/contenu/image/BigLogoV2.png" class="img-responsive fond"> 
+  </br> 
+  </br> 
+  </br> 
+  </br> 
+  </br> 
+  </br>   
+   <img src="vue/contenu/image/BigLogo.jpg" class="img-responsive fond" margin-top="1000px"> 
 
  </div>
 
@@ -135,15 +144,11 @@
         <div class="col-md-4">
           <div class="templatemo-service-item">
             <div>
-              <img src="vue/contenu/image/host.png" alt="icon" />
+              <a href="https://www.nginx.com/"><img src="vue/contenu/image/host.png" alt="icon" /> </a>
               <span class="templatemo-service-item-header">PwHost</span>
             </div>
             <p>PwHost est le service qui vous permet de vous donner accès a un serveur web (NGINX) ainsi qu'un transfert de fichier securisé grace MysecureShell.</p>
-            <div class="text-center">
-              <a href="#" 
-              class="templatemo-btn-read-more btn btn-orange"> Plus d'information</a>
-            </div>
-            <br class="clearfix"/>
+           <br class="clearfix"/>
           </div>
           <div class="clearfix"></div>
         </div>
@@ -151,14 +156,11 @@
         <div class="col-md-4">
           <div class="templatemo-service-item" >
             <div>
-              <img src="vue/contenu/image/donnée.png" alt="icon"/>
-              <span class="templatemo-service-item-header">PwBdd</span>
+              <a href="https://www.mysql.fr/">
+              <img src="vue/contenu/image/donnée.png" alt="icon"/> </a>
+              <span class="templatemo-service-item-header">PwBDD</span>
             </div>
             <p>Administrez vos bases de données comme vous le souhaitez avec une interface web grâce a MYSQL et PhpMyAdmin!</p>
-            <div class="text-center">
-              <a href="#" 
-              class="templatemo-btn-read-more btn btn-orange">Plus d'information</a>
-            </div>
             <br class="clearfix"/>
           </div>
 
@@ -167,14 +169,11 @@
         <div class="col-md-4">
           <div class="templatemo-service-item">
             <div>
-              <img src="vue/contenu/image/name.png" alt="icon"/>
+              <a href="https://www.mysql.fr/">
+              <img src="vue/contenu/image/name.png" alt="icon"/> </a>
               <span class="templatemo-service-item-header">PwName</span>
             </div>
             <p>Cette fonctionnalité vous permettera de créer un FQDN pour vos sites et projets. Un Qrcode sera automatiquement pour chaque site!</p>
-            <div class="text-center">
-              <a href="#" 
-              class="templatemo-btn-read-more btn btn-orange">Plus d'information</a>
-            </div>
             <br class="clearfix"/>
           </div>
           <br class="clearfix"/>
@@ -184,14 +183,11 @@
         <div class="col-md-4">
           <div class="templatemo-service-item">
             <div>
-              <img src="vue/contenu/image/mail.png" alt="icon" />
+              <a href="http://www.rainloop.net/">
+              <img src="vue/contenu/image/mail.png" alt="icon" /> </a>
               <span class="templatemo-service-item-header">PwMail</span>
             </div>
             <p>Vous ne voulez pas utiliser votre boite mail personnel pour les contacts entreprise? Pas de problème, nous vous en créons une dès votre inscription!</p>
-            <div class="text-center">
-              <a href="#" 
-              class="templatemo-btn-read-more btn btn-orange"> Plus d'information</a>
-            </div>
             <br class="clearfix"/>
           </div>
           <div class="clearfix"></div>
@@ -200,14 +196,11 @@
         <div class="col-md-4">
           <div class="templatemo-service-item" >
             <div>
-              <img src="vue/contenu/image/chat.png" alt="icon"/>
+              <a href="https://jappix.com/?l=fr">
+              <img src="vue/contenu/image/chat.png" alt="icon"/> </a>
               <span class="templatemo-service-item-header">PwChat</span>
             </div>
             <p>Postwork vous permet d'avoir une recherche d'emploi plus active avec notre service tchat, vous pourrez prendre contact avec des entreprises directement depuis notre site. </p>
-            <div class="text-center">
-              <a href="#" 
-              class="templatemo-btn-read-more btn btn-orange">Plus d'information</a>
-            </div>
             <br class="clearfix"/>
           </div>
 
@@ -216,14 +209,11 @@
         <div class="col-md-4">
           <div class="templatemo-service-item">
             <div>
-              <img src="vue/contenu/image/cloud.png" alt="icon"/>
+              <a href="https://owncloud.org/">
+              <img src="vue/contenu/image/cloud.png" alt="icon"/> </a>
               <span class="templatemo-service-item-header">PwCloud</span>
             </div>
             <p>PwCloud vous permet d'avoir accès a un cloud exclusivement pour vos travaux si vous le souhaitez. Jusqu'a 5Go de stockage!</p>
-            <div class="text-center">
-              <a href="#" 
-              class="templatemo-btn-read-more btn btn-orange">Plus d'information</a>
-            </div>
             <br class="clearfix"/>
           </div>
           <br class="clearfix"/>

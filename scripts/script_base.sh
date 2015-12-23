@@ -1,8 +1,7 @@
 #!/bin/bash
 # $1 1:Ajout 2:Supression
 # $2 Utilisateur 
-# $3 mot de passe
-# $4 Nom de la base
+# $3 Nom de la base
 
 source /var/www/postwork/postwork.itinet.fr/scripts/source.sh
 
@@ -13,9 +12,8 @@ case $1 in
                 if [[ -z $nom ]];
                 then
                         mysql -u $mysql_login -p$mysql_pass -e "
-                        CREATE USER "$2"@"localhost" IDENTIFIED BY '$3';
-                        CREATE DATABASE $4;
-                        GRANT CREATE,DROP,SELECT,INSERT,DELETE,UPDATE ON $4.* TO "$2"@"localhost" ;
+                        CREATE DATABASE $3;
+                        GRANT CREATE,DROP,SELECT,INSERT,DELETE,UPDATE ON $3.* TO "$2"@"localhost" ;
                         FLUSH PRIVILEGES ;"
                 else
                         exit 1
@@ -26,7 +24,7 @@ case $1 in
                 if [[ -n $nom ]];
                 then
                         mysql -u $mysql_login -p$mysql_pass -e "
-                        DROP USER "$2"@"localhost" CASCADE 
+                        DROP DATABASE $4 ;
                         FLUSH PRIVILEGES ;"
                 else
                         exit 1

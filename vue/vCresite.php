@@ -13,12 +13,12 @@
     include_once("vNav.php");
   ?>
     <div class="container petit">
-      <h1> Creer votre FQDN</h1> 
+      <h1> Creer votre site</h1> 
       <br>    
       <form class="form" method="POST" role="form" action="?page=inscription">
-        <input type="text" name="nom" placeholder="Nom de Machine/Utilisateur" required>.postwork.itinet.fr
-        <input type="text" name="ip" placeholder="Adresse IP">
-        <button type="submit" name="envoyer">S'enregistrer</button>
+        <input type="text" name="nom" placeholder="Nom du site" required>.postwork.itinet.fr
+        <br>
+         <br>
         <button type="submit" name="envoyer">Création</button>
       </form>
     </div>
@@ -26,5 +26,4 @@
     include_once("vFooter.php");
   ?>
   </body>
-</html>
-
+</html> 
