@@ -60,7 +60,7 @@
       <p><a href="index.php?page=sites">Voir l'état de ses sites</a></p>
       <p><a href="index.php?page=mail">Etat de sa boite mail</a></p>
       <p><a href="index.php?page=fqdn">Creer un FQDN</a></p>
-      <p><a href="index.php?page=delfqdn">Supptimer un FQDN</a></p>
+      <p><a href="index.php?page=delfqdn">Supprimer un FQDN</a></p>
       
     </div>
     <div class="col-sm-8 text-left"> 
@@ -70,16 +70,16 @@
       <div class="container text-center">    
         <div class="row">
           <div class="col-xs-5 col-md-5 couleur">
-            <p>Acces a sa boite mail</p>
-            <a href="#"> <img src="vue/contenu/image/e-mail.png" class="img-rounded" alt="Cinque Terre" width="304" height="236"> </a>
+            <a href="http://mail.postwork.itinet.fr/"> <p>Acces a sa boite mail</p> </a>
+             <img src="vue/contenu/image/e-mail.png" class="img-rounded" alt="Cinque Terre" width="304" height="236">
           </div>
           <div class="col-xs-5 col-md-5 couleur"> 
-            <p>Acces a sa BDD</p>
-            <a href="#"> <img src="vue/contenu/image/basededonnée.png" class="img-rounded" alt="Cinque Terre" width="304" height="236"> </a>   
+            <a href="http://bdd.postwork.itinet.fr/"> <p>Acces a sa BDD</p> </a>
+             <img src="vue/contenu/image/basededonnée.png" class="img-rounded" alt="Cinque Terre" width="304" height="236">   
           </div>
           <div class="col-xs-10 col-md-10 couleur"> 
-             <p>Acces a son cloud</p> </a>
-            <a href="#"> <img src="vue/contenu/image/nuage.png" class="img-rounded" alt="Cinque Terre" width="304" height="236"> </a>  
+             <a href="http://cloud.postwork.itinet.fr/"> <p>Acces a son cloud</p> </a> 
+             <img src="vue/contenu/image/nuage.png" class="img-rounded" alt="Cinque Terre" width="304" height="236">
           </div>
         </div>
       </div> 
@@ -89,7 +89,7 @@
        <p><a href="index.php?page=Putilisateur">Gérer son compte utilisateur</a></p>
       </div>
       <div class="well">
-        <p><a href="#">Contactez nous</a></p>
+        <p> <a href="#"> Contactez nous </a> </p>
       </div>
     </div>
   </div>

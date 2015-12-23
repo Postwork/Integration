@@ -22,18 +22,17 @@
                 <div class="col-xs-6 col-sm-3 column">
                     <h4>En savoir plus sur l'équipe</h4>
                     
-                      <a href="">Postwork</a>
                       <br>
-                      <a href="http://www.intechinfo.fr">Notre formation</a>  
+                     <strong> <a href="http://www.intechinfo.fr">Notre formation</a> </strong> 
                 </div>
 
                 <div class="col-xs-6 col-sm-3 column">
                   <h4>Les membres de l'équipe </h4>
-                  <a href="http://www.intechinfo.fr"> <strong>Freddy Hauteville</strong></a>
+                  <a href="https://www.facebook.com/freddyhtv.hauteville"> <strong>Freddy Hauteville</strong></a>
                   <br>
-                  <a href="http://www.intechinfo.fr">Jean-Christophe Thiburce</a>
+                  <a href="https://www.facebook.com/jeanchristophe.thiburce">Jean-Christophe Thiburce</a>
                   <br>
-                  <a href="http://www.intechinfo.fr">Bastian Bel-Ange</a>
+                  <a href="https://www.facebook.com/bastian.belange">Bastian Bel-Ange</a>
                 </div>
                 <div class="col-xs-6 col-sm-3 column">
                 </div>
