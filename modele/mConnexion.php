@@ -3,20 +3,21 @@ if (isset($_POST['envoyer'])) {
 
 	require('source.php');
 	$pseudo=htmlspecialchars($_POST['pseudo']);
-	#$pwd=sha1($_POST['pwd']);
-	# le mot de passeest en claire dans la bdd
-	$pwd=htmlspecialchars($_POST['pwd']);
+	$motdepasse=htmlspecialchars($_POST['motdepasse']);
 
 	
-	$reqConnexion = $bdd->prepare('SELECT * FROM utilisateur WHERE Pseudo=? AND MotDePasse=?');		//Initialisation de la requete
-	$reqConnexion->execute(array($pseudo,$pwd));	//Execution de la requete
+	$reqConnexion = $bdd->prepare('SELECT * FROM utilisateur WHERE Pseudo=?');		//Initialisation de la requete
+	$reqConnexion->execute(array($pseudo));	//Execution de la requete
 	$resultat = $reqConnexion->fetch();		//Stock le resultat de la requte dans un array
+	
 
-	if ($resultat) {
+	if (password_verify($motdepasse, $resultat['MotDePasse'])) {
 		session_start();
-		$_SESSION['idUtilisateur']=$resultat['idUtilisateur'];
+		$_SESSION['IdUtilisateur']=$resultat['IdUtilisateur'];
 		$_SESSION['Prenom']=$resultat['Prenom'];
 		header("Location: ?page=index");	//redirection vers index
+	} else {
+		echo 'Le mot de passe est invalide.';
 	}
 }
 ?>

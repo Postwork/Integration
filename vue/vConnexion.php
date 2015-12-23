@@ -11,7 +11,7 @@
 
   <div class="container">
     <div class="wrapper2" >
-    <h1> Connectez  vous</h1>
+    <h1>Connectez vous</h1>
     
     <form class="form" method="POST" role="form" action="?page=connexion">
       <input type="text" name="pseudo" placeholder="Pseudo" required>
