@@ -64,6 +64,9 @@
 .couleur2 {
   background: #C4C3C3;
 }
+.logo {
+ padding-bottom: 100px
+}
 
 </style>
 
@@ -117,7 +120,13 @@
   ?>
 
   <div id="headerwrap" >
-   <img src="vue/contenu/image/BigLogoV2.png" class="img-responsive fond"> 
+  </br> 
+  </br> 
+  </br> 
+  </br> 
+  </br> 
+  </br>   
+   <img src="vue/contenu/image/BigLogo.jpg" class="img-responsive fond" margin-top="1000px"> 
 
  </div>
 
