@@ -10,7 +10,7 @@
   </head>
   <body>
       <?php
-    include_once("vNavco.php");
+    include_once("vNav.php");
   ?>
     <div class="container petit">
       <h1> Creer votre site</h1> 
