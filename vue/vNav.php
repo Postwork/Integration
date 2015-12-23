@@ -22,8 +22,8 @@
          <a href="index.php?page=recherche"> <button type="submit" class="btn btn-default">Submit</button> </a>
         </form>
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="index.php?page=inscription"><span class="glyphicon glyphicon-triangle-right"></span> S'enregistrer</a></li>
-          <li><a href="index.php?page=connexion"><span class="glyphicon glyphicon-log-in"></span> Se connecter</a></li>
+          <li><a href="index.php?page=putilisateur"><span class="glyphicon glyphicon-cog"></span> Paramètres utilisateurs</a></li>
+          <li><a href="index.php?page=connexion"><span class="glyphicon glyphicon-log-out"></span> Se deconnecter</a></li>
         </ul>
       </div>
     </div>

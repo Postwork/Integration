@@ -15,7 +15,7 @@
 
 
 
-<footer class="text-center">
+<footer class="text-center" id="about" >
         <div class="navbar navbar-bottom foot lol">
         <div class="container-fluid foot">
             <div class="row">
