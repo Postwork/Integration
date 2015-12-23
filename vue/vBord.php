@@ -86,7 +86,7 @@
     </div>
         <div class="col-sm-2 sidenav couleur2">
       <div class="well">
-       <p><a href="index.php?page=Putilisateur">Gérer son compte utilisateur</a></p>
+       <p><a href="index.php?page=putilisateur">Gérer son compte utilisateur</a></p>
       </div>
       <div class="well">
         <p> <a href="#"> Contactez nous </a> </p>
