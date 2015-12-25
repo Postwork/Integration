@@ -29,7 +29,7 @@ case $1 in
 	3)
 		if [[ -z $test ]];
 		then
-			sudo userdb $2 set imappw=$(openssl passwd -1 $3) uid=5000 gid=5000 home=$mail$2 mail=$mail$2
+			sudo sed -i -e "s&#$test&$test&g" userdb
 		else
 			exit 1
 		fi
@@ -37,8 +37,7 @@ case $1 in
 	4)
 		if [[ -n $test ]];
 		then
-			sudo sed -i -e "s&$test&&g" userdb
-			sudo sed -i -e '/^$/d' userdb
+			sudo sed -i -e "s&$test&#$test&g" userdb
 		else
 			exit 1
 		fi
