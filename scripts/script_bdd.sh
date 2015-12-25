@@ -14,8 +14,8 @@ case $1 in
                 then
                         mysql -u $mysql_login -p$mysql_pass -e "
                         CREATE USER "$2"@"localhost" IDENTIFIED BY '$3';
-                        CREATE DATABASE $4;
-                        GRANT CREATE,DROP,SELECT,INSERT,DELETE,UPDATE ON $4.* TO "$2"@"localhost" ;
+                        CREATE DATABASE $4$fqdn;
+                        GRANT CREATE,DROP,SELECT,INSERT,DELETE,UPDATE ON $4$fqdn.* TO "$2"@"localhost" ;
                         FLUSH PRIVILEGES ;"
                 else
                         exit 1
@@ -26,7 +26,8 @@ case $1 in
                 if [[ -n $nom ]];
                 then
                         mysql -u $mysql_login -p$mysql_pass -e "
-                        DROP USER "$2"@"localhost" CASCADE 
+                        DROP USER IF EXIST "$2"@"localhost";
+                        DROP DATABASE $2$fqdn;
                         FLUSH PRIVILEGES ;"
                 else
                         exit 1
