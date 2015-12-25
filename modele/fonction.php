@@ -172,6 +172,7 @@ function fCreersite($nom, $portfolio, $statusbdd)
   }
 }
 
+<<<<<<< HEAD
 // function fTagger($nom)
 // {
 //   require 'source.php';
@@ -190,4 +191,17 @@ function fCreersite($nom, $portfolio, $statusbdd)
 //     fTagger($nom);
 //   }
 // }
+=======
+function fTagger($nom)
+{
+  require 'source.php';
+  if (fIdtag($nom) > 0) {
+    $requete = $bdd->prepare('INSERT INTO postwork.tagger (IdTag, IdSite) VALUES (?, ?)');
+    $requete->execute(array(fIdtag($nom), $_POST['envoyer']));
+  } else {
+    fCreertag($nom);
+    fTagger($nom);
+  }
+}
+>>>>>>> b42a78479ce4667685d0f3d05da2842e42620270
 ?>

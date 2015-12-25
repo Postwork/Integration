@@ -1,5 +1,6 @@
 <?php
 session_start();
+<<<<<<< HEAD
 
 function fUtilisateur($champ)
 {
@@ -94,6 +95,11 @@ function fCreertag($nom)
   }
 }
 echo fCreertag('nodejs');
+=======
+require 'modele/fonction.php';
+
+echo fCreerfqdn(pipo);
+>>>>>>> b42a78479ce4667685d0f3d05da2842e42620270
 
 echo "<br><br>Fin !";
 ?>

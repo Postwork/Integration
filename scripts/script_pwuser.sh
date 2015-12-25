@@ -10,4 +10,8 @@ script_user.sh $1 $2 $3
 #script_bdd.sh $1 $2 $3 $2
 script_mail.sh $1 $2 $3
 script_chat.sh $1 $2 $3
+<<<<<<< HEAD
 script_pwhost.sh $1 $2 $2
+=======
+script_pwhost.sh $1 $2 $2 $2
+>>>>>>> b42a78479ce4667685d0f3d05da2842e42620270
