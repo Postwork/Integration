@@ -15,7 +15,7 @@
           <li><a href="#about">A propos de nous</a></li>
           <li><a href="#">Projets</a></li>
         </ul>
-        <form class="navbar-form navbar-left" role="search">
+        <form class="navbar-form navbar-left" role="search" action="index.php?page=recherche">
           <div class="form-group">
             <input type="text" class="form-control" placeholder="Search">
           </div>

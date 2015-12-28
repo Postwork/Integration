@@ -12,7 +12,6 @@
       <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav">
           <li class="active"><a href="index.php?page=index">Accueil</a></li>
-          <li><a href="#about">A propos de nous</a></li>
           <li><a href="#">Projets</a></li>
         </ul>
         <form class="navbar-form navbar-left" role="search">
