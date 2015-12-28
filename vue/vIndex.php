@@ -196,7 +196,7 @@
         <div class="col-md-4">
           <div class="templatemo-service-item" >
             <div>
-              <a href="https://jappix.com/?l=fr">
+              <a href="https://project.jappix.com/?l=fr">
               <img src="vue/contenu/image/chat.png" alt="icon"/> </a>
               <span class="templatemo-service-item-header">PwChat</span>
             </div>
