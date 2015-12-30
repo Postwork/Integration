@@ -9,6 +9,7 @@ source /var/www/postwork/postwork.itinet.fr/scripts/source.sh
 script_vhost.sh $1 $2 $3
 script_fqdn.sh $1 $3 $4
 script_documentroot $1 $2 $3
+script_base $1 $2 $3
 if [[ $1 = 1 ]]; then
 	script_qrcode.sh 1 $2 $3
 fi
