@@ -70,17 +70,26 @@
 						<td align="right"><label for="Tag">Tag : </label></td>
 						<td></td>
 						<td>
-							<select class="form-inline"  name="catégorie">
-								<?php
-								foreach (fAffichercategorie() as $key => $value) {
-									echo "<option value='".$value['IdCategorie']."' ";
-									if ($value['IdCategorie'] == $idcategorie) {
-										echo "selected='selected'";
-									}
-									echo ">".$value['Nom']."</option>";
-								}
-								?>
-							</select>
+							<input type="text" class="form-group" name="tag" placeholder="Créer un tag"><br>
+							<div class="dropup">
+								<button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">Tags <span class="caret"></span>
+								</button>
+								<ul class="dropdown-menu">
+									<li>
+										<?php
+										foreach (fAffichertagsite() as $key => $value) {
+											echo "<form method='POST' action='?page=modifier'><button type='submit' name='envoyer' value='".$value['IdTag']."' class='btn btn-";
+											if ($value['IdSite'] == $_POST['envoyer']) {
+												echo "danger glyphicon glyphicon-remove'></button>";
+											} else {
+												echo "success glyphicon glyphicon-ok'></button>";
+											}
+											echo $value['Tag']."</form>";
+										}
+										?>
+									</li>
+								</ul>
+							</div>
 						</td>
 						<td><button type="submit" class="btn btn-default" name="envoyer" <?php echo "value ='".$_POST['envoyer']."'";?>>Modifier</button></td>
 					</form>

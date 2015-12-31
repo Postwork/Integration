@@ -25,12 +25,11 @@ function fAffichertagsite()
 {
 	require 'source.php';
 	$charset = $bdd->query('SET NAMES UTF8');
-	$requete = $bdd->prepare('SELECT tag.IdTag, tag.Nom AS Tag
+	$requete = $bdd->prepare('SELECT site.IdSite, tag.IdTag, tag.Nom AS Tag
 		FROM site
-		INNER JOIN categorie ON site.IdCategorie = categorie.IdCategorie
-		INNER JOIN tagger ON site.IdSite = tagger.IdSite
-		INNER JOIN tag ON tagger.IdTag = tag.IdTag
-		WHERE site.IdSite =?');
+		INNER JOIN tagger ON site.IdSite = tagger.IdSite AND site.IdSite = ?
+		RIGHT JOIN tag ON tagger.IdTag = tag.IdTag
+		ORDER BY site.IdSite DESC, Tag ASC');
 	$requete->execute(array($_POST['envoyer']));
 	$resultat = $requete->fetchAll();
 	return $resultat;
@@ -70,7 +69,7 @@ function fCesite()
 	require 'source.php';
 	$charset = $bdd->query('SET NAMES UTF8');
 	$charset = $bdd->query('SET NAMES UTF8');
-	$requete = $bdd->prepare('SELECT FQDN, IP, StatusVhost, StatusBDD, Description, site.IdCategorie AS IdCat, Nom AS Categorie FROM site INNER JOIN categorie ON site.IdCategorie = categorie.IdCategorie WHERE IdSite=?');
+	$requete = $bdd->prepare('SELECT FQDN, IP, StatusVhost, StatusBDD, Description, site.IdCategorie AS IdCat, Nom FROM site INNER JOIN categorie ON site.IdCategorie = categorie.IdCategorie WHERE IdSite=?');
 	$requete->execute(array($_POST['envoyer']));
 	$resultat = $requete->fetch();
 	return $resultat;

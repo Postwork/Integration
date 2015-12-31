@@ -6,5 +6,4 @@
 	$ip = $site['IP'];
 	$description = $site['Description'];
 	$categorie = $site['Categorie'];
-	echo $idcategorie = $site['IdCat'];
 ?>
