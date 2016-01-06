@@ -6080,7 +6080,7 @@ var LOCALES_AVAILABLE_NAMES = [];
 var XML_LANG = null;
 
 // Jappix parameters
-var JAPPIX_STATIC = null;
+var JAPPIX_STATIC = "./mini/";
 var JAPPIX_VERSION = null;
 var JAPPIX_MAX_FILE_SIZE = null;
 var JAPPIX_MAX_UPLOAD = null;
@@ -6121,7 +6121,7 @@ var HOST_STUN = null;
 var HOST_TURN = null;
 var HOST_TURN_USERNAME = null;
 var HOST_TURN_PASSWORD = null;
-var HOST_BOSH = "http://bosh.postwork.itinet.fr:5280/http-bind/;
+var HOST_BOSH = "http://bosh.postwork.itinet.fr:5280/http-bind/";
 var HOST_BOSH_MAIN = null;
 var HOST_BOSH_MINI = null;
 var HOST_WEBSOCKET = null;
@@ -6134,7 +6134,7 @@ var ANONYMOUS_NICK = null;
 
 // Node parameters
 var JAPPIX_LOCATION = JappixSystem.location();
-var JAPPIX_MINI_CSS = "/mini/stylesheets/mini.css";
+var JAPPIX_MINI_CSS = "/var/www/postwork/postwork.itinet.fr/mini/stylesheets/mini.css";
 var BOSH_SAME_ORIGIN = false;
 
 // XMPP error stanzas

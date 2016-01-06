@@ -5,10 +5,10 @@
 # $4 IP Public (optionnel)
 
 source /var/www/postwork/postwork.itinet.fr/scripts/source.sh
-
-script_vhost.sh $1 $2 $3
-script_fqdn.sh $1 $3 $4
-script_documentroot $1 $2 $3
+sudo script_vhost.sh $1 $2 $3
+sudo script_fqdn.sh $1 $3 $4
+sudo script_documentroot.sh $1 $2 $3
+sudo script_base.sh $1 $2 $3
 if [[ $1 = 1 ]]; then
-	script_qrcode.sh 1 $2 $3
+	sudo script_qrcode.sh 1 $2 $3
 fi
