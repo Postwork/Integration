@@ -25,8 +25,8 @@
       </tr>
     </thead>
     <tr>
-      <form method="POST" name="fqdn" action="?page=test">
-        <td>  <input type="text" class="form-inline" name="nom" value="toto"> .postwork.itinet.fr </td>
+      <form method="POST" action="?page=test">
+        <td>  <input type="text" class="form-inline" name="nom" placeholder="Nom"> .postwork.itinet.fr </td>
         <td> <input type="text" class="form-inline" name="ip"></td>
         <td><button type="submit" name="envoyer" value="1">Créer </button></td>
       </form>
@@ -35,24 +35,84 @@
 
   <h2>Portfolio</h2>
 
-	<?php
-	if (isset($_POST['envoyer'])) {
-		// require 'fonction.php';
-		echo fSite('Description');
-		// fSite("FQDN");
-		// String();
-	}
-	?>
+  <table class="table table-striped">
 
-  <?php
-    if (isset($_POST['envoyer'])) {
-      foreach ( $site as $key => $value) {
-        if (is_string($key)) {
-          echo $key." : ".$value."<br>";
-        }
+    <thead>
+      <tr>
+        <th>Etat du site</th>
+        <th>FQDN</th>
+        <th>IP</th>
+        <th>BDD</th>
+        <th>Modifier</th>
+        <th>Supprimer</th>
+      </tr>
+    </thead>
+    <?php 
+    foreach ($portfolio as $p) {
+      echo "
+      <tr><td>";
+      if ($p['StatusVhost'] == 1 xor $p['StatusExt'] == 1) {
+        echo "
+        <form method='POST' action='?page=test'>
+        <input type='hidden' name='statussite' value='".$p['IdSite']."'>
+        <button type='submit' name='envoyer' value='".$p['IdSite']."' class='btn btn-danger glyphicon glyphicon-remove'>
+        <input type='hidden' name='formulaire' value='activation'>
+        </button>
+        </form>
+        ";
+      } else {
+        echo "
+        <form method='POST' action='?page=test'>
+        <input type='hidden' name='statussite' value='".$p['IdSite']."'>
+        <button type='submit' name='envoyer' value='".$p['IdSite']."' class='btn btn-success glyphicon glyphicon-ok'>
+        <input type='hidden' name='formulaire' value='activation'>
+        </button>
+        </form>
+        ";
       }
+      echo "</td><td>
+      ".$p['FQDN']."
+      </td><td>
+      ".$p['IP']."
+      </td><td>";
+       if ($p['StatusBDD'] == 1) {
+        echo "
+        <form method='POST' action='?page=test'>
+        <input type='hidden' name='statusbdd' value='".$p['StatusBDD']."'>
+        <button type='submit' name='envoyer' value='".$p['IdSite']."' class='btn btn-default glyphicon glyphicon-unchecked'>
+        <input type='hidden' name='formulaire' value='bdd'>
+        </button>
+        </form>
+        ";
+      } else {
+        echo "
+        <form method='POST' action='?page=test'>
+        <input type='hidden' name='statusbdd' value='".$p['StatusBDD']."'>
+        <button type='submit' name='envoyer' value='".$p['IdSite']."' class='btn btn-default glyphicon glyphicon-check'>
+        <input type='hidden' name='formulaire' value='bdd'>
+        </button>
+        </form>
+        ";
+      }
+      echo "</td><td align= 'center'>
+      <form method='POST' action='?page=modifier'>
+        <button type='submit' name='envoyer' value='".$p['IdSite']."' class='btn btn-default glyphicon glyphicon-cog'>
+        </button>
+        </form>
+      </td><td align= 'center'>
+     <form method='POST' action='?page=test'>
+        <button type='submit' name='envoyer' value='".$p['IdSite']."' class='btn btn-default glyphicon glyphicon-trash'>
+        <input type='hidden' name='formulaire' value='supression'>
+        </button>
+        </form>
+      </td>";
+      echo "
+      </tr>";
     }
     ?>
+
+  </table>
+
 
   <h2>Projets</h2>
   <table class="table table-striped">
@@ -63,25 +123,74 @@
         <th>FQDN</th>
         <th>IP</th>
         <th>BDD</th>
-        <th></th>
-        <th></th>
+        <th>Modifier</th>
+        <th>Supprimer</th>
       </tr>
     </thead>
 
-
-    <tr>
-      <td> 
-        <input type="checkbox" name="lien1" value="nom du lien"  font-weight:bold"onclick" checked>
-        activé
-      </td>
-      <td>John.postwork.itinet.fr</td>
-      <td>192.168.0.0</td>
-      <td> 
-        <input type="checkbox" name="lien1" value="nom du lien"  font-weight:bold"onclick" checked>
-      </td>
-      <td><button type="submit" name="envoyer">modifier</button></td>
-      <td><button type="submit" name="envoyer">supprimer</button></td>
-    </tr> 
+<?php
+   foreach ($projet as $p) {
+      echo "
+      <tr><td>";
+      if ($p['StatusVhost'] == 1 xor $p['StatusExt'] == 1) {
+        echo "
+        <form method='POST' action='?page=test'>
+        <input type='hidden' name='statussite' value='".$p['IdSite']."'>
+        <button type='submit' name='envoyer' value='".$p['IdSite']."' class='btn btn-danger glyphicon glyphicon-remove'>
+        <input type='hidden' name='formulaire' value='activation'>
+        </button>
+        </form>
+        ";
+      } else {
+        echo "
+        <form method='POST' action='?page=test'>
+        <input type='hidden' name='statussite' value='".$p['IdSite']."'>
+        <button type='submit' name='envoyer' value='".$p['IdSite']."' class='btn btn-success glyphicon glyphicon-ok'>
+        <input type='hidden' name='formulaire' value='activation'>
+        </button>
+        </form>
+        ";
+      }
+      echo "</td><td>
+      ".$p['FQDN']."
+      </td><td>
+      ".$p['IP']."
+      </td><td>";
+       if ($p['StatusBDD'] == 1) {
+        echo "
+        <form method='POST' action='?page=test'>
+        <input type='hidden' name='statusbdd' value='".$p['StatusBDD']."'>
+        <button type='submit' name='envoyer' value='".$p['IdSite']."' class='btn btn-default glyphicon glyphicon-unchecked'>
+        <input type='hidden' name='formulaire' value='bdd'>
+        </button>
+        </form>
+        ";
+      } else {
+        echo "
+        <form method='POST' action='?page=test'>
+        <input type='hidden' name='statusbdd' value='".$p['StatusBDD']."'>
+        <button type='submit' name='envoyer' value='".$p['IdSite']."' class='btn btn-default glyphicon glyphicon-check'>
+        <input type='hidden' name='formulaire' value='bdd'>
+        </button>
+        </form>
+        ";
+      }
+      echo "</td><td align= 'center'>
+      <form method='POST' action='?page=modifier'>
+        <button type='submit' name='envoyer' value='".$p['IdSite']."' class='btn btn-default glyphicon glyphicon-cog'>
+        </button>
+        </form>
+      </td><td align= 'center'>
+     <form method='POST' action='?page=test'>
+        <button type='submit' name='envoyer' value='".$p['IdSite']."' class='btn btn-default glyphicon glyphicon-trash'>
+        <input type='hidden' name='formulaire' value='supression'>
+        </button>
+        </form>
+      </td>";
+      echo "
+      </tr>";
+    }
+    ?>
 
   </table>
 </div>

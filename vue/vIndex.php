@@ -116,7 +116,13 @@
 <body>
 
 <?php
+session_start();
+if (isset($_SESSION['IdUtilisateur'])) {
+  include_once("vNav.php");
+} else {
   include_once("vNavco.php");
+}
+
   ?>
 
   <div id="headerwrap" >

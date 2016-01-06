@@ -44,6 +44,18 @@ function fAfficherutilisateur()
 	return $resultat;
 }
 
+function fAffichersiteutilisateur()
+{
+	require 'source.php';
+	$charset = $bdd->query('SET NAMES UTF8');
+	$requete = $bdd->prepare('SELECT * FROM site WHERE IdUtilisateur=?');
+	$requete->execute(array($_SESSION['IdUtilisateur']));
+	$resultat = $requete->fetchAll();
+	return $resultat;
+}
+
+// <---------------------------------------------------------------------->
+
 function fUtilisateur($champ)
 {
 	require 'source.php';
@@ -64,16 +76,15 @@ function fSite($champ)
 	return $resultat[$champ];
 }
 
-function fCesite()
-{
-	require 'source.php';
-	$charset = $bdd->query('SET NAMES UTF8');
-	$charset = $bdd->query('SET NAMES UTF8');
-	$requete = $bdd->prepare('SELECT FQDN, IP, StatusVhost, StatusBDD, Description, site.IdCategorie AS IdCat, Nom FROM site INNER JOIN categorie ON site.IdCategorie = categorie.IdCategorie WHERE IdSite=?');
-	$requete->execute(array($_POST['envoyer']));
-	$resultat = $requete->fetch();
-	return $resultat;
-}
+// function fCesite()
+// {
+// 	require 'source.php';
+// 	$charset = $bdd->query('SET NAMES UTF8');
+// 	$requete = $bdd->prepare('SELECT FQDN, IP, StatusVhost, StatusBDD, Description, site.IdCategorie FROM site LEFT JOIN categorie ON site.IdCategorie = categorie.IdCategorie WHERE IdSite=?');
+// 	$requete->execute(array($_POST['envoyer']));
+// 	$resultat = $requete->fetch();
+// 	return $resultat;
+// }
 
 function fIdtag($nom)
 {
@@ -151,13 +162,14 @@ function fInscription($pseudo, $motdepasse)
 {
 	require 'source.php';
 	$charset = $bdd->query('SET NAMES UTF8');
-	if (is_null(fIdutilisateur($pseudo))) {
+	if (is_null(fIdutilisateur($pseudo)) and is_null(fIdsite($pseudo))) {
 		$motdepassehash = password_hash($motdepasse, PASSWORD_DEFAULT); //Hashage du mot de passe
 		$requete = $bdd->prepare('INSERT INTO postwork.utilisateur (Pseudo, MotDePasse) VALUES (?, ?)');
 		$requete->execute(array($pseudo, $motdepassehash));
+		fCreerportfolio($pseudo);
 		// $commande = "scripts/script_pwuser.sh 1 ".$pseudo." ".$motdepasse;
 		// exec($commande);
-		return fIdutilisateur('$pseudo');
+		return fIdutilisateur($pseudo);
 	} else {
 		return -1;
 	}
@@ -197,7 +209,11 @@ function fCreersite($nom, $portfolio, $statusvhost, $ip)
 		$nomfqdn = $nom.$globals['fqdnpostwork'];
 		$requete = $bdd->prepare('INSERT INTO postwork.site (FQDN, IP, Portfolio, IdUtilisateur, StatusVhost) VALUES (?, ?, ?, ?, ?)');
 		if (!isset($ip)) {
-			$requete->execute(array($nomfqdn, $globals['ippostwork'], $portfolio, $_SESSION['IdUtilisateur'], $statusvhost));
+			if (isset($_SESSION['IdUtilisateur'])) {
+				$requete->execute(array($nomfqdn, $globals['ippostwork'], $portfolio, $_SESSION['IdUtilisateur'], $statusvhost));
+			} else {
+				$requete->execute(array($nomfqdn, $globals['ippostwork'], $portfolio, fIdutilisateur($nom), $statusvhost));
+			}
 		} else {
 			$requete->execute(array($nomfqdn, $ip, $portfolio, $_SESSION['IdUtilisateur'], $statusvhost));
 		}
@@ -207,13 +223,9 @@ function fCreersite($nom, $portfolio, $statusvhost, $ip)
 	}
 }
 
-function fCreerfqdn($nom, $ip, $portfolio)
+function fCreerfqdn($nom, $ip)
 {
-	if (!isset($portfolio)) {
-		fCreersite($nom, 0, 0, $ip);
-	} else {
-		fCreersite($nom, 1, 0, $ip);
-	}
+	fCreersite($nom, 0, 0, $ip);
 	// $commande = "scripts/script_fqdn.sh 1 ".$nom." ".$ip;
 	// exec($commande);
 }
@@ -234,24 +246,19 @@ function fCreerprojet($nom)
 	return 1;
 }
 
-function fTagger($nom)
+function fTagger($idtag)
 {
 	require 'source.php';
-	$charset = $bdd->query('SET NAMES UTF8');
-	if (fIdtag($nom) > 0) {
-		$requete = $bdd->prepare('SELECT * FROM tagger WHERE IdTag =? AND IdSite =?');
-		$requete->execute(array(fIdtag($nom), $_POST['envoyer']));
-		$resultat=$requete->fetch();
-		if (is_null($resultat['IdTag'])) {
-			$requete = $bdd->prepare('INSERT INTO postwork.tagger (IdTag, IdSite) VALUES (?, ?)');
-			$requete->execute(array(fIdtag($nom), $_POST['envoyer']));
-		} else {
-			return -1;
-		}
+	$charset = $bdd->query('SET NAMES UTF8');	
+	$requete = $bdd->prepare('SELECT * FROM tagger WHERE IdTag =? AND IdSite =?');
+	$requete->execute(array($idtag, $_POST['envoyer']));
+	$resultat=$requete->fetch();
+	if (is_null($resultat['IdTag'])) {
+		$requete = $bdd->prepare('INSERT INTO postwork.tagger (IdTag, IdSite) VALUES (?, ?)');
+		$requete->execute(array($idtag, $_POST['envoyer']));
 	} else {
-		fCreertag($nom);
-		fTagger($nom);
-	}
+		return -1;
+	}	
 }
 
 // <---------------------------------------------------------------------->
@@ -272,78 +279,121 @@ function fDesinscription($motdepasse)
 	}
 }
 
-function fSupprimerfqdn()
-{
-	require 'source.php';
-	$charset = $bdd->query('SET NAMES UTF8');
-	$nomfqdn = fSite("FQDN");
-	// $commande = "scripts/script_fqdn.sh 2 ".substr($nomfqdn['Nom'], 0, -19);
-	// exec($commande);
-	return 1;
-}
-
 function fSupprimersite() // A modifier pour une meilleure gestion de la bdd a suppr
 {
 	require 'source.php';
+	echo "string";
 	$charset = $bdd->query('SET NAMES UTF8');
+	echo "string";
 	$nomfqdn = fSite("FQDN");
-	$requete = $bdd->prepare('DELETE FROM postwork.site WHERE IdSite=?');
-	$requete->execute(array($_POST['envoyer']));
+	echo "string";
+	$requete = $bdd->prepare('DELETE FROM postwork.site WHERE IdSite =? AND IdUtilisateur =?');
+	echo "string";
+	$requete->execute(array($_POST['envoyer'], $_SESSION['IdUtilisateur']));
+	echo "string";
 	// $commande = "scripts/script_pwhost.sh 2 ".fUtilisateur("Pseudo")." ".substr($nomfqdn['Nom'], 0, -19);
 	// exec($commande);
 }
 
-function fDetagger($nom)
+function fDetagger($idtag)
 {
 	require 'source.php';
-	$charset = $bdd->query('SET NAMES UTF8');
-	$requete = $bdd->prepare('DELETE FROM postwork.tagger WHERE IdTag =? AND IdSite =?');
-	$requete->execute(array(fIdtag($nom), $_POST['envoyer']));
-	return 1;
+	if ($_SESSION['IdUtilisateur'] == fSite('IdUtilisateur')) {
+		$charset = $bdd->query('SET NAMES UTF8');
+		$requete = $bdd->prepare('DELETE FROM postwork.tagger WHERE IdTag =? AND IdSite =?');
+		$requete->execute(array($idtag, $_POST['envoyer']));
+		return 1;
+	} else {
+		return -1;
+	}
 }
 
 // <---------------------------------------------------------------------->
 
-function fModifierdescription($descrition)
+function fModifierdescription($description)
 {
 	require 'source.php';
 	$charset = $bdd->query('SET NAMES UTF8');
-	$requete = $bdd->prepare('UPDATE postwork.site SET Description =? WHERE IdSite =?');
-	$requete->execute(array($descrition, $_POST['envoyer']));
+	$requete = $bdd->prepare('UPDATE postwork.site SET Description =? WHERE IdSite =? AND IdUtilisateur =?');
+	$requete->execute(array($description, $_POST['envoyer'], $_SESSION['IdUtilisateur']));
+}
+
+function fModifiercategorie($categorie)
+{
+	require 'source.php';
+	$charset = $bdd->query('SET NAMES UTF8');
+	$requete = $bdd->prepare('UPDATE postwork.site SET IdCategorie =? WHERE IdSite =? AND IdUtilisateur =?');
+	$requete->execute(array($categorie, $_POST['envoyer'], $_SESSION['IdUtilisateur']));
 }
 
 function fModifierfqdn($nom)
 {
 	require 'source.php';
-	
-	if (fIdsite($nom) > 0) {
+	if (fSite('StatusExt') == 2 xor fSite('StatusVhost') == 2) {
 		return -1;
 	} else {
-		$charset = $bdd->query('SET NAMES UTF8');
-		$nomfqdn = $nom.$globals['fqdnpostwork'];
-		$requete = $bdd->prepare('UPDATE postwork.site SET FQDN =? WHERE IdSite =?');
-		$requete->execute(array($nomfqdn, $_POST['envoyer']));
-		$commande = "scripts/script_fqdn.sh 1 ".$nom;
-		exec($commande);
+		if (fIdsite($nom) > 0) {
+			return -1;
+		} else {
+			$charset = $bdd->query('SET NAMES UTF8');
+		// $commande = "scripts/script_fqdn.sh 2 ".substr(fSite('FQDN'), 0, -19);
+		// exec($commande);
+			fVhost(4);
+			$nomfqdn = $nom.$globals['fqdnpostwork'];
+			$requete = $bdd->prepare('UPDATE postwork.site SET FQDN =? WHERE IdSite =? AND IdUtilisateur =?');
+			$requete->execute(array($nomfqdn, $_POST['envoyer'], $_SESSION['IdUtilisateur']));
+			fVhost(3);
+		// $commande = "scripts/script_fqdn.sh 1 ".$nom;
+		// exec($commande);
+		}
+	}
+}
 
-	}	
+function fModifierip($ip)
+{
+	require 'source.php';
+	if (fSite('StatusExt') == 2 xor fSite('StatusVhost') == 2) {
+		return -1;
+	} else {
+		if (fSite('IP') == $ip) {
+			return -1;
+		} else {
+			$charset = $bdd->query('SET NAMES UTF8');
+		// $commande = "scripts/script_fqdn.sh 2 ".substr(fSite('FQDN'), 0, -19);
+		// exec($commande);
+			$requete = $bdd->prepare('UPDATE postwork.site SET IP =?, StatusExt =? WHERE IdSite =? AND IdUtilisateur =?');
+			if ($ip == $globals['ippostwork']) {
+				fVhost(3);
+				$requete->execute(array($ip, 0, $_POST['envoyer'], $_SESSION['IdUtilisateur']));
+			} else {
+				fVhost(4);
+				$requete->execute(array($ip, 1, $_POST['envoyer'], $_SESSION['IdUtilisateur']));
+			}
+		// $commande = "scripts/script_fqdn.sh 1 ".substr(fSite('FQDN'), 0, -19);
+		// exec($commande);
+		}
+	}
+	
 }
 
 function fModifiervhost($valeur)
 {
 	require 'source.php';
 	$charset = $bdd->query('SET NAMES UTF8');
-	$requete = $bdd->prepare('UPDATE postwork.site SET StatusVhost =? WHERE IdSite =?');
-	$requete->execute(array($valeur, $_POST['envoyer']));
+	$requete = $bdd->prepare('UPDATE postwork.site SET StatusVhost =? WHERE IdSite =? AND IdUtilisateur =?');
+	$requete->execute(array($valeur, $_POST['envoyer'], $_SESSION['IdUtilisateur']));
 }
 
 function fVhost($action)
 {
 	require 'source.php';
-	$charset = $bdd->query('SET NAMES UTF8');
-	$nomfqdn = fSite("FQDN");
-	$nom = substr($nomfqdn['Nom'], 0, -19);
-	switch ($action) {
+	if (fSite('StatusVhost') == 2) {
+		return -1;
+	} else {
+		$charset = $bdd->query('SET NAMES UTF8');
+		$nomfqdn = fSite("FQDN");
+		$nom = substr($nomfqdn['Nom'], 0, -19);
+		switch ($action) {
 		case 0: // Désactiver
 		fModifiervhost(0);
 		// $commande = "scripts/script_vhost.sh 4 ".fUtilisateur("Pseudo")." ".$nom;
@@ -367,26 +417,30 @@ function fVhost($action)
 		default:
 		return -1;
 		break;
-		// exec($commande);
-		return 1;
 	}
+	// exec($commande);
+	return 1;
+}
 }
 
 function fModifierbdd($valeur)
 {
 	require 'source.php';
 	$charset = $bdd->query('SET NAMES UTF8');
-	$requete = $bdd->prepare('UPDATE postwork.site SET StatusBDD =? WHERE IdSite =?');
-	$requete->execute(array($valeur, $_POST['envoyer']));
+	$requete = $bdd->prepare('UPDATE postwork.site SET StatusBDD =? WHERE IdSite =? AND IdUtilisateur =?');
+	$requete->execute(array($valeur, $_POST['envoyer'], $_SESSION['IdUtilisateur']));
 }
 
 function fBdd($action)
 {
 	require 'source.php';
-	$charset = $bdd->query('SET NAMES UTF8');
-	$nomfqdn = fSite("FQDN");
-	$nom = substr($nomfqdn['Nom'], 0, -19);
-	switch ($action) {
+	if (fSite('StatusBDD') == 2) {
+		return -1;
+	} else {
+		$charset = $bdd->query('SET NAMES UTF8');
+		$nomfqdn = fSite("FQDN");
+		$nom = substr($nomfqdn['Nom'], 0, -19);
+		switch ($action) {
 		case 0: // Désactiver
 		fModifierbdd(0);
 		// $commande = "scripts/script_base.sh 4 ".fUtilisateur("Pseudo")." ".$nom;
@@ -410,8 +464,26 @@ function fBdd($action)
 		default:
 		return -1;
 		break;
-		// exec($commande);
-		return 1;
+	}
+	// exec($commande);
+	return 1;
+}
+}
+
+function fModifiermail($valeur)
+{
+	require 'source.php';
+	$charset = $bdd->query('SET NAMES UTF8');
+	$requete = $bdd->prepare('UPDATE postwork.utilisateur SET StatusMail =? WHERE IdUtilisateur =?');
+	$requete->execute(array($valeur, $_SESSION['IdUtilisateur']));
+}
+
+function fMail($value='')
+{
+	if (fSite('StatusMail') == 2) {
+		return -1;
+	} else {
+
 	}
 }
 
