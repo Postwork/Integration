@@ -32,7 +32,7 @@ case $1 in
   if [[ -n $nom ]];
   then
     mysql -u $mysql_login -p$mysql_pass -e "
-    GRANT CREATE,DROP,SELECT,INSERT,DELETE,UPDATE ON $3* TO "$2"@"localhost" ;
+    GRANT CREATE, DROP, SELECT, INSERT, DELETE, UPDATE ON $3.* TO "$2"@"localhost" ;
     FLUSH PRIVILEGES ;"
   else
     exit 1
@@ -42,8 +42,8 @@ case $1 in
   if [[ -n $nom ]];
   then
     mysql -u $mysql_login -p$mysql_pass -e "
-    REVOKE ALL PRIVILEGES ON $3$fqdn.* FROM "$2"@"localhost";
-    GRANT USAGE ON $3$fqdn.* "$2"@"localhost";
+    REVOKE CREATE, DROP, SELECT, INSERT, DELETE, UPDATE ON $3.* FROM "$2"@"localhost";
+    GRANT USAGE ON $3.* TO "$2"@"localhost";
     FLUSH PRIVILEGES ;"
   else
     exit 1

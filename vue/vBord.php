@@ -50,7 +50,7 @@ include_once("vChat.php");
         
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li class="active"> <a href="#"> Nom d'utilisateur </a> </li>
+        <li class="active"> <a href="#"><?php echo $_SESSION['Prenom']; ?></a> </li>
       </ul>
     </div>
   </div>

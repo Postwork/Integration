@@ -10,7 +10,7 @@ case $1 in
 		sudo bash -c "echo -E 'server {
         listen 80;
 
-        root $www$2/$3$fqdn;
+        root $www$2/$3;
         index index.php index.html index.htm;
 
         server_name $3$fqdn;

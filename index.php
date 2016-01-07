@@ -4,32 +4,32 @@
 
 
 
-<link rel="stylesheet" href=" vue/contenu/bootstrap/css/bootstrap.min.css"> 
-<link rel="stylesheet" href=" vue/contenu/style.css"> 
-
-
- 
-
-<style type="text/css">
+  <link rel="stylesheet" href=" vue/contenu/bootstrap/css/bootstrap.min.css"> 
+  <link rel="stylesheet" href=" vue/contenu/style.css"> 
 
 
 
-</style>
+
+  <style type="text/css">
+
+
+
+  </style>
 </head>
 
 <body>
-	 <?php
-	session_start();
-
-	#$bdd = PDO('mysql:host=localhost;dbname=postwork', 'postwork', 'postwork');
-
-	if (!empty($_GET['page']) AND is_file('controleur/'.$_GET['page'].'.php')) {
-		include('controleur/'.$_GET['page'].'.php');
-	}
-	else {
-		include('controleur/index.php');
-	}
-?>
+  <?php
+  if (isset($_POST['deconnecter'])) {
+    unset($_SESSION['IdUtilisateur']);
+  }
+  session_start();
+  if (!empty($_GET['page']) AND is_file('controleur/'.$_GET['page'].'.php')) {
+    include('controleur/'.$_GET['page'].'.php');
+  }
+  else {
+    include('controleur/index.php');
+  }
+  ?>
 <!-- 
 <footer class="container-fluid text-center foot">
   
@@ -62,9 +62,9 @@
         </div>
 
 
-</footer> -->
+      </footer> -->
 
 
 
-</body>
-</html>
+    </body>
+    </html>

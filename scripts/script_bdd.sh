@@ -21,7 +21,7 @@ case $1 in
   if [[ -n $nom ]];
   then
     mysql -u $mysql_login -p$mysql_pass -e "
-    DROP USER IF EXIST "$2"@"localhost";"
+    DROP USER "$2"@"localhost";"
   else
     exit 1
   fi
