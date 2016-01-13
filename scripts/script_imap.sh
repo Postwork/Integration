@@ -27,9 +27,10 @@ case $1 in
 		fi
 	;;
 	3)
-		if [[ -z $test ]];
+		if [[ -n $test ]];
 		then
-			sudo sed -i -e "s&#$test&$test&g" userdb
+			nouveau=`awk '{gsub("#", "");print}' <<< $test`
+			sudo sed -i -e "s&$test&$nouveau&g" userdb
 		else
 			exit 1
 		fi

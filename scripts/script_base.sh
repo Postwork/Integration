@@ -12,8 +12,8 @@ case $1 in
   if [[ -n $nom ]];
   then
     mysql -u $mysql_login -p$mysql_pass -e "
-    CREATE DATABASE $3;"
-    script_base.sh 3 $2 $3
+    CREATE DATABASE $3 ;"
+   sudo script_base.sh 3 $2 $3
   else
     exit 1
   fi
@@ -33,7 +33,6 @@ case $1 in
   then
     mysql -u $mysql_login -p$mysql_pass -e "
     GRANT CREATE,DROP,SELECT,INSERT,DELETE,UPDATE ON $3.* TO "$2"@"localhost" ;
-    FLUSH PRIVILEGES ;"
   else
     exit 1
   fi
@@ -42,8 +41,8 @@ case $1 in
   if [[ -n $nom ]];
   then
     mysql -u $mysql_login -p$mysql_pass -e "
-    REVOKE ALL PRIVILEGES ON $3$fqdn.* FROM "$2"@"localhost";
-    GRANT USAGE ON $3$fqdn.* "$2"@"localhost";
+    REVOKE CREATE,DROP,SELECT,INSERT,DELETE,UPDATE ON $3.* FROM "$2"@"localhost";
+    GRANT USAGE ON $3.* TO "$2"@"localhost";
     FLUSH PRIVILEGES ;"
   else
     exit 1

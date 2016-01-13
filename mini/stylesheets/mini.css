@@ -30,7 +30,7 @@ Authors: Valérian Saliou, Julien, hunterjm, Kloadut
 #jappix_mini {
     margin-left: 130px;
     position: fixed;
-    bottom: 0;
+    bottom: 10;
     right: 20px;
     display: block !important;
     z-index: 999;
@@ -109,7 +109,7 @@ Authors: Valérian Saliou, Julien, hunterjm, Kloadut
     outline-style: none;
     display: block;
     padding: 6px;
-    height: 13px;
+    height: 100px;
 }
 
 #jappix_mini a.jm_pane:hover {
@@ -230,7 +230,6 @@ Authors: Valérian Saliou, Julien, hunterjm, Kloadut
 #jappix_mini div.jm_actions {
     background-color: #565d5e;
     border-bottom: 1px solid #3a3a3a;
-    height: 14px;
     padding: 4px 6px;
     font-weight: bold;
     overflow: hidden;
