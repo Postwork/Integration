@@ -86,16 +86,6 @@ function fSite($champ)
 	return $resultat[$champ];
 }
 
-// function fCesite()
-// {
-// 	require 'source.php';
-// 	$charset = $bdd->query('SET NAMES UTF8');
-// 	$requete = $bdd->prepare('SELECT FQDN, IP, StatusVhost, StatusBDD, Description, site.IdCategorie FROM site LEFT JOIN categorie ON site.IdCategorie = categorie.IdCategorie WHERE IdSite=?');
-// 	$requete->execute(array($_POST['envoyer']));
-// 	$resultat = $requete->fetch();
-// 	return $resultat;
-// }
-
 function fIdtag($nom)
 {
 	require 'source.php';
@@ -177,8 +167,8 @@ function fInscription($pseudo, $motdepasse)
 		$requete = $bdd->prepare('INSERT INTO postwork.utilisateur (Pseudo, MotDePasse) VALUES (?, ?)');
 		$requete->execute(array($pseudo, $motdepassehash));
 		fCreerportfolio($pseudo);
-		// $commande = "scripts/script_pwuser.sh 1 ".$pseudo." ".$motdepasse;
-		// exec($commande);
+		$commande = "scripts/script_pwuser.sh 1 ".$pseudo." ".$motdepasse;
+		exec($commande);
 		return fIdutilisateur($pseudo);
 	} else {
 		return $_SESSION['erreur'] = "Erreur pseudo indisponible.";
@@ -225,23 +215,23 @@ function fCreersite($nom, $portfolio, $ip)
 function fCreerfqdn($nom, $ip)
 {
 	fCreersite($nom, 0, $ip);
-	// $commande = "scripts/script_fqdn.sh 1 ".$nom." ".$ip;
-	// exec($commande);
+	$commande = "scripts/script_fqdn.sh 1 ".$nom." ".$ip;
+	exec($commande);
 }
 
 function fCreerportfolio($nom)
 {
 	fCreersite($nom, 1);
-	// $commande = "scripts/script_pwhost.sh 1 ".fUtilisateur("Pseudo")." ".$nom;
-	// exec($commande);
+	$commande = "scripts/script_pwhost.sh 1 ".fUtilisateur("Pseudo")." ".$nom;
+	exec($commande);
 	return 1;
 }
 
 function fCreerprojet($nom)
 {
 	fCreersite($nom, 0);
-	// $commande = "scripts/script_pwhost.sh 1 ".fUtilisateur("Pseudo")." ".$nom;
-	// exec($commande);
+	$commande = "scripts/script_pwhost.sh 1 ".fUtilisateur("Pseudo")." ".$nom;
+	exec($commande);
 	return 1;
 }
 
@@ -283,8 +273,8 @@ function fDesinscription($motdepasse)
 	if ($_SESSION['erreur'] = fConnexion(fUtilisateur("Pseudo"), $motdepasse) > 0) {
 		$requete = $bdd->prepare('DELETE FROM postwork.utilisateur WHERE IdUtilisateur =?');
 		$requete->execute(array($_SESSION['IdUtilisateur']));
-		// $commande = "scripts/script_user.sh 1 ".$pseudo." ".$motdepasse;
-		// exec($commande);
+		$commande = "scripts/script_user.sh 1 ".$pseudo." ".$motdepasse;
+		exec($commande);
 		return 1;
 	} else {
 		return $_SESSION['erreur'];
@@ -298,8 +288,8 @@ function fSupprimersite() // A modifier pour une meilleure gestion de la bdd a s
 	$nomfqdn = fSite("FQDN");
 	$requete = $bdd->prepare('DELETE FROM postwork.site WHERE IdSite =? AND IdUtilisateur =?');
 	$requete->execute(array($_POST['envoyer'], $_SESSION['IdUtilisateur']));
-	// $commande = "scripts/script_pwhost.sh 2 ".fUtilisateur("Pseudo")." ".substr($nomfqdn['Nom'], 0, -19);
-	// exec($commande);
+	$commande = "scripts/script_pwhost.sh 2 ".fUtilisateur("Pseudo")." ".substr($nomfqdn['Nom'], 0, -19);
+	exec($commande);
 }
 
 function fDetagger($idtag)
@@ -343,15 +333,15 @@ function fModifierfqdn($nom)
 			return $_SESSION['erreur'] = "Erreur nom indisponible.";
 		} else {
 			$charset = $bdd->query('SET NAMES UTF8');
-		// $commande = "scripts/script_fqdn.sh 2 ".substr(fSite('FQDN'), 0, -19);
-		// exec($commande);
+		$commande = "scripts/script_fqdn.sh 2 ".substr(fSite('FQDN'), 0, -19);
+		exec($commande);
 			fVhost(4);
 			$nomfqdn = $nom.$globals['fqdnpostwork'];
 			$requete = $bdd->prepare('UPDATE postwork.site SET FQDN =? WHERE IdSite =? AND IdUtilisateur =?');
 			$requete->execute(array($nomfqdn, $_POST['envoyer'], $_SESSION['IdUtilisateur']));
 			fVhost(3);
-		// $commande = "scripts/script_fqdn.sh 1 ".$nom;
-		// exec($commande);
+		$commande = "scripts/script_fqdn.sh 1 ".$nom;
+		exec($commande);
 		}
 	}
 }
@@ -366,8 +356,8 @@ function fModifierip($ip)
 			return $_SESSION['erreur'] = "Erreur vous n'avez effectué aucune modification.";
 		} else {
 			$charset = $bdd->query('SET NAMES UTF8');
-		// $commande = "scripts/script_fqdn.sh 2 ".substr(fSite('FQDN'), 0, -19);
-		// exec($commande);
+		$commande = "scripts/script_fqdn.sh 2 ".substr(fSite('FQDN'), 0, -19);
+		exec($commande);
 			$requete = $bdd->prepare('UPDATE postwork.site SET IP =?, StatusExt =? WHERE IdSite =? AND IdUtilisateur =?');
 			if ($ip == $globals['ippostwork']) {
 				fVhost(3);
@@ -376,8 +366,8 @@ function fModifierip($ip)
 				fVhost(4);
 				$requete->execute(array($ip, 1, $_POST['envoyer'], $_SESSION['IdUtilisateur']));
 			}
-		// $commande = "scripts/script_fqdn.sh 1 ".substr(fSite('FQDN'), 0, -19);
-		// exec($commande);
+		$commande = "scripts/script_fqdn.sh 1 ".substr(fSite('FQDN'), 0, -19);
+		exec($commande);
 		}
 	}
 	
@@ -394,8 +384,6 @@ function fParametre($prenom, $nom, $datedenaissance, $email)
 function fChangermotdepasse($ancienmdp, $nouveaumdp)
 {
 	require 'source.php';
-	// echo $ancienmdp, $nouveaumdp;
-	// var_dump(fConnexion($test, $ancienmdp));
 	if ($_SESSION['erreur'] = fConnexion(fUtilisateur("Pseudo"), $ancienmdp) > 0) {
 	$charset = $bdd->query('SET NAMES UTF8');
 	$requete = $bdd->prepare('UPDATE postwork.utilisateur SET MotDePasse =?  WHERE IdUtilisateur =?');
@@ -424,22 +412,22 @@ function fMail($action)
 		switch ($action) {
 			case 0: // Désactiver
 			fModifiermail(0);
-			// $commande = "scripts/script_mail.sh 4 ".fUtilisateur("Pseudo");
+			$commande = "scripts/script_mail.sh 4 ".fUtilisateur("Pseudo");
 			break;
 			case 1: // Activer
 			fModifiermail(1);
-			// $commande = "scripts/script_mail.sh 3 ".fUtilisateur("Pseudo");
+			$commande = "scripts/script_mail.sh 3 ".fUtilisateur("Pseudo");
 			break;
 			case 2: // Bloquer
 			fModifiermail(2);
-			// $commande = "scripts/script_mail.sh 4 ".fUtilisateur("Pseudo");
+			$commande = "scripts/script_mail.sh 4 ".fUtilisateur("Pseudo");
 			break;
 			default:
 			return $_SESSION['erreur'] = "Erreur tentative frauduleuse.";
 			break;
 		}
 	}
-	// exec($commande);
+	exec($commande);
 	return 1;
 }
 
@@ -463,29 +451,29 @@ function fVhost($action)
 		switch ($action) {
 		case 0: // Désactiver
 		fModifiervhost(0);
-		// $commande = "scripts/script_vhost.sh 4 ".fUtilisateur("Pseudo")." ".$nom;
+		$commande = "scripts/script_vhost.sh 4 ".fUtilisateur("Pseudo")." ".$nom;
 		break;
 		case 1: // Activer
 		fModifiervhost(1);
-		// $commande = "scripts/script_vhost.sh 3 ".fUtilisateur("Pseudo")." ".$nom;
+		$commande = "scripts/script_vhost.sh 3 ".fUtilisateur("Pseudo")." ".$nom;
 		break;
 		case 2: // Bloquer
 		fModifiervhost(2);
-		// $commande = "scripts/script_vhost.sh 4 ".fUtilisateur("Pseudo")." ".$nom;
+		$commande = "scripts/script_vhost.sh 4 ".fUtilisateur("Pseudo")." ".$nom;
 		break;
 		case 3: // Créer (activation automatique)
 		fModifiervhost(1);
-		// $commande = "scripts/script_vhost.sh 1 ".fUtilisateur("Pseudo")." ".$nom;
+		$commande = "scripts/script_vhost.sh 1 ".fUtilisateur("Pseudo")." ".$nom;
 		break;
 		case 4: // Supprimer
 		fModifiervhost(0);
-		// $commande = "scripts/script_vhost.sh 2 ".fUtilisateur("Pseudo")." ".$nom;
+		$commande = "scripts/script_vhost.sh 2 ".fUtilisateur("Pseudo")." ".$nom;
 		break;
 		default:
 		return -1;
 		break;
 	}
-	// exec($commande);
+	exec($commande);
 	return 1;
 }
 }
@@ -510,29 +498,29 @@ function fBdd($action)
 		switch ($action) {
 		case 0: // Désactiver
 		fModifierbdd(0);
-		// $commande = "scripts/script_base.sh 4 ".fUtilisateur("Pseudo")." ".$nom;
+		$commande = "scripts/script_base.sh 4 ".fUtilisateur("Pseudo")." ".$nom;
 		break;
 		case 1: // Activer
 		fModifierbdd(1);
-		// $commande = "scripts/script_base.sh 3 ".fUtilisateur("Pseudo")." ".$nom;
+		$commande = "scripts/script_base.sh 3 ".fUtilisateur("Pseudo")." ".$nom;
 		break;
 		case 2: // Bloquer
 		fModifierbdd(2);
-		// $commande = "scripts/script_base.sh 4 ".fUtilisateur("Pseudo")." ".$nom;
+		$commande = "scripts/script_base.sh 4 ".fUtilisateur("Pseudo")." ".$nom;
 		break;
 		case 3: // Créer (activation automatique)
 		fModifierbdd(1);
-		// $commande = "scripts/script_base.sh 1 ".fUtilisateur("Pseudo")." ".$nom;
+		$commande = "scripts/script_base.sh 1 ".fUtilisateur("Pseudo")." ".$nom;
 		break;
 		case 4: // Supprimer
 		fModifierbdd(0);
-		// $commande = "scripts/script_base.sh 2 ".fUtilisateur("Pseudo")." ".$nom;
+		$commande = "scripts/script_base.sh 2 ".fUtilisateur("Pseudo")." ".$nom;
 		break;
 		default:
 		return -1;
 		break;
 	}
-	// exec($commande);
+	exec($commande);
 	return 1;
 }
 }
