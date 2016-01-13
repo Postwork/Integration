@@ -6,9 +6,8 @@ if (isset($_SESSION['IdUtilisateur'])) {
 if (isset($_POST['envoyer'])) {
 	require 'fonction.php';
 	if (fConnexion($_POST['pseudo'], $_POST['motdepasse']) > 0) {
-	header("Location: ?page=index");	//redirection vers index
+	header("Location: ?page=sites");	//redirection vers index
 	 } else {
 	 	header("Location: ?page=connexion");
 	 }
 }
-?>

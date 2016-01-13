@@ -13,38 +13,41 @@
   include_once("vNav.php");
   ?>
   <div class="container">
-    <!--       <h1> Activer ou desactiver ses sites</h1>  -->
-
-    <!-- <div class="h2">Création</div> -->
+          <h1>Tableau de bord</h1> 
+          <?php fErreur(); ?>
     <table class="table">
-      <tr><td colspan="6"><div class="h2">Création</div></td></tr>
-      <tr align="center">
-        <form method="POST" action="?page=sites">
-          <td  colspan="6">
-            <label><input type="text" class="form-inline" name="nom" placeholder="nom">.postwork.itinet.fr</label>
-            <button type="submit" name="envoyer" class='btn btn-primary glyphicon glyphicon-plus' ></button><br>
-            <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#ipinput">Hébergement externe ?</button>
-            <div id="ipinput" class="collapse">
-              <br>
-              <input type="text" class="form-inline" name="ip" placeholder="Adresse IP">
-            </div>
-            <input type='hidden' name='formulaire' value='création'>
-          </td>
-        </form>
+      <tr><td colspan="6"><div class="h2">Mail</div></td></tr>
+
+      <?php
+
+      echo "
+        <tr class='active'><td colspan='1'>
+        <form method='POST' action='?page=sites'>";
+        if ($mail == 1) {
+          echo "
+          <input type='hidden' name='statusmail' value='0'>
+          <button type='submit' name='envoyer' class='btn btn-danger glyphicon glyphicon-remove'>
+          <input type='hidden' name='formulaire' value='mail'>
+          ";
+        } elseif ($mail == 0) {
+          echo "
+          <input type='hidden' name='statusmail' value='1'>
+          <button type='submit' name='envoyer' class='btn btn-success glyphicon glyphicon-ok'>
+          <input type='hidden' name='formulaire' value='mail'>
+          ";
+        } else {
+          echo "
+          <button type='submit' name='envoyer' class='btn glyphicon glyphicon-ban-circle' disabled>
+          ";
+        }
+        echo "</button></td><td colspan='5'>".$pseudo.$globals["mailpostwork"]."</form></td></tr>";
+      ?>
+
+      <tr>
+        <td colspan="6">
+          <div class="h2">Portfolio</div>
+        </td>
       </tr>
-      <!-- tr align="center">
-        <form method="POST" action="?page=sites">
-          <td  colspan="6">
-            <label><input type="text" class="form-inline" name="nom" placeholder="nom">.postwork.itinet.fr</label>
-            <button type="submit" name="envoyer" class='btn btn-primary glyphicon glyphicon-plus' ></button>
-          </td>
-        </form>
-      </tr> -->
-      <!-- </table> -->
-
-
-      <!-- <table class="table"> -->
-      <tr><td colspan="6"><div class="h2">Portfolio</div></td></tr>
 
       <!-- <thead> -->
       <tr>
@@ -80,10 +83,7 @@
           ";
         } else {
           echo "
-          <form method='POST' action='?page=sites'>
           <button type='submit' name='envoyer' class='btn glyphicon glyphicon-ban-circle' disabled>
-          </button>
-          </form>
           ";
         }
         echo "</td><td>".htmlentities(substr($p['FQDN'], 0, -19))."
@@ -109,10 +109,7 @@
           ";
         } else {
           echo "
-          <form method='POST' action='?page=sites'>
           <button type='submit' name='envoyer' class='btn glyphicon glyphicon-ban-circle' disabled>
-          </button>
-          </form>
           ";
         }
         echo "</td><td align= 'center'>
@@ -121,19 +118,28 @@
         </button>
         </form>
         </td><td align= 'center'>
-        <form method='POST' action='?page=sites'>
-        <button type='submit' name='envoyer' value='".$p['IdSite']."' class='btn btn-default glyphicon glyphicon-trash'>
-        <input type='hidden' name='formulaire' value='suppr'>
-        <input type='hidden' name='site' value='".$p['IdSite']."'>
-        </button>
-        </form>
+          <button type='submit' name='envoyer' class='btn glyphicon glyphicon-ban-circle' disabled>
+          </button>
         </td>";
         echo "
         </tr>";
       }
       ?>
 
-      <tr><td colspan="6"><div class="h2">Projets</div></td></tr>
+      <tr>
+        <td colspan="6">
+          <div class="h2">Projets
+            <button type="button" class="btn btn-primary glyphicon glyphicon-plus" data-toggle="collapse" data-target="#projet"></button>
+          </div>
+          <div id="projet" class="collapse">
+            <form method="POST" action="?page=sites">
+              <input type="text" class="form-inline" name="nom" placeholder="nom"><label>.postwork.itinet.fr</label>
+              <button type="submit" name="envoyer" class='btn btn-default' >Créer</button>
+              <input type='hidden' name='formulaire' value='création'>
+            </form>
+          </div>
+        </td>
+      </tr>
 
       <?php
       foreach ($projet as $p) {
@@ -159,10 +165,7 @@
           ";
         } else {
           echo "
-          <form method='POST' action='?page=sites'>
           <button type='submit' name='envoyer' class='btn glyphicon glyphicon-ban-circle' disabled>
-          </button>
-          </form>
           ";
         }
         echo "</td><td>".htmlentities(substr($p['FQDN'], 0, -19))."
@@ -188,10 +191,7 @@
           ";
         } else {
           echo "
-          <form method='POST' action='?page=sites'>
           <button type='submit' name='envoyer' class='btn glyphicon glyphicon-ban-circle' disabled>
-          </button>
-          </form>
           ";
         }
         echo "</td><td align= 'center'>
@@ -202,7 +202,7 @@
         </td><td align= 'center'>
         <form method='POST' action='?page=sites'>
         <button type='submit' name='envoyer' value='".$p['IdSite']."' class='btn btn-default glyphicon glyphicon-trash'>
-        <input type='hidden' name='formulaire' value='supression'>
+        <input type='hidden' name='formulaire' value='suppression'>
         <input type='hidden' name='site' value='".$p['IdSite']."'>
         </button>
         </form>
@@ -212,7 +212,21 @@
       }
       ?>
 
-      <tr><td colspan="6"><div class="h2">FQDN</div></td></tr>
+      <tr>
+        <td colspan="6">
+          <div class="h2">FQDN
+            <button type="button" class="btn btn-primary glyphicon glyphicon-plus" data-toggle="collapse" data-target="#fqdn"></button>
+          </div>
+          <div id="fqdn" class="collapse">
+            <form method="POST" action="?page=sites">
+              <input type="text" class="form-inline" name="nom" placeholder="nom"><label>.postwork.itinet.fr </label>
+              <input type="text" class="form-inline" name="ip" placeholder="Adresse IP">
+              <button type="submit" name="envoyer" class='btn btn-default' >Créer</button>
+              <input type='hidden' name='formulaire' value='création'>
+            </form>
+          </div>
+        </td>
+      </tr>
 
       <?php
       foreach ($fqdn as $p) {
@@ -238,21 +252,14 @@
           ";
         } else {
           echo "
-          <form method='POST' action='?page=sites'>
           <button type='submit' name='envoyer' class='btn glyphicon glyphicon-ban-circle' disabled>
-          </button>
-          </form>
           ";
         }
         echo "</td><td>".htmlentities(substr($p['FQDN'], 0, -19))."
         </td><td>".htmlentities($p['IP'])."
         </td><td>
-        <form method='POST' action='?page=sites'>
         <button type='submit' name='envoyer' class='btn glyphicon glyphicon-ban-circle' disabled>
-        </button>
-        </form>
-        ";
-        echo "</td><td align= 'center'>
+        </td><td align= 'center'>
         <form method='POST' action='?page=modifier'>
         <button type='submit' name='envoyer' value='".$p['IdSite']."' class='btn btn-default glyphicon glyphicon-cog'>
         </button>
@@ -260,12 +267,11 @@
         </td><td align= 'center'>
         <form method='POST' action='?page=sites'>
         <button type='submit' name='envoyer' value='".$p['IdSite']."' class='btn btn-default glyphicon glyphicon-trash'>
-        <input type='hidden' name='formulaire' value='supression'>
+        <input type='hidden' name='formulaire' value='suppression'>
         <input type='hidden' name='site' value='".$p['IdSite']."'>
         </button>
         </form>
-        </td>";
-        echo "
+        </td>
         </tr>";
       }
       ?>

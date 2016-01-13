@@ -2,45 +2,37 @@
 session_start();
 require 'fonction.php';
 switch ($_POST['formulaire']) {
+	case 'mail':
+		fMail($_POST['statusmail']);
+		break;
 	case 'création':
-	if (!is_null($_POST['nom']) and !ip2long($_POST['ip'])) {
-		fCreerfqdn($_POST['nom'], $globals['ippostwork']);
-	} elseif (!is_null($_POST['nom']) and ip2long($_POST['ip'])) {
-		fCreerfqdn($_POST['nom'], $_POST['ip']);
+	if (empty($_POST['nom']) === false) {
+		if (isset($_POST['ip']) === true ) {
+			if (!filter_var($_POST['ip'], FILTER_VALIDATE_IP, FILTER_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) === false) {
+				fCreerfqdn($_POST['nom'], $_POST['ip']);
+			} else {
+				$_SESSION['erreur']="Mauvaise adresse IP";
+			}
+		} else {
+		fCreerprojet($_POST['nom'], $globals['ippostwork']);
+		}
+	} else {
+		$_SESSION['erreur']="Nom invalide";
 	}
 	break;
 	case 'activation':
 	fVhost($_POST['statussite']);
 	break;
 	case 'bdd':
-	echo $_POST['formulaire'];
-	// fSupprimersite($_POST['site']);
+	fBdd($_POST['statusbdd']);
 	break;
 	case 'suppression':
-	echo $_POST['formulaire'];
-	// fBdd($_POST['statusbdd']);
+	fSupprimersite($_POST['site']);
 	break;
-		// default:
-		// echo "string2";
-		// break;
 }
 
-// echo $_POST['formulaire'];
-// if ($_POST['formulaire'] == 'création') {
-// 	if (!is_null($_POST['nom']) and !ip2long($_POST['ip'])) {
-// 		fCreerfqdn($_POST['nom'], $globals['ippostwork']);
-// 	} elseif (!is_null($_POST['nom']) and ip2long($_POST['ip'])) {
-// 		fCreerfqdn($_POST['nom'], $_POST['ip']);
-// 	}
-// } elseif ($_POST['formulaire'] == 'activation') {
-// 	fVhost($_POST['statussite']);
-// } elseif ($_POST['formulaire'] == 'bdd') {
-// 	fBdd($_POST['statusbdd']);
-// } elseif ($_POST['formulaire'] == 'suppression') {
-// 	echo "string";
-// 	fSupprimersite();
-// }
-
+$mail=fUtilisateur("StatusMail");
+$pseudo=fUtilisateur("Pseudo");
 
 $liste = fAffichersiteutilisateur();
 foreach ($liste as $key => $value) {
@@ -52,4 +44,3 @@ foreach ($liste as $key => $value) {
 		$fqdn[] = $value;
 	}
 }
-?>

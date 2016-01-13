@@ -12,7 +12,7 @@ case $1 in
   if [[ -n $nom ]];
   then
     mysql -u $mysql_login -p$mysql_pass -e "
-    CREATE DATABASE $3$fqdn;"
+    CREATE DATABASE $3;"
     script_base.sh 3 $2 $3
   else
     exit 1
@@ -22,7 +22,7 @@ case $1 in
   if [[ -n $nom ]];
   then
     mysql -u $mysql_login -p$mysql_pass -e "
-    DROP DATABASE $3$fqdn ;
+    DROP DATABASE $3 ;
     FLUSH PRIVILEGES ;"
   else
     exit 1
@@ -32,7 +32,7 @@ case $1 in
   if [[ -n $nom ]];
   then
     mysql -u $mysql_login -p$mysql_pass -e "
-    GRANT CREATE,DROP,SELECT,INSERT,DELETE,UPDATE ON $3$fqdn.* TO "$2"@"localhost" ;
+    GRANT CREATE,DROP,SELECT,INSERT,DELETE,UPDATE ON $3.* TO "$2"@"localhost" ;
     FLUSH PRIVILEGES ;"
   else
     exit 1

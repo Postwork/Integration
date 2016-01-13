@@ -66,6 +66,16 @@ function fUtilisateur($champ)
 	return $resultat[$champ];
 }
 
+function fParametreutilisateur()
+{
+	require 'source.php';
+	$charset = $bdd->query('SET NAMES UTF8');
+	$requete = $bdd->prepare('SELECT Prenom, Nom, DateNaissance, EmailExt FROM postwork.utilisateur WHERE IdUtilisateur=?');
+	$requete->execute(array($_SESSION['IdUtilisateur']));
+	$resultat = $requete->fetch();
+	return $resultat;
+}
+
 function fSite($champ)
 {
 	require 'source.php';
@@ -149,10 +159,10 @@ function fConnexion($pseudo, $motdepasse)
 			$_SESSION['IdUtilisateur'] = fIdutilisateur($pseudo);
 			return fIdutilisateur($pseudo);
 		} else {
-			return -1;
+			return $_SESSION['erreur'] = "Erreur maot de passe incorrect.";
 		}
 	} else {
-		return -2;
+		return $_SESSION['erreur'] = "Erreur mauvais pseudo.";
 	}
 }
 
@@ -171,20 +181,7 @@ function fInscription($pseudo, $motdepasse)
 		// exec($commande);
 		return fIdutilisateur($pseudo);
 	} else {
-		return -1;
-	}
-}
-
-function fCreertag($nom)
-{
-	require 'source.php';
-	$charset = $bdd->query('SET NAMES UTF8');
-	if (is_null(fIdtag($nom))) {
-		$requete = $bdd->prepare('INSERT INTO postwork.tag (Nom) VALUES (?)');
-		$requete->execute(array($nom));
-		return fIdtag($nom);
-	} else {
-		return -1;
+		return $_SESSION['erreur'] = "Erreur pseudo indisponible.";
 	}
 }
 
@@ -197,42 +194,44 @@ function fCreercategorie($nom)
 		$requete->execute(array($nom));
 		return fIdcategorie($nom);
 	} else {
-		return -1;
+		return $_SESSION['erreur'] = "Erreur cette catégorie existe déjà.";
 	}
 }
 
-function fCreersite($nom, $portfolio, $statusvhost, $ip)
+function fCreersite($nom, $portfolio, $ip)
 {
 	require 'source.php';
 	$charset = $bdd->query('SET NAMES UTF8');
 	if (is_null(fIdsite($nom))) {
 		$nomfqdn = $nom.$globals['fqdnpostwork'];
-		$requete = $bdd->prepare('INSERT INTO postwork.site (FQDN, IP, Portfolio, IdUtilisateur, StatusVhost) VALUES (?, ?, ?, ?, ?)');
+		$requete = $bdd->prepare('INSERT INTO postwork.site (FQDN, IP, Portfolio, IdUtilisateur, StatusVhost, StatusExt) VALUES (?, ?, ?, ?, ?, ?)');
 		if (!isset($ip)) {
 			if (isset($_SESSION['IdUtilisateur'])) {
-				$requete->execute(array($nomfqdn, $globals['ippostwork'], $portfolio, $_SESSION['IdUtilisateur'], $statusvhost));
+				$requete->execute(array($nomfqdn, $globals['ippostwork'], $portfolio, $_SESSION['IdUtilisateur'], "1", "3"));
+			} elseif (!is_null(fIdutilisateur($nom))) {
+				$requete->execute(array($nomfqdn, $globals['ippostwork'], $portfolio, fIdutilisateur($nom), "1"));
 			} else {
-				$requete->execute(array($nomfqdn, $globals['ippostwork'], $portfolio, fIdutilisateur($nom), $statusvhost));
+				return $_SESSION['erreur'] = "Erreur utilisateur inexistant.";
 			}
 		} else {
-			$requete->execute(array($nomfqdn, $ip, $portfolio, $_SESSION['IdUtilisateur'], $statusvhost));
+			$requete->execute(array($nomfqdn, $ip, $portfolio, $_SESSION['IdUtilisateur'], "3", "1"));
 		}
 		return fIdsite($nom);
 	} else {
-		return -1;
+		return $_SESSION['erreur'] = "Erreur nom de site indisponible.";
 	}
 }
 
 function fCreerfqdn($nom, $ip)
 {
-	fCreersite($nom, 0, 0, $ip);
+	fCreersite($nom, 0, $ip);
 	// $commande = "scripts/script_fqdn.sh 1 ".$nom." ".$ip;
 	// exec($commande);
 }
 
 function fCreerportfolio($nom)
 {
-	fCreersite($nom, 1, 1);
+	fCreersite($nom, 1);
 	// $commande = "scripts/script_pwhost.sh 1 ".fUtilisateur("Pseudo")." ".$nom;
 	// exec($commande);
 	return 1;
@@ -240,10 +239,23 @@ function fCreerportfolio($nom)
 
 function fCreerprojet($nom)
 {
-	fCreersite($nom, 0, 1);
+	fCreersite($nom, 0);
 	// $commande = "scripts/script_pwhost.sh 1 ".fUtilisateur("Pseudo")." ".$nom;
 	// exec($commande);
 	return 1;
+}
+
+function fCreertag($nom)
+{
+	require 'source.php';
+	$charset = $bdd->query('SET NAMES UTF8');
+	if (is_null(fIdtag($nom))) {
+		$requete = $bdd->prepare('INSERT INTO postwork.tag (Nom) VALUES (?)');
+		$requete->execute(array($nom));
+		return fIdtag($nom);
+	} else {
+		return $_SESSION['erreur'] = "Erreur ce tag existe déjà.";
+	}
 }
 
 function fTagger($idtag)
@@ -257,7 +269,7 @@ function fTagger($idtag)
 		$requete = $bdd->prepare('INSERT INTO postwork.tagger (IdTag, IdSite) VALUES (?, ?)');
 		$requete->execute(array($idtag, $_POST['envoyer']));
 	} else {
-		return -1;
+		return $_SESSION['erreur'] = "Erreur ce tag est déjà associé à votre site.";
 	}	
 }
 
@@ -268,29 +280,24 @@ function fDesinscription($motdepasse)
 	require 'source.php';
 	$charset = $bdd->query('SET NAMES UTF8');
 
-	if (fConnexion(fUtilisateur("Pseudo"), $motdepasse) > 0) {
+	if ($_SESSION['erreur'] = fConnexion(fUtilisateur("Pseudo"), $motdepasse) > 0) {
 		$requete = $bdd->prepare('DELETE FROM postwork.utilisateur WHERE IdUtilisateur =?');
 		$requete->execute(array($_SESSION['IdUtilisateur']));
 		// $commande = "scripts/script_user.sh 1 ".$pseudo." ".$motdepasse;
 		// exec($commande);
 		return 1;
 	} else {
-		return -1;
+		return $_SESSION['erreur'];
 	}
 }
 
 function fSupprimersite() // A modifier pour une meilleure gestion de la bdd a suppr
 {
 	require 'source.php';
-	echo "string";
 	$charset = $bdd->query('SET NAMES UTF8');
-	echo "string";
 	$nomfqdn = fSite("FQDN");
-	echo "string";
 	$requete = $bdd->prepare('DELETE FROM postwork.site WHERE IdSite =? AND IdUtilisateur =?');
-	echo "string";
 	$requete->execute(array($_POST['envoyer'], $_SESSION['IdUtilisateur']));
-	echo "string";
 	// $commande = "scripts/script_pwhost.sh 2 ".fUtilisateur("Pseudo")." ".substr($nomfqdn['Nom'], 0, -19);
 	// exec($commande);
 }
@@ -304,7 +311,7 @@ function fDetagger($idtag)
 		$requete->execute(array($idtag, $_POST['envoyer']));
 		return 1;
 	} else {
-		return -1;
+		return $_SESSION['erreur'] = "Erreur tentative frauduleuse.";
 	}
 }
 
@@ -330,10 +337,10 @@ function fModifierfqdn($nom)
 {
 	require 'source.php';
 	if (fSite('StatusExt') == 2 xor fSite('StatusVhost') == 2) {
-		return -1;
+		return $_SESSION['erreur'] = "Votre site a été bloqué par l'administrateur.";
 	} else {
 		if (fIdsite($nom) > 0) {
-			return -1;
+			return $_SESSION['erreur'] = "Erreur nom indisponible.";
 		} else {
 			$charset = $bdd->query('SET NAMES UTF8');
 		// $commande = "scripts/script_fqdn.sh 2 ".substr(fSite('FQDN'), 0, -19);
@@ -353,10 +360,10 @@ function fModifierip($ip)
 {
 	require 'source.php';
 	if (fSite('StatusExt') == 2 xor fSite('StatusVhost') == 2) {
-		return -1;
+		return $_SESSION['erreur'] = "Votre site a été bloqué par l'administrateur.";
 	} else {
 		if (fSite('IP') == $ip) {
-			return -1;
+			return $_SESSION['erreur'] = "Erreur vous n'avez effectué aucune modification.";
 		} else {
 			$charset = $bdd->query('SET NAMES UTF8');
 		// $commande = "scripts/script_fqdn.sh 2 ".substr(fSite('FQDN'), 0, -19);
@@ -376,6 +383,66 @@ function fModifierip($ip)
 	
 }
 
+function fParametre($prenom, $nom, $datedenaissance, $email)
+{
+	require 'source.php';
+	$charset = $bdd->query('SET NAMES UTF8');
+	$requete = $bdd->prepare('UPDATE postwork.utilisateur SET Prenom =?, Nom = ?, DateNaissance =?, EmailExt =?  WHERE IdUtilisateur =?');
+	$requete->execute(array($prenom, $nom, $datedenaissance, $email, $_SESSION['IdUtilisateur']));
+}
+
+function fChangermotdepasse($ancienmdp, $nouveaumdp)
+{
+	require 'source.php';
+	// echo $ancienmdp, $nouveaumdp;
+	// var_dump(fConnexion($test, $ancienmdp));
+	if ($_SESSION['erreur'] = fConnexion(fUtilisateur("Pseudo"), $ancienmdp) > 0) {
+	$charset = $bdd->query('SET NAMES UTF8');
+	$requete = $bdd->prepare('UPDATE postwork.utilisateur SET MotDePasse =?  WHERE IdUtilisateur =?');
+	$motdepassehash = password_hash($nouveaumdp, PASSWORD_DEFAULT);
+	$requete->execute(array($motdepassehash, $_SESSION['IdUtilisateur']));
+	} else {
+		return $_SESSION['erreur'];
+	}	
+}
+
+function fModifiermail($valeur)
+{
+	require 'source.php';
+	$charset = $bdd->query('SET NAMES UTF8');
+	$requete = $bdd->prepare('UPDATE postwork.utilisateur SET StatusMail =? WHERE IdUtilisateur =?');
+	$requete->execute(array($valeur, $_SESSION['IdUtilisateur']));
+}
+
+function fMail($action)
+{
+	require 'source.php';
+	if (fUtilisateur('StatusMail') == 2) {
+		return $_SESSION['erreur'] = "Votre compte mail a été bloqué par l'administrateur.";
+	} else {
+		$charset = $bdd->query('SET NAMES UTF8');
+		switch ($action) {
+			case 0: // Désactiver
+			fModifiermail(0);
+			// $commande = "scripts/script_mail.sh 4 ".fUtilisateur("Pseudo");
+			break;
+			case 1: // Activer
+			fModifiermail(1);
+			// $commande = "scripts/script_mail.sh 3 ".fUtilisateur("Pseudo");
+			break;
+			case 2: // Bloquer
+			fModifiermail(2);
+			// $commande = "scripts/script_mail.sh 4 ".fUtilisateur("Pseudo");
+			break;
+			default:
+			return $_SESSION['erreur'] = "Erreur tentative frauduleuse.";
+			break;
+		}
+	}
+	// exec($commande);
+	return 1;
+}
+
 function fModifiervhost($valeur)
 {
 	require 'source.php';
@@ -388,7 +455,7 @@ function fVhost($action)
 {
 	require 'source.php';
 	if (fSite('StatusVhost') == 2) {
-		return -1;
+		return $_SESSION['erreur'] = "Votre site a été bloqué par l'administrateur.";
 	} else {
 		$charset = $bdd->query('SET NAMES UTF8');
 		$nomfqdn = fSite("FQDN");
@@ -435,7 +502,7 @@ function fBdd($action)
 {
 	require 'source.php';
 	if (fSite('StatusBDD') == 2) {
-		return -1;
+		return $_SESSION['erreur'] = "L'accès à votre base de données a été bloqué par l'administrateur.";
 	} else {
 		$charset = $bdd->query('SET NAMES UTF8');
 		$nomfqdn = fSite("FQDN");
@@ -470,20 +537,11 @@ function fBdd($action)
 }
 }
 
-function fModifiermail($valeur)
+function fErreur()
 {
-	require 'source.php';
-	$charset = $bdd->query('SET NAMES UTF8');
-	$requete = $bdd->prepare('UPDATE postwork.utilisateur SET StatusMail =? WHERE IdUtilisateur =?');
-	$requete->execute(array($valeur, $_SESSION['IdUtilisateur']));
-}
-
-function fMail($value='')
-{
-	if (fSite('StatusMail') == 2) {
-		return -1;
-	} else {
-
+	if (isset($_SESSION['erreur'])) {
+		echo '<div class="alert alert-danger" role="alert">'.$_SESSION['erreur'].'</div>';
+		unset($_SESSION['erreur']);
 	}
 }
 
