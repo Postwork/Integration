@@ -1,5 +1,5 @@
-<html>
-<body>
+<!-- <html>
+<body> -->
   <nav class="navbar navbar-inverse">
     <div class="container-fluid">
       <div class="navbar-header">
@@ -12,7 +12,7 @@
       <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav">
           <li class="active"><a href="index.php?page=index">Accueil</a></li>
-          <li><a href="#about">A propos de nous</a></li>
+          <li><a href="#about">Offres de services</a></li>
           <li><a href="#">Projets</a></li>
         </ul>
         <form class="navbar-form navbar-left" role="search">
@@ -28,5 +28,5 @@
       </div>
     </div>
   </nav>
-</body>  
-</html>
+<!-- </body>  
+</html> -->

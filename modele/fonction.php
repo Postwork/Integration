@@ -149,7 +149,7 @@ function fConnexion($pseudo, $motdepasse)
 			$_SESSION['IdUtilisateur'] = fIdutilisateur($pseudo);
 			return fIdutilisateur($pseudo);
 		} else {
-			return $_SESSION['erreur'] = "Erreur maot de passe incorrect.";
+			return $_SESSION['erreur'] = "Erreur mot de passe incorrect.";
 		}
 	} else {
 		return $_SESSION['erreur'] = "Erreur mauvais pseudo.";
@@ -166,7 +166,10 @@ function fInscription($pseudo, $motdepasse)
 		$motdepassehash = password_hash($motdepasse, PASSWORD_DEFAULT); //Hashage du mot de passe
 		$requete = $bdd->prepare('INSERT INTO postwork.utilisateur (Pseudo, MotDePasse) VALUES (?, ?)');
 		$requete->execute(array($pseudo, $motdepassehash));
+		// session_start();
+		$_SESSION['IdUtilisateur'] = fIdutilisateur($pseudo);
 		fCreerportfolio($pseudo);
+		unset($_SESSION['IdUtilisateur']);
 		$commande = "scripts/script_pwuser.sh 1 ".$pseudo." ".$motdepasse;
 		exec($commande);
 		return fIdutilisateur($pseudo);
@@ -219,9 +222,9 @@ function fCreerfqdn($nom, $ip)
 	exec($commande);
 }
 
-function fCreerportfolio($nom)
+function fCreerportfolio($pseudo)
 {
-	fCreersite($nom, 1);
+	fCreersite($pseudo, 1);
 	$commande = "scripts/script_pwhost.sh 1 ".fUtilisateur("Pseudo")." ".$nom;
 	exec($commande);
 	return 1;
@@ -270,11 +273,19 @@ function fDesinscription($motdepasse)
 	require 'source.php';
 	$charset = $bdd->query('SET NAMES UTF8');
 
-	if ($_SESSION['erreur'] = fConnexion(fUtilisateur("Pseudo"), $motdepasse) > 0) {
+	if (fConnexion(fUtilisateur("Pseudo"), $motdepasse) > 0) {
+		$liste = fAffichersiteutilisateur();
+		foreach ($liste as $key => $value) {
+			$nom = substr($value['Nom'],  0, -19);
+			$commande = "scripts/script_base.sh 2 ".fUtilisateur("Pseudo")." ".$nom;
+			exec($commande);
+		}
 		$requete = $bdd->prepare('DELETE FROM postwork.utilisateur WHERE IdUtilisateur =?');
 		$requete->execute(array($_SESSION['IdUtilisateur']));
-		$commande = "scripts/script_user.sh 1 ".$pseudo." ".$motdepasse;
+		$commande = "scripts/script_pwuser.sh 2 ".$pseudo." ".$motdepasse;
 		exec($commande);
+		session_destroy();
+		header("Location: index.php?page=deconnexion");
 		return 1;
 	} else {
 		return $_SESSION['erreur'];
@@ -333,15 +344,15 @@ function fModifierfqdn($nom)
 			return $_SESSION['erreur'] = "Erreur nom indisponible.";
 		} else {
 			$charset = $bdd->query('SET NAMES UTF8');
-		$commande = "scripts/script_fqdn.sh 2 ".substr(fSite('FQDN'), 0, -19);
-		exec($commande);
+			$commande = "scripts/script_fqdn.sh 2 ".substr(fSite('FQDN'), 0, -19);
+			exec($commande);
 			fVhost(4);
 			$nomfqdn = $nom.$globals['fqdnpostwork'];
 			$requete = $bdd->prepare('UPDATE postwork.site SET FQDN =? WHERE IdSite =? AND IdUtilisateur =?');
 			$requete->execute(array($nomfqdn, $_POST['envoyer'], $_SESSION['IdUtilisateur']));
 			fVhost(3);
-		$commande = "scripts/script_fqdn.sh 1 ".$nom;
-		exec($commande);
+			$commande = "scripts/script_fqdn.sh 1 ".$nom;
+			exec($commande);
 		}
 	}
 }
@@ -356,8 +367,8 @@ function fModifierip($ip)
 			return $_SESSION['erreur'] = "Erreur vous n'avez effectué aucune modification.";
 		} else {
 			$charset = $bdd->query('SET NAMES UTF8');
-		$commande = "scripts/script_fqdn.sh 2 ".substr(fSite('FQDN'), 0, -19);
-		exec($commande);
+			$commande = "scripts/script_fqdn.sh 2 ".substr(fSite('FQDN'), 0, -19);
+			exec($commande);
 			$requete = $bdd->prepare('UPDATE postwork.site SET IP =?, StatusExt =? WHERE IdSite =? AND IdUtilisateur =?');
 			if ($ip == $globals['ippostwork']) {
 				fVhost(3);
@@ -366,8 +377,8 @@ function fModifierip($ip)
 				fVhost(4);
 				$requete->execute(array($ip, 1, $_POST['envoyer'], $_SESSION['IdUtilisateur']));
 			}
-		$commande = "scripts/script_fqdn.sh 1 ".substr(fSite('FQDN'), 0, -19);
-		exec($commande);
+			$commande = "scripts/script_fqdn.sh 1 ".substr(fSite('FQDN'), 0, -19);
+			exec($commande);
 		}
 	}
 	
@@ -385,13 +396,21 @@ function fChangermotdepasse($ancienmdp, $nouveaumdp)
 {
 	require 'source.php';
 	if ($_SESSION['erreur'] = fConnexion(fUtilisateur("Pseudo"), $ancienmdp) > 0) {
-	$charset = $bdd->query('SET NAMES UTF8');
-	$requete = $bdd->prepare('UPDATE postwork.utilisateur SET MotDePasse =?  WHERE IdUtilisateur =?');
-	$motdepassehash = password_hash($nouveaumdp, PASSWORD_DEFAULT);
-	$requete->execute(array($motdepassehash, $_SESSION['IdUtilisateur']));
+		$charset = $bdd->query('SET NAMES UTF8');
+		$requete = $bdd->prepare('UPDATE postwork.utilisateur SET MotDePasse =?  WHERE IdUtilisateur =?');
+		$motdepassehash = password_hash($nouveaumdp, PASSWORD_DEFAULT);
+		$requete->execute(array($motdepassehash, $_SESSION['IdUtilisateur']));
 	} else {
 		return $_SESSION['erreur'];
 	}	
+}
+
+function fChangermail($mail)
+{
+	require 'source.php';
+	$charset = $bdd->query('SET NAMES UTF8');
+	$requete = $bdd->prepare('UPDATE postwork.utilisateur SET EmailExt =? WHERE IdUtilisateur =?');
+	$requete->execute(array($mail, $_SESSION['IdUtilisateur']));
 }
 
 function fModifiermail($valeur)

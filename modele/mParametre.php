@@ -11,26 +11,38 @@ if ($_POST["formulaire"] == 1) {
 				if (empty($_POST["email"]) ===false) {
 					fParametre($_POST["prenom"], $_POST["nom"], $date, $_POST["email"]);
 				} else {
-					$erreur  = "Erreur adresse email.";
+					$_SESSION['erreur']  = "Erreur adresse email.";
 				}
 			} else {
-				$erreur  = "Erreur date de niassance.";
+				$_SESSION['erreur']  = "Erreur date de naissance.";
 			}
 		} else {
-			$erreur  = "Erreur nom.";
+			$_SESSION['erreur']  = "Erreur nom.";
 		}
 	} else {
-		$erreur  = "Erreur prenom.";
+		$_SESSION['erreur']  = "Erreur prenom.";
 	}
 } elseif ($_POST["formulaire"] == 2) {
-	if (empty($_POST["motdepasse"]) ===false) {
+	if (empty($_POST["motdepasse"]) === false and fConnexion(fUtilisateur("Pseudo"), $_POST['motdepasse'])) {
 		if ($_POST["nouveau"] == $_POST["nouveau2"]) {
-			$erreur = fChangermotdepasse($_POST["motdepasse"], $_POST["nouveau"]);
+			$_SESSION['erreur'] = fChangermotdepasse($_POST["motdepasse"], $_POST["nouveau"]);
 		} else {
-			$erreur = "Le nouveau mot de passe et la confirmation sont différents.";
+			$_SESSION['erreur'] = "Le nouveau mot de passe et la confirmation sont différents.";
 		}
 	} else {
-		$erreur = "Erreur ancien mot de passe.";
+		$_SESSION['erreur'] = "Erreur ancien mot de passe.";
+	}
+} elseif ($_POST["formulaire"] == 3) {
+	if (empty($_POST["email"]) ===false) {
+		fChangermail($_POST["email"]);
+	} else {
+		$_SESSION['erreur']  = "Erreur adresse email.";
+	}
+} elseif ($_POST["formulaire"] == 4) {
+	if (empty($_POST["motdepasse"]) === false ) {
+		fDesinscription($_POST["motdepasse"]);
+	} else {
+		$_SESSION['erreur']  = "Erreur mot de passe vide.";
 	}
 }
 

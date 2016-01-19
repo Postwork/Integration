@@ -41,9 +41,9 @@ case $1 in
   4)
   if [[ -n $nom ]];
   then
+  REVOKE ALL PRIVILEGES ON `super`.* FROM 'ted'@'localhost';
     mysql -u $mysql_login -p$mysql_pass -e "
     REVOKE CREATE,DROP,SELECT,INSERT,DELETE,UPDATE ON $3.* FROM "$2"@"localhost";
-    GRANT USAGE ON $3.* TO "$2"@"localhost";
     FLUSH PRIVILEGES ;"
   else
     exit 1

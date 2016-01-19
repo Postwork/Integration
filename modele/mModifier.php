@@ -11,7 +11,7 @@ if (isset($_POST['envoyer']) === true) {
 		fModifierfqdn($_POST['fqdn']);
 		break;
 		case 'ip'	:
-		if (!filter_var($_POST['ip'], FILTER_VALIDATE_IP, FILTER_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) === false) {
+		if (!filter_var($_POST['ip'], FILTER_VALIDATE_IP, FILTER_NO_PRIV_RANGE, FILTER_FLAG_NO_RES_RANGE) === false) {
 			fModifierip($_POST['ip']);
 		} else {
 			$_SESSION['erreur'] = "Erreur adresse IP invalide.";

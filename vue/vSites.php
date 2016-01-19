@@ -2,7 +2,7 @@
 <html >
 <head>
   <meta charset="UTF-8">
-  <title>Sites</title>
+  <title>Tableau de bord</title>
   <link rel="stylesheet" href="vue/contenu/bootstrap/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <script src="vue/contenu/bootstrap/js/bootstrap.min.js"></script>

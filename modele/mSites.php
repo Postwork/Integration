@@ -8,7 +8,7 @@ switch ($_POST['formulaire']) {
 	case 'création':
 	if (empty($_POST['nom']) === false) {
 		if (isset($_POST['ip']) === true ) {
-			if (!filter_var($_POST['ip'], FILTER_VALIDATE_IP, FILTER_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) === false) {
+			if (!filter_var($_POST['ip'], FILTER_VALIDATE_IP, FILTER_NO_PRIV_RANGE, FILTER_FLAG_NO_RES_RANGE) === false) {
 				fCreerfqdn($_POST['nom'], $_POST['ip']);
 			} else {
 				$_SESSION['erreur']="Mauvaise adresse IP";

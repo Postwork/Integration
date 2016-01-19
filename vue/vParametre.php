@@ -11,7 +11,7 @@
 </head>
 <body>
   <?php
-  include_once("vNavco.php");
+  include_once("vNav.php");
   ?>
 
   <div class="container">
@@ -34,11 +34,21 @@
       <dd>
       '.$datedenaissance.'
       </dd>
-      <dt>Email Secondaire :</dt>
+      <dt>Mail Secondaire :</dt>
       <dd>
       '.$email.'
       </dd>
-      </dl>';
+      </dl>
+      <button type="button" class="btn btn-default" data-toggle="collapse" data-target="#mail">Modifier mail</button>
+      <div id="mail" class="collapse">
+      <form method="POST" action="?page=parametre">
+      <input type="email" class="form-inline" name="email">
+      <button type="submit" name="envoyer" class="btn btn-default" >Modifier</button>
+      <input type="hidden" name="formulaire" value="3">
+      </form>
+      </div>
+      ';
+
     } else {
       echo '
       <form class="form-horizontal" role="form" method="POST" action="?page=parametre">
@@ -84,7 +94,7 @@
     <div class="h2">Changer de mot de passe</div>
     <form class="form-horizontal" method="POST" action="?page=parametre">
       <div class="form-group">
-        <label class="control-label col-sm-2" for="email">Mot de passe actuel*:</label>
+        <label class="control-label col-sm-2" for="mot de pase">Mot de passe actuel*:</label>
         <div class="col-sm-10">
           <input type="password" class="form-control" name="motdepasse">
         </div>
@@ -102,23 +112,41 @@
         </div>
       </div>
       <div class="form-group">        
-      <div class="col-sm-offset-2 col-sm-10">
-        *Obligatoire
-      </div>
+        <div class="col-sm-offset-2 col-sm-10">
+          *Obligatoire
+        </div>
       </div>
       <div class="form-group">        
-      <div class="col-sm-offset-2 col-sm-10">
-      <button type="submit" class="btn btn-default" name="envoyer">Changer</button>
-      <input type='hidden' name='formulaire' value='2'>
-      </div>
+        <div class="col-sm-offset-2 col-sm-10">
+          <button type="submit" class="btn btn-default" name="envoyer">Changer</button>
+          <input type='hidden' name='formulaire' value='2'>
+        </div>
       </div>
     </form>
-  </div>
+<!-- </div> -->
+
+<button type="button" class="btn btn-default" data-toggle="collapse" data-target="#supprimer">Supprimer compte</button>
+<div id="supprimer" class="collapse">
+  <form method="POST" action="?page=parametre">
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="mot de pase">Mot de passe actuel*:</label>
+      <div class="col-sm-10">
+        <input type="password" class="form-control" name="motdepasse">
+      </div>
+    </div>
+    <div class="form-group">        
+      <div class="col-sm-offset-2 col-sm-10">
+        <button type="submit" name="envoyer" class="btn btn-default" >Supprimer</button>
+        <input type="hidden" name="formulaire" value="4">
+      </div>
+    </div>
+  </form>
+</div>
   </div>
 
-  <?php
-  include_once("vFooter.php");
-  ?>
+<?php
+include_once("vFooter.php");
+?>
 
 
 </body>
