@@ -9,10 +9,12 @@ case $1 in
 	1 )
 		if [[ -n $3 ]]; then
 			sudo useradd -d $mail$2 -s /usr/bin/mysecureshell -p $(openssl passwd -1 $3) $2
+			if [[ $? -eq 0 ]]; then
 			sudo edquota -p freddy $2
 			sudo mkdir $www$2
 			sudo chmod 755 $www$2
 			sudo chown $2:www-data $www$2
+			fi
 		else
 			exit 1
 		fi

@@ -33,6 +33,7 @@ case $1 in
   then
     mysql -u $mysql_login -p$mysql_pass -e "
     GRANT CREATE,DROP,SELECT,INSERT,DELETE,UPDATE ON $3.* TO "$2"@"localhost" ;
+    FLUSH PRIVILEGES ;"
   else
     exit 1
   fi
