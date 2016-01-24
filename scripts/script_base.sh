@@ -27,4 +27,13 @@ case $1 in
   else
     exit 1
   fi
+  3)
+  if [[ -n $nom ]];
+  then
+    mysql -u $mysql_login -p$mysql_pass -e "
+    GRANT CREATE,DROP,SELECT,INSERT,DELETE,UPDATE ON $3.* TO "$2"@"localhost" ;
+    FLUSH PRIVILEGES ;"
+  else
+    exit 1
+  fi
 esac
