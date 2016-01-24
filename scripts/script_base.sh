@@ -27,6 +27,7 @@ case $1 in
   else
     exit 1
   fi
+  ;;
   3)
   if [[ -n $nom ]];
   then
