@@ -192,7 +192,7 @@ function fCreercategorie($nom)
 	}
 }
 
-function fCreersite($nom, $portfolio, $ip)
+function fCreersite($nom, $portfolio, $bdd, $ip)
 {
 	require 'source.php';
 	$charset = $bdd->query('SET NAMES UTF8');
@@ -226,22 +226,24 @@ function fCreersite($nom, $portfolio, $ip)
 
 function fCreerfqdn($nom, $ip)
 {
-	fCreersite($nom, 0, $ip);
+	fCreersite($nom, 0, 0, $ip);
 	$commande = "scripts/script_fqdn.sh 1 ".$nom." ".$ip;
 	exec($commande);
 }
 
 function fCreerportfolio($pseudo)
 {
-	fCreersite($pseudo, 1);
+	fCreersite($pseudo, 1, 0);
 	$commande = "scripts/script_pwhost.sh 1 ".fUtilisateur("Pseudo")." ".$nom;
+	exec($commande);
+	$commande = "scripts/script_base.sh 2 ".fUtilisateur("Pseudo")." ".$nom;
 	exec($commande);
 	return 1;
 }
 
 function fCreerprojet($nom)
 {
-	fCreersite($nom, 0);
+	fCreersite($nom, 0, 1);
 	$commande = "scripts/script_pwhost.sh 1 ".fUtilisateur("Pseudo")." ".$nom;
 	exec($commande);
 	return 1;
