@@ -166,11 +166,12 @@ function fInscription($pseudo, $motdepasse)
 		$motdepassehash = password_hash($motdepasse, PASSWORD_DEFAULT); //Hashage du mot de passe
 		$requete = $bdd->prepare('INSERT INTO postwork.utilisateur (Pseudo, MotDePasse) VALUES (?, ?)');
 		$requete->execute(array($pseudo, $motdepassehash));
-		// session_start();
 		$_SESSION['IdUtilisateur'] = fIdutilisateur($pseudo);
 		fCreerportfolio($pseudo);
 		unset($_SESSION['IdUtilisateur']);
 		$commande = "scripts/script_pwuser.sh 1 ".$pseudo." ".$motdepasse;
+		exec($commande);
+		$commande = "scripts/script_pwhost.sh 1 ".$pseudo." ".$pseudo;
 		exec($commande);
 		return fIdutilisateur($pseudo);
 	} else {
