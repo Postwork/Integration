@@ -1,28 +1,24 @@
 <style type="text/css">
-.foot {
-  background: #090707;
-  padding: 15px;
-  position: absolute;
-  bottom: 0;
-  width: 100%
-}
-
 body {
   position: relative;
 }
+footer{
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  background: #090707;
+}
+.container {
+  padding-bottom: 100px;
+}
 
-.lol {
-  margin-bottom: 0;
-} 
 .petit {
   min-height: calc(100% - 270px);
 }
 </style>
 
-
-
-<!-- <footer class="container-fluid foot"> -->
-<footer class="navbar-bottom container-fluid foot">
+<footer>
+  <div class="navbar-bottom container-fluid">
   <div class="row">
     <div class="col-xs-6 col-sm-3 column">
       <br/>
@@ -40,6 +36,7 @@ body {
       <br>
       <span class="pull-right text-muted small">Postwork ©2015 </span>
     </div>
+  </div>
   </div>
 </footer>
 

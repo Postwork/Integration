@@ -24,19 +24,19 @@
       <dl class="dl-horizontal">
       <dt>Prénom :</dt>
       <dd>
-      '.$prenom.'
+      '.htmlentities($prenom).'
       </dd>
       <dt>Nom :</dt>
       <dd>
-      '.$nom.'
+      '.htmlentities($nom).'
       </dd>
       <dt>Date de naissance :</dt>
       <dd>
-      '.$datedenaissance.'
+      '.htmlentities($datedenaissance).'
       </dd>
       <dt>Mail Secondaire :</dt>
       <dd>
-      '.$email.'
+      '.htmlentities($email).'
       </dd>
       </dl>
       <button type="button" class="btn btn-default" data-toggle="collapse" data-target="#mail">Modifier mail</button>

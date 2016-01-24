@@ -1,5 +1,5 @@
 #!/bin/bash
-# $1 1:Ajout 2:Supression 3:Activer acces à la bdd 4:Desactiver acces à la bdd
+# $1 1:Ajout 2:Supression
 # $2 Utilisateur
 # $3 Nom de la base
 
@@ -23,27 +23,6 @@ case $1 in
   then
     mysql -u $mysql_login -p$mysql_pass -e "
     DROP DATABASE $3 ;
-    FLUSH PRIVILEGES ;"
-  else
-    exit 1
-  fi
-  ;;
-  3)
-  if [[ -n $nom ]];
-  then
-    mysql -u $mysql_login -p$mysql_pass -e "
-    GRANT CREATE,DROP,SELECT,INSERT,DELETE,UPDATE ON $3.* TO "$2"@"localhost" ;
-    FLUSH PRIVILEGES ;"
-  else
-    exit 1
-  fi
-  ;;
-  4)
-  if [[ -n $nom ]];
-  then
-  REVOKE ALL PRIVILEGES ON `super`.* FROM 'ted'@'localhost';
-    mysql -u $mysql_login -p$mysql_pass -e "
-    REVOKE CREATE,DROP,SELECT,INSERT,DELETE,UPDATE ON $3.* FROM "$2"@"localhost";
     FLUSH PRIVILEGES ;"
   else
     exit 1

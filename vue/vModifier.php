@@ -12,6 +12,7 @@
 
 <body>
 	<?php include_once("vNav.php"); ?>
+	<div class="container">
 	<h1>Modifier</h1>
 	<a href="?page=sites"><span class="btn btn-default glyphicon glyphicon-arrow-left"></span></a>
 	<?php fErreur(); ?>
@@ -101,7 +102,8 @@
 			<td></td>
 		</tr>
 	</table>
-</div> 	
+</div>
+</div>
 <?php include_once("vFooter.php"); ?>
 </body>
 

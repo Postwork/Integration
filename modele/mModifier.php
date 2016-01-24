@@ -11,11 +11,7 @@ if (isset($_POST['envoyer']) === true) {
 		fModifierfqdn($_POST['fqdn']);
 		break;
 		case 'ip'	:
-		if (!filter_var($_POST['ip'], FILTER_VALIDATE_IP, FILTER_NO_PRIV_RANGE, FILTER_FLAG_NO_RES_RANGE) === false) {
 			fModifierip($_POST['ip']);
-		} else {
-			$_SESSION['erreur'] = "Erreur adresse IP invalide.";
-		}
 		break;
 		case 'description':
 		fModifierdescription($_POST['description']);
@@ -23,18 +19,20 @@ if (isset($_POST['envoyer']) === true) {
 		case 'categorie':
 		fModifiercategorie($_POST['categorie']);
 		break;
-		case 'tagger':
-		fTagger($_POST['idtag']);
-		break;
+		// case 'tagger':
+		// fTagger($_POST['idtag']);
+		// break;
 		case 'detagger':
 		fDetagger($_POST['idtag']);
 		break;
 		case 'tag':
-		if ($id = fCreertag($_POST['tag']) > 0) {
-			fTagger($id);
-		} else {
-			$_SESSION['erreur'] = "Erreur ce tag existe déjà.";
-		}
+		fTagger2($_POST['tag']);
+		// $id = fCreertag($_POST['tag']);
+		// if ($id > 0) {
+		// 	fTagger($id);
+		// } else {
+		// 	$_SESSION['erreur'] = "Erreur ce tag existe déjà.";
+		// }
 		break;
 		
 		default:

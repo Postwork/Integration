@@ -232,7 +232,7 @@
       foreach ($fqdn as $p) {
         echo "
         <tr class='active'><td>";
-        if ($p['StatusExt'] == 1) {
+        if ($p['StatusVhost'] == 1) {
           echo "
           <form method='POST' action='?page=sites'>
           <input type='hidden' name='statussite' value='0'>
@@ -241,7 +241,7 @@
           </button>
           </form>
           ";
-        } elseif ($p['StatusExt'] == 0) {
+        } elseif ($p['StatusVhost'] == 0) {
           echo "
           <form method='POST' action='?page=sites'>
           <input type='hidden' name='statussite' value='1'>

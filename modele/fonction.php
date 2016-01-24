@@ -28,7 +28,7 @@ function fAffichertagsite()
 	$requete = $bdd->prepare('SELECT site.IdSite, tag.IdTag, tag.Nom AS Tag
 		FROM site
 		INNER JOIN tagger ON site.IdSite = tagger.IdSite AND site.IdSite = ?
-		RIGHT JOIN tag ON tagger.IdTag = tag.IdTag
+		LEFT JOIN tag ON tagger.IdTag = tag.IdTag
 		ORDER BY site.IdSite DESC, Tag ASC');
 	$requete->execute(array($_POST['envoyer']));
 	$resultat = $requete->fetchAll();
@@ -195,23 +195,31 @@ function fCreersite($nom, $portfolio, $ip)
 {
 	require 'source.php';
 	$charset = $bdd->query('SET NAMES UTF8');
-	if (is_null(fIdsite($nom))) {
-		$nomfqdn = $nom.$globals['fqdnpostwork'];
-		$requete = $bdd->prepare('INSERT INTO postwork.site (FQDN, IP, Portfolio, IdUtilisateur, StatusVhost, StatusExt) VALUES (?, ?, ?, ?, ?, ?)');
-		if (!isset($ip)) {
-			if (isset($_SESSION['IdUtilisateur'])) {
-				$requete->execute(array($nomfqdn, $globals['ippostwork'], $portfolio, $_SESSION['IdUtilisateur'], "1", "3"));
-			} elseif (!is_null(fIdutilisateur($nom))) {
-				$requete->execute(array($nomfqdn, $globals['ippostwork'], $portfolio, fIdutilisateur($nom), "1"));
+	if (!filter_var($nom, FILTER_VALIDATE_URL) === true) {
+		if (is_null(fIdsite($nom))) {
+			$nomfqdn = $nom.$globals['fqdnpostwork'];
+			$requete = $bdd->prepare('INSERT INTO postwork.site (FQDN, IP, Portfolio, IdUtilisateur, StatusVhost) VALUES (?, ?, ?, ?, ?)');
+			if (isset($ip) === true) {
+				if (!filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4, FILTER_NO_PRIV_RANGE, FILTER_FLAG_NO_RES_RANGE) === true) {
+					$requete->execute(array($nomfqdn, $ip, $portfolio, $_SESSION['IdUtilisateur'], "1"));
+				} else {
+					return $_SESSION['erreur']="Mauvaise adresse IP.";
+				}
 			} else {
-				return $_SESSION['erreur'] = "Erreur utilisateur inexistant.";
+				if (isset($_SESSION['IdUtilisateur'])) {
+					$requete->execute(array($nomfqdn, $globals['ippostwork'], $portfolio, $_SESSION['IdUtilisateur'], "1"));
+				} elseif (!is_null(fIdutilisateur($nom))) {
+					$requete->execute(array($nomfqdn, $globals['ippostwork'], $portfolio, fIdutilisateur($nom), "1"));
+				} else {
+					return $_SESSION['erreur'] = "Erreur utilisateur inexistant.";
+				}
 			}
+			return fIdsite($nom);
 		} else {
-			$requete->execute(array($nomfqdn, $ip, $portfolio, $_SESSION['IdUtilisateur'], "3", "1"));
+			return $_SESSION['erreur'] = "Erreur nom de site indisponible.";
 		}
-		return fIdsite($nom);
 	} else {
-		return $_SESSION['erreur'] = "Erreur nom de site indisponible.";
+		$_SESSION['erreur']="Nom invalide.";
 	}
 }
 
@@ -263,6 +271,20 @@ function fTagger($idtag)
 		$requete->execute(array($idtag, $_POST['envoyer']));
 	} else {
 		return $_SESSION['erreur'] = "Erreur ce tag est déjà associé à votre site.";
+	}	
+}
+
+function fTagger2($nom)
+{
+	require 'source.php';
+	$charset = $bdd->query('SET NAMES UTF8');	
+	$requete = $bdd->prepare('SELECT IdTag FROM tag WHERE Nom LIKE ? ');
+	$requete->execute(array($nom));
+	$resultat=$requete->fetch();
+	if (is_null($resultat['IdTag'])) {
+		fTagger(fCreertag($nom));
+	} else {
+		fTagger($resultat['IdTag']);
 	}	
 }
 
@@ -337,7 +359,7 @@ function fModifiercategorie($categorie)
 function fModifierfqdn($nom)
 {
 	require 'source.php';
-	if (fSite('StatusExt') == 2 xor fSite('StatusVhost') == 2) {
+	if (fSite('StatusVhost') == 2) {
 		return $_SESSION['erreur'] = "Votre site a été bloqué par l'administrateur.";
 	} else {
 		if (fIdsite($nom) > 0) {
@@ -359,29 +381,35 @@ function fModifierfqdn($nom)
 
 function fModifierip($ip)
 {
-	require 'source.php';
-	if (fSite('StatusExt') == 2 xor fSite('StatusVhost') == 2) {
-		return $_SESSION['erreur'] = "Votre site a été bloqué par l'administrateur.";
-	} else {
-		if (fSite('IP') == $ip) {
-			return $_SESSION['erreur'] = "Erreur vous n'avez effectué aucune modification.";
+	if (!filter_var($ip, FILTER_VALIDATE_IP, FILTER_NO_PRIV_RANGE, FILTER_FLAG_NO_RES_RANGE) === true) {
+		require 'source.php';
+		if (fSite('StatusVhost') == 2) {
+			return $_SESSION['erreur'] = "Votre site a été bloqué par l'administrateur.";
 		} else {
-			$charset = $bdd->query('SET NAMES UTF8');
-			$commande = "scripts/script_fqdn.sh 2 ".substr(fSite('FQDN'), 0, -19);
-			exec($commande);
-			$requete = $bdd->prepare('UPDATE postwork.site SET IP =?, StatusExt =? WHERE IdSite =? AND IdUtilisateur =?');
-			if ($ip == $globals['ippostwork']) {
-				fVhost(3);
-				$requete->execute(array($ip, 0, $_POST['envoyer'], $_SESSION['IdUtilisateur']));
+			if (fSite('IP') == $ip) {
+				return $_SESSION['erreur'] = "Erreur vous n'avez effectué aucune modification.";
 			} else {
-				fVhost(4);
-				$requete->execute(array($ip, 1, $_POST['envoyer'], $_SESSION['IdUtilisateur']));
+				$charset = $bdd->query('SET NAMES UTF8');
+				echo $commande = "scripts/script_fqdn.sh 2 ".substr(fSite('FQDN'), 0, -19);
+				exec($commande);
+				$requete = $bdd->prepare('UPDATE postwork.site SET IP =? WHERE IdSite =? AND IdUtilisateur =?');
+				fModifiervhost(1);
+				if ($ip == $globals['ippostwork']) {
+					echo $commande = "scripts/script_pwhost.sh 1 ".fUtilisateur('Pseudo')." ".substr(fSite('FQDN'), 0, -19);
+				} elseif (fSite('IP') == $globals['ippostwork']) {
+					echo $commande = "scripts/script_pwhost.sh 2 ".fUtilisateur('Pseudo')." ".substr(fSite('FQDN'), 0, -19);
+					exec($commande);
+					echo $commande = "scripts/script_fqdn.sh 1 ".substr(fSite('FQDN'), 0, -19)." ".$ip;
+				} else {
+					echo $commande = "scripts/script_fqdn.sh 1 ".substr(fSite('FQDN'), 0, -19)." ".$ip;
+				}
+				$requete->execute(array($ip, $_POST['envoyer'], $_SESSION['IdUtilisateur']));
+				exec($commande);
 			}
-			$commande = "scripts/script_fqdn.sh 1 ".substr(fSite('FQDN'), 0, -19);
-			exec($commande);
 		}
+	} else {
+		$_SESSION['erreur'] = "Erreur adresse IP invalide.";
 	}
-	
 }
 
 function fParametre($prenom, $nom, $datedenaissance, $email)
@@ -466,15 +494,15 @@ function fVhost($action)
 	} else {
 		$charset = $bdd->query('SET NAMES UTF8');
 		$nomfqdn = fSite("FQDN");
-		$nom = substr($nomfqdn['Nom'], 0, -19);
+		$nom = substr($nomfqdn, 0, -19);
 		switch ($action) {
 		case 0: // Désactiver
 		fModifiervhost(0);
-		$commande = "scripts/script_vhost.sh 4 ".fUtilisateur("Pseudo")." ".$nom;
+		echo $commande = "scripts/script_vhost.sh 4 ".fUtilisateur("Pseudo")." ".$nom;
 		break;
 		case 1: // Activer
 		fModifiervhost(1);
-		$commande = "scripts/script_vhost.sh 3 ".fUtilisateur("Pseudo")." ".$nom;
+		echo $commande = "scripts/script_vhost.sh 3 ".fUtilisateur("Pseudo")." ".$nom;
 		break;
 		case 2: // Bloquer
 		fModifiervhost(2);
@@ -482,14 +510,14 @@ function fVhost($action)
 		break;
 		case 3: // Créer (activation automatique)
 		fModifiervhost(1);
-		$commande = "scripts/script_vhost.sh 1 ".fUtilisateur("Pseudo")." ".$nom;
+		echo $commande = "scripts/script_vhost.sh 1 ".fUtilisateur("Pseudo")." ".$nom;
 		break;
 		case 4: // Supprimer
 		fModifiervhost(0);
-		$commande = "scripts/script_vhost.sh 2 ".fUtilisateur("Pseudo")." ".$nom;
+		echo $commande = "scripts/script_vhost.sh 2 ".fUtilisateur("Pseudo")." ".$nom;
 		break;
 		default:
-		return -1;
+		return $_SESSION['erreur'] = "Erreur action inattendue.";
 		break;
 	}
 	exec($commande);
@@ -513,30 +541,22 @@ function fBdd($action)
 	} else {
 		$charset = $bdd->query('SET NAMES UTF8');
 		$nomfqdn = fSite("FQDN");
-		$nom = substr($nomfqdn['Nom'], 0, -19);
+		$nom = substr($nomfqdn, 0, -19);
 		switch ($action) {
 		case 0: // Désactiver
 		fModifierbdd(0);
-		$commande = "scripts/script_base.sh 4 ".fUtilisateur("Pseudo")." ".$nom;
+		$commande = "scripts/script_base.sh 2 ".fUtilisateur("Pseudo")." ".$nom;
 		break;
 		case 1: // Activer
 		fModifierbdd(1);
-		$commande = "scripts/script_base.sh 3 ".fUtilisateur("Pseudo")." ".$nom;
+		$commande = "scripts/script_base.sh 1 ".fUtilisateur("Pseudo")." ".$nom;
 		break;
 		case 2: // Bloquer
 		fModifierbdd(2);
-		$commande = "scripts/script_base.sh 4 ".fUtilisateur("Pseudo")." ".$nom;
-		break;
-		case 3: // Créer (activation automatique)
-		fModifierbdd(1);
-		$commande = "scripts/script_base.sh 1 ".fUtilisateur("Pseudo")." ".$nom;
-		break;
-		case 4: // Supprimer
-		fModifierbdd(0);
 		$commande = "scripts/script_base.sh 2 ".fUtilisateur("Pseudo")." ".$nom;
 		break;
 		default:
-		return -1;
+		return $_SESSION['erreur'] = "Erreur action inattendue.";
 		break;
 	}
 	exec($commande);
