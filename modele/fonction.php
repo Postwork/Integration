@@ -234,9 +234,9 @@ function fCreerfqdn($nom, $ip)
 function fCreerportfolio($pseudo)
 {
 	fCreersite($pseudo, 1, 0);
-	$commande = "scripts/script_pwhost.sh 1 ".fUtilisateur("Pseudo")." ".$nom;
+	$commande = "scripts/script_pwhost.sh 1 ".fUtilisateur("Pseudo")." ".$pseudo;
 	exec($commande);
-	$commande = "scripts/script_base.sh 2 ".fUtilisateur("Pseudo")." ".$nom;
+	$commande = "scripts/script_base.sh 2 ".fUtilisateur("Pseudo")." ".$pseudo;
 	exec($commande);
 	return 1;
 }
