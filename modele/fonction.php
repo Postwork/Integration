@@ -299,7 +299,7 @@ function fSupprimersite() // A modifier pour une meilleure gestion de la bdd a s
 	$nomfqdn = fSite("FQDN");
 	$requete = $bdd->prepare('DELETE FROM postwork.site WHERE IdSite =? AND IdUtilisateur =?');
 	$requete->execute(array($_POST['envoyer'], $_SESSION['IdUtilisateur']));
-	$commande = "scripts/script_pwhost.sh 2 ".fUtilisateur("Pseudo")." ".substr($nomfqdn['Nom'], 0, -19);
+	$commande = "scripts/script_pwhost.sh 2 ".fUtilisateur("Pseudo")." ".substr($nomfqdn, 0, -19);
 	exec($commande);
 }
 

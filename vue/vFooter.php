@@ -2,11 +2,14 @@
 .foot {
   background: #090707;
   padding: 15px;
-  position: relative;
+  position: absolute;
   bottom: 0;
   width: 100%
 }
 
+body {
+  position: relative;
+}
 
 .lol {
   margin-bottom: 0;
