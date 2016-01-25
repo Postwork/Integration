@@ -302,9 +302,7 @@ function fDesinscription($motdepasse)
 		$liste = fAffichersiteutilisateur();
 		foreach ($liste as $key => $value) {
 			$nom = substr($value['Nom'],  0, -19);
-			$commande = "scripts/script_base.sh 2 ".fUtilisateur("Pseudo")." ".$nom;
-			exec($commande);
-			$commande = "scripts/script_base.sh 2 ".fUtilisateur("Pseudo")." ".$nom;
+			$commande = "scripts/script_pwhost.sh 2 ".fUtilisateur("Pseudo")." ".$nom;
 			exec($commande);
 		}
 		$requete = $bdd->prepare('DELETE FROM postwork.utilisateur WHERE IdUtilisateur =?');
