@@ -199,18 +199,18 @@ function fCreersite($nom, $portfolio, $bdd, $ip)
 	if (!filter_var($nom, FILTER_VALIDATE_URL) === true) {
 		if (is_null(fIdsite($nom))) {
 			$nomfqdn = $nom.$globals['fqdnpostwork'];
-			$requete = $bdd->prepare('INSERT INTO postwork.site (FQDN, IP, Portfolio, IdUtilisateur, StatusVhost) VALUES (?, ?, ?, ?, ?)');
+			$requete = $bdd->prepare('INSERT INTO postwork.site (FQDN, IP, Portfolio, IdUtilisateur, StatusBDD, StatusVhost) VALUES (?, ?, ?, ?, ?, ?)');
 			if (isset($ip) === true) {
 				if (!filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4, FILTER_NO_PRIV_RANGE, FILTER_FLAG_NO_RES_RANGE) === true) {
-					$requete->execute(array($nomfqdn, $ip, $portfolio, $_SESSION['IdUtilisateur'], "1"));
+					$requete->execute(array($nomfqdn, $ip, $portfolio, $_SESSION['IdUtilisateur'], "0", "1"));
 				} else {
 					return $_SESSION['erreur']="Mauvaise adresse IP.";
 				}
 			} else {
 				if (isset($_SESSION['IdUtilisateur'])) {
-					$requete->execute(array($nomfqdn, $globals['ippostwork'], $portfolio, $_SESSION['IdUtilisateur'], "1"));
+					$requete->execute(array($nomfqdn, $globals['ippostwork'], $portfolio, $_SESSION['IdUtilisateur'], "1", "1"));
 				} elseif (!is_null(fIdutilisateur($nom))) {
-					$requete->execute(array($nomfqdn, $globals['ippostwork'], $portfolio, fIdutilisateur($nom), "1"));
+					$requete->execute(array($nomfqdn, $globals['ippostwork'], $portfolio, fIdutilisateur($nom), $bdd, "1"));
 				} else {
 					return $_SESSION['erreur'] = "Erreur utilisateur inexistant.";
 				}
@@ -304,6 +304,8 @@ function fDesinscription($motdepasse)
 			$nom = substr($value['Nom'],  0, -19);
 			$commande = "scripts/script_base.sh 2 ".fUtilisateur("Pseudo")." ".$nom;
 			exec($commande);
+			$commande = "scripts/script_base.sh 2 ".fUtilisateur("Pseudo")." ".$nom;
+			exec($commande);
 		}
 		$requete = $bdd->prepare('DELETE FROM postwork.utilisateur WHERE IdUtilisateur =?');
 		$requete->execute(array($_SESSION['IdUtilisateur']));
@@ -393,18 +395,18 @@ function fModifierip($ip)
 				return $_SESSION['erreur'] = "Erreur vous n'avez effectué aucune modification.";
 			} else {
 				$charset = $bdd->query('SET NAMES UTF8');
-				echo $commande = "scripts/script_fqdn.sh 2 ".substr(fSite('FQDN'), 0, -19);
+				$commande = "scripts/script_fqdn.sh 2 ".substr(fSite('FQDN'), 0, -19);
 				exec($commande);
 				$requete = $bdd->prepare('UPDATE postwork.site SET IP =? WHERE IdSite =? AND IdUtilisateur =?');
 				fModifiervhost(1);
 				if ($ip == $globals['ippostwork']) {
-					echo $commande = "scripts/script_pwhost.sh 1 ".fUtilisateur('Pseudo')." ".substr(fSite('FQDN'), 0, -19);
+					$commande = "scripts/script_pwhost.sh 1 ".fUtilisateur('Pseudo')." ".substr(fSite('FQDN'), 0, -19);
 				} elseif (fSite('IP') == $globals['ippostwork']) {
-					echo $commande = "scripts/script_pwhost.sh 2 ".fUtilisateur('Pseudo')." ".substr(fSite('FQDN'), 0, -19);
+					$commande = "scripts/script_pwhost.sh 2 ".fUtilisateur('Pseudo')." ".substr(fSite('FQDN'), 0, -19);
 					exec($commande);
-					echo $commande = "scripts/script_fqdn.sh 1 ".substr(fSite('FQDN'), 0, -19)." ".$ip;
+					$commande = "scripts/script_fqdn.sh 1 ".substr(fSite('FQDN'), 0, -19)." ".$ip;
 				} else {
-					echo $commande = "scripts/script_fqdn.sh 1 ".substr(fSite('FQDN'), 0, -19)." ".$ip;
+					$commande = "scripts/script_fqdn.sh 1 ".substr(fSite('FQDN'), 0, -19)." ".$ip;
 				}
 				$requete->execute(array($ip, $_POST['envoyer'], $_SESSION['IdUtilisateur']));
 				exec($commande);
