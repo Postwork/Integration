@@ -1,7 +1,8 @@
 <?php
 require 'fonction.php';
 if (isset($_POST['envoyer'])) {
-	if (strcmp($motdepasse, $motdepasse2) === 0) {
+	$mdpcmp = strcmp($_POST['motdepasse'], $_POST['motdepasse2']);
+	if ( $mdpcmp === 0) {
 		$signin = fInscription($_POST['pseudo'], $_POST['motdepasse']);
 		if ( $signin > 0) {
 			header("Location: ?page=connexion");
