@@ -85,15 +85,17 @@
             },
 
             user: {
-              random_nickname: true
+              random_nickname: false,
+              nickname: true
             },
 
             chat: {
-              open: []
+              suggest: ['admin@postwork.itinet.fr']
             },
 
             groupchat: {
-              open: ['portfolio@muc.postwork.itinet.fr'],
+
+              open: [],
               open_passwords: []
             }
           }
