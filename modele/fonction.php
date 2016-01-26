@@ -443,6 +443,27 @@ function fChangermail($mail)
 	$requete = $bdd->prepare('UPDATE postwork.utilisateur SET EmailExt =? WHERE IdUtilisateur =?');
 	$requete->execute(array($mail, $_SESSION['IdUtilisateur']));
 }
+function fChangernom($nom)
+{
+	require 'source.php';
+	$charset = $bdd->query('SET NAMES UTF8');
+	$requete = $bdd->prepare('UPDATE postwork.utilisateur SET Nom =? WHERE IdUtilisateur =?');
+	$requete->execute(array($nom, $_SESSION['IdUtilisateur']));
+}
+function fChangerprenom($prenom)
+{
+	require 'source.php';
+	$charset = $bdd->query('SET NAMES UTF8');
+	$requete = $bdd->prepare('UPDATE postwork.utilisateur SET Prenom =? WHERE IdUtilisateur =?');
+	$requete->execute(array($prenom, $_SESSION['IdUtilisateur']));
+}
+function fChangerdatenaissance($datenaissance)
+{
+	require 'source.php';
+	$charset = $bdd->query('SET NAMES UTF8');
+	$requete = $bdd->prepare('UPDATE postwork.utilisateur SET DateNaissance =? WHERE IdUtilisateur =?');
+	$requete->execute(array($datenaissance, $_SESSION['IdUtilisateur']));
+}
 
 function fModifiermail($valeur)
 {
@@ -571,6 +592,13 @@ function fErreur()
 {
 	if (isset($_SESSION['erreur'])) {
 		echo '<div class="alert alert-danger" role="alert">'.$_SESSION['erreur'].'</div>';
+		unset($_SESSION['erreur']);
+	}
+}
+function fErreur2()
+{
+	if (isset($_SESSION['erreur'])) {
+		echo $_SESSION['erreur'];
 		unset($_SESSION['erreur']);
 	}
 }

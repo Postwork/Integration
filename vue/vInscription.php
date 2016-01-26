@@ -12,7 +12,7 @@
   <div class="container">
     <div class="wrapper">
     <h1> Inscrivez vous</h1>
-    <?php fErreur(); ?>
+    <h4><?php fErreur2(); ?><h4>
     <form class="form" method="POST" action="?page=inscription">
       <input type="text" name="pseudo" placeholder="Pseudo" required>
       <input type="password" name="motdepasse" placeholder="Mot de passe" required>
