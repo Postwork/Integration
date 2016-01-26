@@ -9,10 +9,11 @@
 	?>
 	<div align="center" class="container">
 		<form action="mailto:votrenom@provider.com" method="post" name="contact"> <br> <br> <br>
-			Pseudo: <br> 	
-			<input name="votre nom"> <br> <br> 
-			Votre message: <br>
+			<label for="email"> email: </label> <br> 	
+			<input name="votre adresse mail"> <br> <br> 
+			<label for="message"> Votre message: </label> <br>
 			<textarea name="message" rows="10" cols="60"></textarea><p>
+			<br>
 			<input type="submit" value="envoyer">
 		</form>
 	</div>
