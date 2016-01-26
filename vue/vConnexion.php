@@ -1,5 +1,3 @@
-<?php require 'fonction.php'; ?>
-
 <!DOCTYPE html>
 <html >
   <head>
