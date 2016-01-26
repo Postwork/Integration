@@ -1,4 +1,4 @@
-<?php require 'modele/fonction.php'; ?>
+<?php require 'fonction.php'; ?>
 
 <!DOCTYPE html>
 <html >

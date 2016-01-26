@@ -86,7 +86,7 @@
 
             user: {
               random_nickname: false,
-              nickname: true
+              nickname: 'Nickname'
             },
 
             chat: {
