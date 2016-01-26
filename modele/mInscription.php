@@ -1,11 +1,15 @@
 <?php
 require 'fonction.php';
 if (isset($_POST['envoyer'])) {
-	if ($motdepasse === $motdepasse2) {
-		if (fInscription($_POST['pseudo'], $_POST['motdepasse']) > 0) {
+	$mdpcmp = strcmp($_POST['motdepasse'], $_POST['motdepasse2']);
+	if ( $mdpcmp === 0) {
+		$signin = fInscription($_POST['pseudo'], $_POST['motdepasse']);
+		if ( $signin > 0) {
 			header("Location: ?page=connexion");
 		} else {
-			header("Location: ?page=inscription");
+		$_SESSION['erreur'] = $signin;
 		}
+	} else {
+		$_SESSION['erreur'] = "Erreur Mots de passe différents.";
 	}
 }

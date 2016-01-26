@@ -5,9 +5,10 @@ if (isset($_SESSION['IdUtilisateur'])) {
 	session_destroy();
 }
 if (isset($_POST['envoyer'])) {
-	if (fConnexion($_POST['pseudo'], $_POST['motdepasse']) > 0) {
+	$connect = fConnexion($_POST['pseudo'], $_POST['motdepasse']);
+	if ($connect > 0) {
 	header("Location: ?page=sites");	//redirection vers index
 } else {
-	header("Location: ?page=connexion");
+	$_SESSION['erreur'] = $connect;
 }
 }
