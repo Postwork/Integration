@@ -12,7 +12,7 @@
   <div class="container">
     <div class="wrapper2" >
     <h1>Connectez vous</h1>
-    <h4><?php fErreur2(); ?></h4>
+    <h4 style="color:red;"><?php fErreur2(); ?></h4>
     <form class="form" method="POST" role="form" action="?page=connexion">
       <input type="text" name="pseudo" placeholder="Pseudo" required>
       <input type="password" name="motdepasse" placeholder="Mot de passe" required>
