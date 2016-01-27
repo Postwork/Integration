@@ -43,5 +43,15 @@ case $1 in
 			exit 1
 		fi
 	;;
+	5)
+		if [[ -n $test ]];
+		then
+			sudo sed -i -e "s&$test&&g" userdb
+			sudo sed -i -e '/^$/d' userdb
+			sudo userdb $2 set imappw=$(openssl passwd -1 $3) uid=5000 gid=5000 home=$mail$2 mail=$mail$2
+		else
+			exit 1
+		fi
+	;;
 esac
 sudo makeuserdb
