@@ -164,25 +164,22 @@ function fInscription($pseudo, $motdepasse)
 	$charset = $bdd->query('SET NAMES UTF8');
 	$regex = preg_match("#^[a-zA-Z0-9-]*$#",$nom);
 	if ($regex === 1) {
-	if (is_null(fIdutilisateur($pseudo)) and is_null(fIdsite($pseudo))) {
+		if (is_null(fIdutilisateur($pseudo)) and is_null(fIdsite($pseudo))) {
 		$motdepassehash = password_hash($motdepasse, PASSWORD_DEFAULT); //Hashage du mot de passe
 		$requete = $bdd->prepare('INSERT INTO postwork.utilisateur (Pseudo, MotDePasse) VALUES (?, ?)');
 		$requete->execute(array($pseudo, $motdepassehash));
+		$commande = "scripts/script_pwuser.sh 1 ".$pseudo." ".$motdepasse;
+		exec($commande);
 		$_SESSION['IdUtilisateur'] = fIdutilisateur($pseudo);
 		fCreerportfolio($pseudo);
 		unset($_SESSION['IdUtilisateur']);
-		$commande = "scripts/script_pwuser.sh 1 ".$pseudo." ".$motdepasse;
-		exec($commande);
-		$commande = "scripts/script_pwhost.sh 1 ".$pseudo." ".$pseudo;
-		exec($commande);
 		return fIdutilisateur($pseudo);
-	} else {
-		return $_SESSION['erreur'] = "Erreur pseudo indisponible.";
-	}
+		} else {
+			return $_SESSION['erreur'] = "Erreur pseudo indisponible.";
+		}
 	} else {
 		return $_SESSION['erreur'] = "Erreur les caractères suivants sont acceptés.";
 	}
-	
 }
 
 function fCreercategorie($nom)
@@ -216,7 +213,7 @@ function fCreersite($nom, $portfolio, $bdd, $ip)
 				}
 			} else {
 				if (isset($_SESSION['IdUtilisateur'])) {
-					$requete->execute(array($nomfqdn, $globals['ippostwork'], $portfolio, $_SESSION['IdUtilisateur'], "1", "1"));
+					$requete->execute(array($nomfqdn, $globals['ippostwork'], $portfolio, $_SESSION['IdUtilisateur'], "0", "1"));
 					return 1;
 				} elseif (!is_null(fIdutilisateur($nom))) {
 					$requete->execute(array($nomfqdn, $globals['ippostwork'], $portfolio, fIdutilisateur($nom), $bdd, "1"));
@@ -253,8 +250,6 @@ function fCreerportfolio($pseudo)
 	if ($ok === 1) {
 	$commande = "scripts/script_pwhost.sh 1 ".fUtilisateur("Pseudo")." ".$pseudo;
 	exec($commande);
-	$commande = "scripts/script_base.sh 2 ".fUtilisateur("Pseudo")." ".$pseudo;
-	exec($commande);
 	return 1;
 	} else {
 		return $ok;
@@ -263,7 +258,7 @@ function fCreerportfolio($pseudo)
 
 function fCreerprojet($nom)
 {
-	$ok = fCreersite($nom, 0, 1);
+	$ok = fCreersite($nom, 0, 0);
 	if ($ok === 1) {
 	$commande = "scripts/script_pwhost.sh 1 ".fUtilisateur("Pseudo")." ".$nom;
 	exec($commande);

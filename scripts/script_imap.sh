@@ -1,5 +1,5 @@
 #!/bin/bash
-# $1 1:Ajout 2:Supression 3:Activer IMAP 4:Desactiver IMAP
+# $1 1:Ajout 2:Supression 3:Activer IMAP 4:Desactiver IMAP 5:changer mot de passe
 # $2 Utilisateur 
 # $3 mot de passe
 
