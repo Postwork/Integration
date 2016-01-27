@@ -28,7 +28,11 @@ footer{
 
     <div class="col-xs-6 col-sm-3 column">
       <br>
+<<<<<<< HEAD
       <h4><strong> <a href="index.php?page=contact">Contactez nous</a> </strong> </h4>
+=======
+      <h4> <strong> <a href="index.php?page=contact">Contactez nous</a> </strong> </h4>
+>>>>>>> da098646894d83de6cb737926e4f4a603ff36e0b
     </div>
     <div class="col-xs-6 col-sm-3 column">
     </div>

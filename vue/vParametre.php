@@ -16,7 +16,13 @@
 
   <div class="container">
     <h1>Paramètres personnels</h1>
-    <?php fErreur(); ?>
+    <?php
+    if (strcmp($_SESSION['erreur'], "ok") === 0) {
+      echo '<div class="alert alert-success" role="alert"> Mot de passe modifié.</div>';
+    } else {
+      fErreur();
+    }
+    ?>
 
     <table class=" table table-striped">
       <tr>
@@ -25,7 +31,7 @@
           <td align="right"><label for="Prenom">Prénom</label></td>
           <td></td>
           <td><input type="text" class="form-inline" name="prenom" <?php echo "value ='".$prenom."'";?>></td>
-          <td><button type="submit" class="btn btn-default" name="envoyer" <?php echo "value ='".$_POST['envoyer']."'";?>>Modifier</button></td>
+          <td><button type="submit" class="btn btn-default" name="envoyer" >Modifier</button></td>
         </form>
       </tr>
       <tr>
@@ -34,7 +40,7 @@
           <td align="right"><label for="Nom">Nom</label></td>
           <td></td>
           <td><input type="text" class="form-inline" name="nom" <?php echo "value ='".$nom."'";?>></td>
-          <td><button type="submit" class="btn btn-default" name="envoyer" <?php echo "value ='".$_POST['envoyer']."'";?>>Modifier</button></td>
+          <td><button type="submit" class="btn btn-default" name="envoyer" >Modifier</button></td>
         </form>
       </tr>
       <tr>
@@ -42,8 +48,8 @@
           <input type="hidden" name="formulaire" value="datedenaissance">
           <td align="right"><label for="Date de naissance">Date de Naissance</label></td>
           <td></td>
-          <td><input type="date" class="form-inline" placeholder="jj/mm/aaaa" name="datedenaissance" <?php echo "value ='".$datedenaissance."'";?>></td>
-          <td><button type="submit" class="btn btn-default" name="envoyer" <?php echo "value ='".$_POST['envoyer']."'";?>>Modifier</button></td>
+          <td><input type="date" class="form-inline" placeholder="jj/mm/aaaa" name="datedenaissance" value="<?php echo $datedenaissance;?>"></td>
+          <td><button type="submit" class="btn btn-default" name="envoyer" >Modifier</button></td>
         </form>
       </tr>
       <tr>
@@ -52,7 +58,7 @@
           <td align="right"><label for="email">Adresse Mail</label></td>
           <td></td>
           <td><input type="text" class="form-inline" name="email" <?php echo "value ='".$email."'";?>></td>
-          <td><button type="submit" class="btn btn-default" name="envoyer" <?php echo "value ='".$_POST['envoyer']."'";?>>Modifier</button></td>
+          <td><button type="submit" class="btn btn-default" name="envoyer" >Modifier</button></td>
         </form>
       </tr>
     </table>
@@ -96,81 +102,7 @@
       </table>
     </form>
 
-    <?php
-    if (isset($prenom)) {
-      echo '
-      <dl class="dl-horizontal">
-      <dt>Prénom :</dt>
-      <dd>
-      '.htmlentities($prenom).'
-      </dd>
-      <dt>Nom :</dt>
-      <dd>
-      '.htmlentities($nom).'
-      </dd>
-      <dt>Date de naissance :</dt>
-      <dd>
-      '.htmlentities($datedenaissance).'
-      </dd>
-      <dt>Mail Secondaire :</dt>
-      <dd>
-      '.htmlentities($email).'
-      </dd>
-      </dl>
-      <button type="button" class="btn btn-default" data-toggle="collapse" data-target="#mail">Modifier mail</button>
-      <div id="mail" class="collapse">
-      <form method="POST" action="?page=parametre">
-      <input type="email" class="form-inline" name="email">
-      <button type="submit" name="envoyer" class="btn btn-default" >Modifier</button>
-      <input type="hidden" name="formulaire" value="3">
-      </form>
-      </div>
-      ';
-
-    } else {
-      echo '
-      <form class="form-horizontal" role="form" method="POST" action="?page=parametre">
-      <div class="form-group">
-      <label class="control-label col-sm-2" for="prenom">Prénom* :</label>
-      <div class="col-sm-10">
-      <input type="text" class="form-control" name="prenom" placeholder="Entrer prénom" required="">
-      </div>
-      </div>
-      <div class="form-group">
-      <label class="control-label col-sm-2" for="nom">Nom* :</label>
-      <div class="col-sm-10">
-      <input type="text" class="form-control" name="nom" placeholder="Entrer nom" required="">
-      </div>
-      </div>
-      <div class="form-group">
-      <label class="control-label col-sm-2" for="datedenaissance">Date de naissance* :</label>
-      <div class="col-sm-10">
-      <input type="date" class="form-control" name="datedenaissance" placeholder="jj/mm/aaaa" required="">
-      </div>
-      </div>
-      <div class="form-group">
-      <label class="control-label col-sm-2" for="email">Email Secondaire* :</label>
-      <div class="col-sm-10">
-      <input type="email" class="form-control" name="email" placeholder="Enter email" required="">
-      </div>
-      </div>
-      <div class="form-group">        
-      <div class="col-sm-offset-2 col-sm-10">
-        *Obligatoire
-      </div>
-      </div>
-      <div class="form-group">        
-      <div class="col-sm-offset-2 col-sm-10">
-      <button type="submit" class="btn btn-default" name="envoyer">Valider</button>
-      <input type="hidden" name="formulaire" value="1">
-      </div>
-      </div>
-      </form>
-      ';
-    }
-    ?>
-
-    <button type="button" class="btn btn-default" data-toggle="collapse" data-target="#supprimer">Supprimer compte</button>
+    <button type="button" class="btn btn-danger" data-toggle="collapse" data-target="#supprimer">Supprimer compte</button>
     <div id="supprimer" class="collapse">
       <form method="POST" action="?page=parametre">
         <div class="form-group">
