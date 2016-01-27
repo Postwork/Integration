@@ -19,7 +19,5 @@ if (isset($_POST['envoyer'])) {
 		}
 	} else {
 		$_SESSION['erreur'] = "Erreur Pseudo vide.";
-
 	}
-	
 }

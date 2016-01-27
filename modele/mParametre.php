@@ -45,9 +45,6 @@ switch ($_POST['formulaire']) {
 	case 'datedenaissance':
 	if (empty($_POST["datedenaissance"]) ===false) {
 		$date = strftime("%F", strtotime($_POST["datedenaissance"]));
-		echo $_POST["datedenaissance"];
-		echo $date;
-		echo "!!!!!&";
 		fChangerdatenaissance($date);
 	} else {
 		$_SESSION['erreur']  = "Erreur date de naissance vide.";

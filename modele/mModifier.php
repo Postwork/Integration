@@ -11,7 +11,7 @@ if (isset($_POST['envoyer']) === true) {
 		fModifierfqdn($_POST['fqdn']);
 		break;
 		case 'ip'	:
-			fModifierip($_POST['ip']);
+		fModifierip($_POST['ip']);
 		break;
 		case 'description':
 		fModifierdescription($_POST['description']);
