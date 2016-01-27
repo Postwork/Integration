@@ -196,7 +196,7 @@ function fCreersite($nom, $portfolio, $bdd, $ip)
 {
 	require 'source.php';
 	$charset = $bdd->query('SET NAMES UTF8');
-	if (!filter_var($nom, FILTER_VALIDATE_URL) === true) {
+	if (!filter_var($nom, FILTER_VALIDATE_URL) === 1) {
 		if (is_null(fIdsite($nom))) {
 			$nomfqdn = $nom.$globals['fqdnpostwork'];
 			$requete = $bdd->prepare('INSERT INTO postwork.site (FQDN, IP, Portfolio, IdUtilisateur, StatusBDD, StatusVhost) VALUES (?, ?, ?, ?, ?, ?)');
