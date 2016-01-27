@@ -180,7 +180,7 @@ function fInscription($pseudo, $motdepasse)
 		return $_SESSION['erreur'] = "Erreur pseudo indisponible.";
 	}
 	} else {
-		return $_SESSION['erreur'] = "Erreur les caractères autres que - sont interdit.";
+		return $_SESSION['erreur'] = "Erreur les caractères suivants sont acceptés.";
 	}
 	
 }
