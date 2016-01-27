@@ -7,7 +7,7 @@ if (isset($_POST['envoyer'])) {
 			if ( $mdpcmp === 0) {
 				$signin = fInscription($_POST['pseudo'], $_POST['motdepasse']);
 				if ( $signin > 0) {
-					header("Location: ?page=connexion");
+					// header("Location: ?page=connexion");
 				} else {
 					$_SESSION['erreur'] = $signin;
 				}

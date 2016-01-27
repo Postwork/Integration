@@ -8,6 +8,6 @@ source /var/www/postwork/postwork.itinet.fr/scripts/source.sh
 
 sudo script_user.sh $1 $2 $3
 sudo script_bdd.sh $1 $2 $3
-sudo script_mail.sh $1 $2 $3
+# sudo script_mail.sh $1 $2 $3
 sudo script_chat.sh $1 $2 $3
 # script_pwhost.sh $1 $2 $2
