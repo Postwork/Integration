@@ -162,6 +162,8 @@ function fInscription($pseudo, $motdepasse)
 {
 	require 'source.php';
 	$charset = $bdd->query('SET NAMES UTF8');
+	$regex = preg_match("#^[a-zA-Z0-9-]*$#",$nom);
+	if ($regex === 1) {
 	if (is_null(fIdutilisateur($pseudo)) and is_null(fIdsite($pseudo))) {
 		$motdepassehash = password_hash($motdepasse, PASSWORD_DEFAULT); //Hashage du mot de passe
 		$requete = $bdd->prepare('INSERT INTO postwork.utilisateur (Pseudo, MotDePasse) VALUES (?, ?)');
@@ -177,6 +179,10 @@ function fInscription($pseudo, $motdepasse)
 	} else {
 		return $_SESSION['erreur'] = "Erreur pseudo indisponible.";
 	}
+	} else {
+		return $_SESSION['erreur'] = "Erreur les caractères autres que - sont interdit.";
+	}
+	
 }
 
 function fCreercategorie($nom)
@@ -196,21 +202,25 @@ function fCreersite($nom, $portfolio, $bdd, $ip)
 {
 	require 'source.php';
 	$charset = $bdd->query('SET NAMES UTF8');
-	if (!filter_var($nom, FILTER_VALIDATE_URL) === 1) {
+	$regex = preg_match("#^[a-zA-Z0-9.-]*$#",$nom);
+	if ($regex === 1) {
 		if (is_null(fIdsite($nom))) {
 			$nomfqdn = $nom.$globals['fqdnpostwork'];
 			$requete = $bdd->prepare('INSERT INTO postwork.site (FQDN, IP, Portfolio, IdUtilisateur, StatusBDD, StatusVhost) VALUES (?, ?, ?, ?, ?, ?)');
 			if (isset($ip) === true) {
 				if (!filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4, FILTER_NO_PRIV_RANGE, FILTER_FLAG_NO_RES_RANGE) === true) {
 					$requete->execute(array($nomfqdn, $ip, $portfolio, $_SESSION['IdUtilisateur'], "0", "1"));
+					return 1;
 				} else {
 					return $_SESSION['erreur']="Mauvaise adresse IP.";
 				}
 			} else {
 				if (isset($_SESSION['IdUtilisateur'])) {
 					$requete->execute(array($nomfqdn, $globals['ippostwork'], $portfolio, $_SESSION['IdUtilisateur'], "1", "1"));
+					return 1;
 				} elseif (!is_null(fIdutilisateur($nom))) {
 					$requete->execute(array($nomfqdn, $globals['ippostwork'], $portfolio, fIdutilisateur($nom), $bdd, "1"));
+					return 1;
 				} else {
 					return $_SESSION['erreur'] = "Erreur utilisateur inexistant.";
 				}
@@ -220,33 +230,47 @@ function fCreersite($nom, $portfolio, $bdd, $ip)
 			return $_SESSION['erreur'] = "Erreur nom de site indisponible.";
 		}
 	} else {
-		$_SESSION['erreur']="Nom invalide.";
+		$_SESSION['erreur']="Erreur nom invalide.";
 	}
 }
 
 function fCreerfqdn($nom, $ip)
 {
-	fCreersite($nom, 0, 0, $ip);
+	$ok = fCreersite($nom, 0, 0, $ip);
+	if ($ok === 1) {
 	$commande = "scripts/script_fqdn.sh 1 ".$nom." ".$ip;
 	exec($commande);
+	return 1;
+	} else {
+		return $ok;
+	}
+	
 }
 
 function fCreerportfolio($pseudo)
 {
-	fCreersite($pseudo, 1, 0);
+	$ok = fCreersite($pseudo, 1, 0);
+	if ($ok === 1) {
 	$commande = "scripts/script_pwhost.sh 1 ".fUtilisateur("Pseudo")." ".$pseudo;
 	exec($commande);
 	$commande = "scripts/script_base.sh 2 ".fUtilisateur("Pseudo")." ".$pseudo;
 	exec($commande);
 	return 1;
+	} else {
+		return $ok;
+	}
 }
 
 function fCreerprojet($nom)
 {
-	fCreersite($nom, 0, 1);
+	$ok = fCreersite($nom, 0, 1);
+	if ($ok === 1) {
 	$commande = "scripts/script_pwhost.sh 1 ".fUtilisateur("Pseudo")." ".$nom;
 	exec($commande);
 	return 1;
+	} else {
+		return $ok;
+	}
 }
 
 function fCreertag($nom)
