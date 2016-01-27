@@ -426,11 +426,13 @@ function fParametre($prenom, $nom, $datedenaissance, $email)
 function fChangermotdepasse($ancienmdp, $nouveaumdp)
 {
 	require 'source.php';
-	if ($_SESSION['erreur'] = fConnexion(fUtilisateur("Pseudo"), $ancienmdp) > 0) {
+	$_SESSION['erreur'] = fConnexion(fUtilisateur("Pseudo"), $ancienmdp) ;
+	if ($_SESSION['erreur'] > 0) {
 		$charset = $bdd->query('SET NAMES UTF8');
 		$requete = $bdd->prepare('UPDATE postwork.utilisateur SET MotDePasse =?  WHERE IdUtilisateur =?');
 		$motdepassehash = password_hash($nouveaumdp, PASSWORD_DEFAULT);
 		$requete->execute(array($motdepassehash, $_SESSION['IdUtilisateur']));
+		return "ok";
 	} else {
 		return $_SESSION['erreur'];
 	}	
@@ -460,9 +462,13 @@ function fChangerprenom($prenom)
 function fChangerdatenaissance($datenaissance)
 {
 	require 'source.php';
+	echo $datenaissance;
 	$charset = $bdd->query('SET NAMES UTF8');
+	echo "string";
 	$requete = $bdd->prepare('UPDATE postwork.utilisateur SET DateNaissance =? WHERE IdUtilisateur =?');
+	echo "string";
 	$requete->execute(array($datenaissance, $_SESSION['IdUtilisateur']));
+	echo "string";
 }
 
 function fModifiermail($valeur)
@@ -522,11 +528,11 @@ function fVhost($action)
 		switch ($action) {
 		case 0: // Désactiver
 		fModifiervhost(0);
-		echo $commande = "scripts/script_vhost.sh 4 ".fUtilisateur("Pseudo")." ".$nom;
+		$commande = "scripts/script_vhost.sh 4 ".fUtilisateur("Pseudo")." ".$nom;
 		break;
 		case 1: // Activer
 		fModifiervhost(1);
-		echo $commande = "scripts/script_vhost.sh 3 ".fUtilisateur("Pseudo")." ".$nom;
+		$commande = "scripts/script_vhost.sh 3 ".fUtilisateur("Pseudo")." ".$nom;
 		break;
 		case 2: // Bloquer
 		fModifiervhost(2);
@@ -534,11 +540,11 @@ function fVhost($action)
 		break;
 		case 3: // Créer (activation automatique)
 		fModifiervhost(1);
-		echo $commande = "scripts/script_vhost.sh 1 ".fUtilisateur("Pseudo")." ".$nom;
+		$commande = "scripts/script_vhost.sh 1 ".fUtilisateur("Pseudo")." ".$nom;
 		break;
 		case 4: // Supprimer
 		fModifiervhost(0);
-		echo $commande = "scripts/script_vhost.sh 2 ".fUtilisateur("Pseudo")." ".$nom;
+		$commande = "scripts/script_vhost.sh 2 ".fUtilisateur("Pseudo")." ".$nom;
 		break;
 		default:
 		return $_SESSION['erreur'] = "Erreur action inattendue.";
