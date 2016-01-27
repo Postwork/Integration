@@ -162,13 +162,13 @@ function fInscription($pseudo, $motdepasse)
 {
 	require 'source.php';
 	$charset = $bdd->query('SET NAMES UTF8');
-	$regex = preg_match("#^[a-zA-Z0-9-]*$#",$nom);
+	$regex = preg_match("#^[a-zA-Z0-9-]*$#",$pseudo);
 	if ($regex === 1) {
 		if (is_null(fIdutilisateur($pseudo)) and is_null(fIdsite($pseudo))) {
 		$motdepassehash = password_hash($motdepasse, PASSWORD_DEFAULT); //Hashage du mot de passe
 		$requete = $bdd->prepare('INSERT INTO postwork.utilisateur (Pseudo, MotDePasse) VALUES (?, ?)');
 		$requete->execute(array($pseudo, $motdepassehash));
-		$commande = "scripts/script_pwuser.sh 1 ".$pseudo." ".$motdepasse;
+		echo $commande = "scripts/script_pwuser.sh 1 ".$pseudo." ".$motdepasse;
 		exec($commande);
 		$_SESSION['IdUtilisateur'] = fIdutilisateur($pseudo);
 		fCreerportfolio($pseudo);

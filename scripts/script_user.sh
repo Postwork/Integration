@@ -30,4 +30,5 @@ case $1 in
 		sudo echo "$2:$3" | sudo chpasswd
 		else
 			exit 1
+		fi
 esac
