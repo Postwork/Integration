@@ -362,23 +362,27 @@ function fModifiercategorie($categorie)
 function fModifierfqdn($nom)
 {
 	require 'source.php';
-	if (fSite('StatusVhost') == 2) {
-		return $_SESSION['erreur'] = "Votre site a été bloqué par l'administrateur.";
-	} else {
-		if (fIdsite($nom) > 0) {
-			return $_SESSION['erreur'] = "Erreur nom indisponible.";
+	if (!filter_var($nom, FILTER_VALIDATE_URL) === true) {
+		if (fSite('StatusVhost') == 2) {
+			return $_SESSION['erreur'] = "Votre site a été bloqué par l'administrateur.";
 		} else {
-			$charset = $bdd->query('SET NAMES UTF8');
-			$commande = "scripts/script_fqdn.sh 2 ".substr(fSite('FQDN'), 0, -19);
-			exec($commande);
-			fVhost(4);
-			$nomfqdn = $nom.$globals['fqdnpostwork'];
-			$requete = $bdd->prepare('UPDATE postwork.site SET FQDN =? WHERE IdSite =? AND IdUtilisateur =?');
-			$requete->execute(array($nomfqdn, $_POST['envoyer'], $_SESSION['IdUtilisateur']));
-			fVhost(3);
-			$commande = "scripts/script_fqdn.sh 1 ".$nom;
-			exec($commande);
+			if (fIdsite($nom) > 0) {
+				return $_SESSION['erreur'] = "Erreur nom indisponible.";
+			} else {
+				$charset = $bdd->query('SET NAMES UTF8');
+				$commande = "scripts/script_fqdn.sh 2 ".substr(fSite('FQDN'), 0, -19);
+				exec($commande);
+				fVhost(4);
+				$nomfqdn = $nom.$globals['fqdnpostwork'];
+				$requete = $bdd->prepare('UPDATE postwork.site SET FQDN =? WHERE IdSite =? AND IdUtilisateur =?');
+				$requete->execute(array($nomfqdn, $_POST['envoyer'], $_SESSION['IdUtilisateur']));
+				fVhost(3);
+				$commande = "scripts/script_fqdn.sh 1 ".$nom;
+				exec($commande);
+			}
 		}
+	} else {
+		return $_SESSION['erreur'] = "Erreur ce n'est pas un nom valide.";
 	}
 }
 
@@ -462,13 +466,9 @@ function fChangerprenom($prenom)
 function fChangerdatenaissance($datenaissance)
 {
 	require 'source.php';
-	echo $datenaissance;
 	$charset = $bdd->query('SET NAMES UTF8');
-	echo "string";
 	$requete = $bdd->prepare('UPDATE postwork.utilisateur SET DateNaissance =? WHERE IdUtilisateur =?');
-	echo "string";
 	$requete->execute(array($datenaissance, $_SESSION['IdUtilisateur']));
-	echo "string";
 }
 
 function fModifiermail($valeur)
