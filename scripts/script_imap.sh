@@ -11,7 +11,7 @@ case $1 in
 	1)
 		if [[ -z $test ]];
 		then
-			sudo userdb $2 set imappw=$(openssl passwd -1 $3) uid=5000 gid=5000 home=$mail$2 mail=$mail$2
+			sudo userdb $2 set imappw=$(openssl passwd -1 $3) uid=5000 gid=5000 home=$mail$2 mail=$mail$2 options=disableimap=0
 			mail -r noreply@$dname -s "Bienvenue" $2@$dname <<< 'Merci de nous avoir rejoint sur Postwork. Cordialement, PwTeam'
 		else
 			exit 1
@@ -29,29 +29,33 @@ case $1 in
 	3)
 		if [[ -n $test ]];
 		then
-			nouveau=`awk '{gsub("#", "");print}' <<< $test`
+			nouveau=`awk '{gsub("disableimap=1", "disableimap=0");print}' <<< $test`
 			sudo sed -i -e "s&$test&$nouveau&g" userdb
 		else
 			exit 1
 		fi
+		# if [[ -n $test ]];
+		# then
+		# 	nouveau=`awk '{gsub("#", "");print}' <<< $test`
+		# 	sudo sed -i -e "s&$test&$nouveau&g" userdb
+		# else
+		# 	exit 1
+		# fi
 	;;
 	4)
 		if [[ -n $test ]];
 		then
-			sudo sed -i -e "s&$test&#$test&g" userdb
+			nouveau=`awk '{gsub("disableimap=0", "disableimap=1");print}' <<< $test`
+			sudo sed -i -e "s&$test&$nouveau&g" userdb
 		else
 			exit 1
 		fi
-	;;
-	5)
-		if [[ -n $test ]];
-		then
-			sudo sed -i -e "s&$test&&g" userdb
-			sudo sed -i -e '/^$/d' userdb
-			sudo userdb $2 set imappw=$(openssl passwd -1 $3) uid=5000 gid=5000 home=$mail$2 mail=$mail$2
-		else
-			exit 1
-		fi
+		# if [[ -n $test ]];
+		# then
+		# 	sudo sed -i -e "s&$test&#$test&g" userdb
+		# else
+		# 	exit 1
+		# fi
 	;;
 esac
 sudo makeuserdb
