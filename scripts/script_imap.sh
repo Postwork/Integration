@@ -31,7 +31,7 @@ case $1 in
 		then
 			nouveau=`awk '{gsub("disableimap=1", "disableimap=0");print}' <<< $test`
 			sudo sed -i -e "s&$test&$nouveau&g" userdb
-			sed -i -e 's/ /\t/g' userdb
+			sudo sed -i -e 's/ /\t/g' userdb
 		else
 			exit 1
 		fi
@@ -48,7 +48,7 @@ case $1 in
 		then
 			nouveau=`awk '{gsub("disableimap=0", "disableimap=1");print}' <<< $test`
 			sudo sed -i -e "s&$test&$nouveau&g" userdb
-			sed -i -e 's/ /\t/g' userdb
+			sudo sed -i -e 's/ /\t/g' userdb
 		else
 			exit 1
 		fi
