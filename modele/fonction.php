@@ -523,7 +523,8 @@ function fMail($action)
 			break;
 		}
 	}
-	var_dump(exec($commande));
+	// exec($commande);
+	echo $commande;
 	return 1;
 }
 
