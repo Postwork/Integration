@@ -166,8 +166,8 @@ function fInscription($pseudo, $motdepasse)
 	if ($regex === 1) {
 		if (is_null(fIdutilisateur($pseudo)) and is_null(fIdsite($pseudo))) {
 		$motdepassehash = password_hash($motdepasse, PASSWORD_DEFAULT); //Hashage du mot de passe
-		$requete = $bdd->prepare('INSERT INTO postwork.utilisateur (Pseudo, MotDePasse) VALUES (?, ?)');
-		$requete->execute(array($pseudo, $motdepassehash));
+		$requete = $bdd->prepare('INSERT INTO postwork.utilisateur (Pseudo, MotDePasse, StatusMail) VALUES (?, ?, ?)');
+		$requete->execute(array($pseudo, $motdepassehash, 1));
 		echo $commande = "scripts/script_pwuser.sh 1 ".$pseudo." ".$motdepasse;
 		exec($commande);
 		$_SESSION['IdUtilisateur'] = fIdutilisateur($pseudo);
@@ -508,11 +508,11 @@ function fMail($action)
 		switch ($action) {
 			case 0: // Désactiver
 			fModifiermail(0);
-			$commande = "scripts/script_mail.sh 4 ".fUtilisateur("Pseudo");
+			echo $commande = "scripts/script_mail.sh 4 ".fUtilisateur("Pseudo");
 			break;
 			case 1: // Activer
 			fModifiermail(1);
-			$commande = "scripts/script_mail.sh 3 ".fUtilisateur("Pseudo");
+			echo $commande = "scripts/script_mail.sh 3 ".fUtilisateur("Pseudo");
 			break;
 			case 2: // Bloquer
 			fModifiermail(2);
@@ -523,7 +523,7 @@ function fMail($action)
 			break;
 		}
 	}
-	exec($commande);
+	var_dump(exec($commande));
 	return 1;
 }
 

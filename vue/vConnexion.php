@@ -16,6 +16,7 @@
       <?php 
       if (isset($_SESSION['inscription'])) {
         echo '<h4 style="color:lawngreen;">Inscription réussie.<h4>';
+        unset($_SESSION['inscription']);
       }
       ?>
       <form class="form" method="POST" role="form" action="?page=connexion">
