@@ -5,5 +5,5 @@
 
 source /var/www/postwork/postwork.itinet.fr/scripts/source.sh
 
-script_smtp.sh $1 $2
-script_imap.sh $1 $2 $3
+sudo script_smtp.sh $1 $2
+sudo script_imap.sh $1 $2 $3

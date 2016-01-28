@@ -508,15 +508,15 @@ function fMail($action)
 		switch ($action) {
 			case 0: // Désactiver
 			fModifiermail(0);
-			var_dump($commande = "script_mail.sh 4 ".fUtilisateur("Pseudo"));
+			var_dump($commande = "scripts/script_mail.sh 4 ".fUtilisateur("Pseudo"));
 			break;
 			case 1: // Activer
 			fModifiermail(1);
-			var_dump($commande = "script_mail.sh 3 ".fUtilisateur("Pseudo"));
+			var_dump($commande = "scripts/script_mail.sh 3 ".fUtilisateur("Pseudo"));
 			break;
 			case 2: // Bloquer
 			fModifiermail(2);
-			$commande = "script_mail.sh 4 ".fUtilisateur("Pseudo");
+			$commande = "scripts/script_mail.sh 4 ".fUtilisateur("Pseudo");
 			break;
 			default:
 			return $_SESSION['erreur'] = "Erreur tentative frauduleuse.";
