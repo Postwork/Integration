@@ -609,9 +609,7 @@ function fBdd($action)
 		break;
 	}
 	exec($commande, $sortie);
-	foreach ($sortie as $key => $value) {
-		echo $key." : ".$value;
-	}
+	echo $sortie[0];
 	return 1;
 }
 }
