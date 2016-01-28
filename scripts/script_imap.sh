@@ -35,13 +35,6 @@ case $1 in
 		else
 			exit 1
 		fi
-		# if [[ -n $test ]];
-		# then
-		# 	nouveau=`awk '{gsub("#", "");print}' <<< $test`
-		# 	sudo sed -i -e "s&$test&$nouveau&g" userdb
-		# else
-		# 	exit 1
-		# fi
 	;;
 	4)
 		if [[ -n $test ]];
@@ -52,12 +45,6 @@ case $1 in
 		else
 			exit 1
 		fi
-		# if [[ -n $test ]];
-		# then
-		# 	sudo sed -i -e "s&$test&#$test&g" userdb
-		# else
-		# 	exit 1
-		# fi
 	;;
 esac
 sudo makeuserdb
