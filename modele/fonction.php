@@ -508,11 +508,11 @@ function fMail($action)
 		switch ($action) {
 			case 0: // Désactiver
 			fModifiermail(0);
-			$commande = "script_mail.sh 4 ".fUtilisateur("Pseudo");
+			var_dump($commande = "script_mail.sh 4 ".fUtilisateur("Pseudo"));
 			break;
 			case 1: // Activer
 			fModifiermail(1);
-			$commande = "script_mail.sh 3 ".fUtilisateur("Pseudo");
+			var_dump($commande = "script_mail.sh 3 ".fUtilisateur("Pseudo"));
 			break;
 			case 2: // Bloquer
 			fModifiermail(2);
