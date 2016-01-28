@@ -162,20 +162,23 @@ function fInscription($pseudo, $motdepasse)
 {
 	require 'source.php';
 	$charset = $bdd->query('SET NAMES UTF8');
-	if (is_null(fIdutilisateur($pseudo)) and is_null(fIdsite($pseudo))) {
+	$regex = preg_match("#^[a-zA-Z0-9-]*$#",$pseudo);
+	if ($regex === 1) {
+		if (is_null(fIdutilisateur($pseudo)) and is_null(fIdsite($pseudo))) {
 		$motdepassehash = password_hash($motdepasse, PASSWORD_DEFAULT); //Hashage du mot de passe
-		$requete = $bdd->prepare('INSERT INTO postwork.utilisateur (Pseudo, MotDePasse) VALUES (?, ?)');
-		$requete->execute(array($pseudo, $motdepassehash));
+		$requete = $bdd->prepare('INSERT INTO postwork.utilisateur (Pseudo, MotDePasse, StatusMail) VALUES (?, ?, ?)');
+		$requete->execute(array($pseudo, $motdepassehash, 1));
+		echo $commande = "scripts/script_pwuser.sh 1 ".$pseudo." ".$motdepasse;
+		exec($commande);
 		$_SESSION['IdUtilisateur'] = fIdutilisateur($pseudo);
 		fCreerportfolio($pseudo);
 		unset($_SESSION['IdUtilisateur']);
-		$commande = "scripts/script_pwuser.sh 1 ".$pseudo." ".$motdepasse;
-		exec($commande);
-		$commande = "scripts/script_pwhost.sh 1 ".$pseudo." ".$pseudo;
-		exec($commande);
 		return fIdutilisateur($pseudo);
+		} else {
+			return $_SESSION['erreur'] = "Erreur pseudo indisponible.";
+		}
 	} else {
-		return $_SESSION['erreur'] = "Erreur pseudo indisponible.";
+		return $_SESSION['erreur'] = "Erreur les caractères suivants sont acceptés.";
 	}
 }
 
@@ -192,25 +195,29 @@ function fCreercategorie($nom)
 	}
 }
 
-function fCreersite($nom, $portfolio, $bdd, $ip)
+function fCreersite($nom, $portfolio, $ip)
 {
 	require 'source.php';
 	$charset = $bdd->query('SET NAMES UTF8');
-	if (!filter_var($nom, FILTER_VALIDATE_URL) === true) {
+	$regex = preg_match("#^[a-zA-Z0-9.-]*$#",$nom);
+	if ($regex === 1) {
 		if (is_null(fIdsite($nom))) {
 			$nomfqdn = $nom.$globals['fqdnpostwork'];
 			$requete = $bdd->prepare('INSERT INTO postwork.site (FQDN, IP, Portfolio, IdUtilisateur, StatusBDD, StatusVhost) VALUES (?, ?, ?, ?, ?, ?)');
 			if (isset($ip) === true) {
 				if (!filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4, FILTER_NO_PRIV_RANGE, FILTER_FLAG_NO_RES_RANGE) === true) {
 					$requete->execute(array($nomfqdn, $ip, $portfolio, $_SESSION['IdUtilisateur'], "0", "1"));
+					return 1;
 				} else {
 					return $_SESSION['erreur']="Mauvaise adresse IP.";
 				}
 			} else {
 				if (isset($_SESSION['IdUtilisateur'])) {
-					$requete->execute(array($nomfqdn, $globals['ippostwork'], $portfolio, $_SESSION['IdUtilisateur'], "1", "1"));
+					$requete->execute(array($nomfqdn, $globals['ippostwork'], $portfolio, $_SESSION['IdUtilisateur'], "0", "1"));
+					return 1;
 				} elseif (!is_null(fIdutilisateur($nom))) {
 					$requete->execute(array($nomfqdn, $globals['ippostwork'], $portfolio, fIdutilisateur($nom), $bdd, "1"));
+					return 1;
 				} else {
 					return $_SESSION['erreur'] = "Erreur utilisateur inexistant.";
 				}
@@ -220,33 +227,45 @@ function fCreersite($nom, $portfolio, $bdd, $ip)
 			return $_SESSION['erreur'] = "Erreur nom de site indisponible.";
 		}
 	} else {
-		$_SESSION['erreur']="Nom invalide.";
+		$_SESSION['erreur']="Erreur nom invalide.";
 	}
 }
 
 function fCreerfqdn($nom, $ip)
 {
-	fCreersite($nom, 0, 0, $ip);
+	$ok = fCreersite($nom, 0, $ip);
+	if ($ok === 1) {
 	$commande = "scripts/script_fqdn.sh 1 ".$nom." ".$ip;
 	exec($commande);
+	return 1;
+	} else {
+		return $ok;
+	}
+	
 }
 
 function fCreerportfolio($pseudo)
 {
-	fCreersite($pseudo, 1, 0);
+	$ok = fCreersite($pseudo, 1);
+	if ($ok === 1) {
 	$commande = "scripts/script_pwhost.sh 1 ".fUtilisateur("Pseudo")." ".$pseudo;
 	exec($commande);
-	$commande = "scripts/script_base.sh 2 ".fUtilisateur("Pseudo")." ".$pseudo;
-	exec($commande);
 	return 1;
+	} else {
+		return $ok;
+	}
 }
 
 function fCreerprojet($nom)
 {
-	fCreersite($nom, 0, 1);
+	$ok = fCreersite($nom, 0);
+	if ($ok === 1) {
 	$commande = "scripts/script_pwhost.sh 1 ".fUtilisateur("Pseudo")." ".$nom;
 	exec($commande);
 	return 1;
+	} else {
+		return $ok;
+	}
 }
 
 function fCreertag($nom)
@@ -362,23 +381,27 @@ function fModifiercategorie($categorie)
 function fModifierfqdn($nom)
 {
 	require 'source.php';
-	if (fSite('StatusVhost') == 2) {
-		return $_SESSION['erreur'] = "Votre site a été bloqué par l'administrateur.";
-	} else {
-		if (fIdsite($nom) > 0) {
-			return $_SESSION['erreur'] = "Erreur nom indisponible.";
+	if (!filter_var($nom, FILTER_VALIDATE_URL) === true) {
+		if (fSite('StatusVhost') == 2) {
+			return $_SESSION['erreur'] = "Votre site a été bloqué par l'administrateur.";
 		} else {
-			$charset = $bdd->query('SET NAMES UTF8');
-			$commande = "scripts/script_fqdn.sh 2 ".substr(fSite('FQDN'), 0, -19);
-			exec($commande);
-			fVhost(4);
-			$nomfqdn = $nom.$globals['fqdnpostwork'];
-			$requete = $bdd->prepare('UPDATE postwork.site SET FQDN =? WHERE IdSite =? AND IdUtilisateur =?');
-			$requete->execute(array($nomfqdn, $_POST['envoyer'], $_SESSION['IdUtilisateur']));
-			fVhost(3);
-			$commande = "scripts/script_fqdn.sh 1 ".$nom;
-			exec($commande);
+			if (fIdsite($nom) > 0) {
+				return $_SESSION['erreur'] = "Erreur nom indisponible.";
+			} else {
+				$charset = $bdd->query('SET NAMES UTF8');
+				$commande = "scripts/script_fqdn.sh 2 ".substr(fSite('FQDN'), 0, -19);
+				exec($commande);
+				fVhost(4);
+				$nomfqdn = $nom.$globals['fqdnpostwork'];
+				$requete = $bdd->prepare('UPDATE postwork.site SET FQDN =? WHERE IdSite =? AND IdUtilisateur =?');
+				$requete->execute(array($nomfqdn, $_POST['envoyer'], $_SESSION['IdUtilisateur']));
+				fVhost(3);
+				$commande = "scripts/script_fqdn.sh 1 ".$nom;
+				exec($commande);
+			}
 		}
+	} else {
+		return $_SESSION['erreur'] = "Erreur ce n'est pas un nom valide.";
 	}
 }
 
@@ -426,11 +449,13 @@ function fParametre($prenom, $nom, $datedenaissance, $email)
 function fChangermotdepasse($ancienmdp, $nouveaumdp)
 {
 	require 'source.php';
-	if ($_SESSION['erreur'] = fConnexion(fUtilisateur("Pseudo"), $ancienmdp) > 0) {
+	$_SESSION['erreur'] = fConnexion(fUtilisateur("Pseudo"), $ancienmdp) ;
+	if ($_SESSION['erreur'] > 0) {
 		$charset = $bdd->query('SET NAMES UTF8');
 		$requete = $bdd->prepare('UPDATE postwork.utilisateur SET MotDePasse =?  WHERE IdUtilisateur =?');
 		$motdepassehash = password_hash($nouveaumdp, PASSWORD_DEFAULT);
 		$requete->execute(array($motdepassehash, $_SESSION['IdUtilisateur']));
+		return "ok";
 	} else {
 		return $_SESSION['erreur'];
 	}	
@@ -483,11 +508,11 @@ function fMail($action)
 		switch ($action) {
 			case 0: // Désactiver
 			fModifiermail(0);
-			$commande = "scripts/script_mail.sh 4 ".fUtilisateur("Pseudo");
+			var_dump($commande = "scripts/script_mail.sh 4 ".fUtilisateur("Pseudo"));
 			break;
 			case 1: // Activer
 			fModifiermail(1);
-			$commande = "scripts/script_mail.sh 3 ".fUtilisateur("Pseudo");
+			var_dump($commande = "scripts/script_mail.sh 3 ".fUtilisateur("Pseudo"));
 			break;
 			case 2: // Bloquer
 			fModifiermail(2);
@@ -522,11 +547,11 @@ function fVhost($action)
 		switch ($action) {
 		case 0: // Désactiver
 		fModifiervhost(0);
-		echo $commande = "scripts/script_vhost.sh 4 ".fUtilisateur("Pseudo")." ".$nom;
+		$commande = "scripts/script_vhost.sh 4 ".fUtilisateur("Pseudo")." ".$nom;
 		break;
 		case 1: // Activer
 		fModifiervhost(1);
-		echo $commande = "scripts/script_vhost.sh 3 ".fUtilisateur("Pseudo")." ".$nom;
+		$commande = "scripts/script_vhost.sh 3 ".fUtilisateur("Pseudo")." ".$nom;
 		break;
 		case 2: // Bloquer
 		fModifiervhost(2);
@@ -534,11 +559,11 @@ function fVhost($action)
 		break;
 		case 3: // Créer (activation automatique)
 		fModifiervhost(1);
-		echo $commande = "scripts/script_vhost.sh 1 ".fUtilisateur("Pseudo")." ".$nom;
+		$commande = "scripts/script_vhost.sh 1 ".fUtilisateur("Pseudo")." ".$nom;
 		break;
 		case 4: // Supprimer
 		fModifiervhost(0);
-		echo $commande = "scripts/script_vhost.sh 2 ".fUtilisateur("Pseudo")." ".$nom;
+		$commande = "scripts/script_vhost.sh 2 ".fUtilisateur("Pseudo")." ".$nom;
 		break;
 		default:
 		return $_SESSION['erreur'] = "Erreur action inattendue.";
@@ -583,7 +608,7 @@ function fBdd($action)
 		return $_SESSION['erreur'] = "Erreur action inattendue.";
 		break;
 	}
-	exec($commande);
+	exec($commande, $sortie);
 	return 1;
 }
 }

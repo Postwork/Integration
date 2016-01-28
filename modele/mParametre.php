@@ -2,27 +2,8 @@
 session_start();
 require 'fonction.php';
 
-
-if ($_POST["formulaire"] == 1) {
-	if (empty($_POST["prenom"]) ===false) {
-		if (empty($_POST["nom"]) ===false) {
-			if (empty($_POST["datedenaissance"]) ===false) {
-				$date = strftime("%F", strtotime($_POST["datedenaissance"]));
-				if (empty($_POST["email"]) ===false) {
-					fParametre($_POST["prenom"], $_POST["nom"], $date, $_POST["email"]);
-				} else {
-					$_SESSION['erreur']  = "Erreur adresse email.";
-				}
-			} else {
-				$_SESSION['erreur']  = "Erreur date de naissance.";
-			}
-		} else {
-			$_SESSION['erreur']  = "Erreur nom.";
-		}
-	} else {
-		$_SESSION['erreur']  = "Erreur prenom.";
-	}
-} elseif ($_POST["formulaire"] == 2) {
+switch ($_POST['formulaire']) {
+	case '2':
 	if (empty($_POST["motdepasse"]) === false and fConnexion(fUtilisateur("Pseudo"), $_POST['motdepasse'])) {
 		if ($_POST["nouveau"] == $_POST["nouveau2"]) {
 			$_SESSION['erreur'] = fChangermotdepasse($_POST["motdepasse"], $_POST["nouveau"]);
@@ -32,18 +13,43 @@ if ($_POST["formulaire"] == 1) {
 	} else {
 		$_SESSION['erreur'] = "Erreur ancien mot de passe.";
 	}
-} elseif ($_POST["formulaire"] == 3) {
+	break;
+	case 'email':
 	if (empty($_POST["email"]) ===false) {
 		fChangermail($_POST["email"]);
 	} else {
-		$_SESSION['erreur']  = "Erreur adresse email.";
+		$_SESSION['erreur']  = "Erreur adresse email vide.";
 	}
-} elseif ($_POST["formulaire"] == 4) {
+	break;
+	case '4':
 	if (empty($_POST["motdepasse"]) === false ) {
-		fDesinscription($_POST["motdepasse"]);
+		$_SESSION['erreur']  = fDesinscription($_POST["motdepasse"]);
 	} else {
 		$_SESSION['erreur']  = "Erreur mot de passe vide.";
 	}
+	break;
+	case 'prenom':
+	if (empty($_POST["prenom"]) ===false) {
+		fChangerprenom($_POST["prenom"]);
+	} else {
+		$_SESSION['erreur']  = "Erreur prenom vide.";
+	}
+	break;
+	case 'nom':
+	if (empty($_POST["nom"]) ===false) {
+		fChangernom($_POST["nom"]);
+	} else {
+		$_SESSION['erreur']  = "Erreur nom vide.";
+	}
+	break;
+	case 'datedenaissance':
+	if (empty($_POST["datedenaissance"]) ===false) {
+		$date = strftime("%F", strtotime($_POST["datedenaissance"]));
+		fChangerdatenaissance($date);
+	} else {
+		$_SESSION['erreur']  = "Erreur date de naissance vide.";
+	}
+	break;
 }
 
 if (!is_null(fUtilisateur("Nom"))) {
@@ -51,7 +57,7 @@ if (!is_null(fUtilisateur("Nom"))) {
 	$parametre = fParametreutilisateur();
 	$nom = $parametre["Nom"];
 	$prenom = $parametre["Prenom"];
-	$datedenaissance = $parametre["DateNaissance"];
+	$datedenaissance = strftime("%d/%m/%Y", strtotime($parametre["DateNaissance"]));
 	$email = $parametre["EmailExt"];
 }
 ?>

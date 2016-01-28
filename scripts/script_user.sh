@@ -1,5 +1,5 @@
 #!/bin/bash
-# $1 1:Ajout 2:Supression
+# $1 1:Ajout 2:Supression 3:Changer mot de passe
 # $2 Identifiant
 # $3 Mot de passe
 
@@ -25,4 +25,10 @@ case $1 in
 		sudo rm -R $mail$2
 		sudo rm -R /var/cloud/$2
 	;;
+	3 )
+		if [[ -n $3 ]]; then
+		sudo echo "$2:$3" | sudo chpasswd
+		else
+			exit 1
+		fi
 esac

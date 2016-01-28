@@ -7,6 +7,7 @@ if (isset($_POST['envoyer'])) {
 			if ( $mdpcmp === 0) {
 				$signin = fInscription($_POST['pseudo'], $_POST['motdepasse']);
 				if ( $signin > 0) {
+					$_SESSION['inscription']=1;
 					header("Location: ?page=connexion");
 				} else {
 					$_SESSION['erreur'] = $signin;
@@ -19,7 +20,5 @@ if (isset($_POST['envoyer'])) {
 		}
 	} else {
 		$_SESSION['erreur'] = "Erreur Pseudo vide.";
-
 	}
-	
 }
