@@ -195,7 +195,7 @@ function fCreercategorie($nom)
 	}
 }
 
-function fCreersite($nom, $portfolio, $bdd, $ip)
+function fCreersite($nom, $portfolio, $ip)
 {
 	require 'source.php';
 	$charset = $bdd->query('SET NAMES UTF8');
@@ -233,7 +233,7 @@ function fCreersite($nom, $portfolio, $bdd, $ip)
 
 function fCreerfqdn($nom, $ip)
 {
-	$ok = fCreersite($nom, 0, 0, $ip);
+	$ok = fCreersite($nom, 0, $ip);
 	if ($ok === 1) {
 	$commande = "scripts/script_fqdn.sh 1 ".$nom." ".$ip;
 	exec($commande);
@@ -246,7 +246,7 @@ function fCreerfqdn($nom, $ip)
 
 function fCreerportfolio($pseudo)
 {
-	$ok = fCreersite($pseudo, 1, 0);
+	$ok = fCreersite($pseudo, 1);
 	if ($ok === 1) {
 	$commande = "scripts/script_pwhost.sh 1 ".fUtilisateur("Pseudo")." ".$pseudo;
 	exec($commande);
@@ -258,7 +258,7 @@ function fCreerportfolio($pseudo)
 
 function fCreerprojet($nom)
 {
-	$ok = fCreersite($nom, 0, 0);
+	$ok = fCreersite($nom, 0);
 	if ($ok === 1) {
 	$commande = "scripts/script_pwhost.sh 1 ".fUtilisateur("Pseudo")." ".$nom;
 	exec($commande);
@@ -608,7 +608,8 @@ function fBdd($action)
 		return $_SESSION['erreur'] = "Erreur action inattendue.";
 		break;
 	}
-	exec($commande);
+	exec($commande, $sortie);
+	echo $sortie;
 	return 1;
 }
 }

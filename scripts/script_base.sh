@@ -13,7 +13,7 @@ case $1 in
   then
     mysql -u $mysql_login -p$mysql_pass -e "
     CREATE DATABASE $3 ;"
-   sudo script_base.sh 3 $2 $3
+    sudo script_base.sh 3 $2 $3
   else
     exit 1
   fi
