@@ -29,7 +29,7 @@ case $1 in
 	3)
 		if [[ -n $test ]];
 		then
-			nouveau=`awk '{gsub("disableimap=1", "disableimap=0");print}' <<< $test`
+			nouveau=`awk '{gsub("disableimap=1", "disableimap=0");print}' <<< $test` | tr ' ' '\t'
 			sudo sed -i -e "s&$test&$nouveau&g" userdb
 		else
 			exit 1
@@ -45,7 +45,7 @@ case $1 in
 	4)
 		if [[ -n $test ]];
 		then
-			nouveau=`awk '{gsub("disableimap=0", "disableimap=1");print}' <<< $test`
+			nouveau=`awk '{gsub("disableimap=0", "disableimap=1");print}' <<< $test` | tr ' ' '\t'
 			sudo sed -i -e "s&$test&$nouveau&g" userdb
 		else
 			exit 1
