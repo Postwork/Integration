@@ -3,7 +3,6 @@ session_start();
 require 'fonction.php';
 switch ($_POST['formulaire']) {
 	case 'mail':
-	echo $_POST['statusmail'];
 	fMail($_POST['statusmail']);
 	break;
 	case 'création':
