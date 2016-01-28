@@ -12,12 +12,12 @@
   <?php
   include_once("vNav.php");
   ?>
-
+<div class="container">
   <form method="POST" action="?page=test">
     <input type="text" name="vasy">
     <button type='submit' name='envoyer'>ok</button>
   </form>
-
+</div>
   <?php
   include_once("vFooter.php");
   ?>
