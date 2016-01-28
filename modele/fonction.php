@@ -608,7 +608,8 @@ function fBdd($action)
 		return $_SESSION['erreur'] = "Erreur action inattendue.";
 		break;
 	}
-	exec($commande." | echo $?", $sortie);
+	exec($commande, $sortie);
+	echo $commande;
 	foreach ($sortie as $key) {
 		echo $key;
 	}
