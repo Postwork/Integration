@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 <?php require 'fonction.php'; ?>
 
+=======
+>>>>>>> 387929aebf3f1cfa9e139ce6d2f2508c3700561f
 <!DOCTYPE html>
 <html >
   <head>

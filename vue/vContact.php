@@ -8,7 +8,7 @@
 	include_once("vNav.php");
 	?>
 	<div align="center" class="container">
-		<form action="mailto:votrenom@provider.com" method="post" name="contact"> <br> <br> <br>
+		<form action="mailto:bel-ange@intechinfo.fr" method="post" name="contact"> <br> <br> <br>
 			<label for="email"> email: </label> <br> 	
 			<input name="votre adresse mail"> <br> <br> 
 			<label for="message"> Votre message: </label> <br>

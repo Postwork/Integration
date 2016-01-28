@@ -28,7 +28,7 @@ footer{
 
     <div class="col-xs-6 col-sm-3 column">
       <br>
-      <h4><strong> <a href="index.php?page=contact">Contactez nous</a> </strong> </h4>
+      <h4> <strong> <a href="index.php?page=contact">Contactez nous</a> </strong> </h4>
     </div>
     <div class="col-xs-6 col-sm-3 column">
     </div>

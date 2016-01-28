@@ -133,7 +133,7 @@ if (isset($_SESSION['IdUtilisateur'])) {
     <h1> <span class="txt_darkgrey">Ce que </span><span class="txt_bleu">Postwork </span><span class="txt_darkgrey">vous propose</span>
       <br>
       <br>
-      <p class="txt_slogan"><i>Postwork vous permet de poster vos portefolio et projet personnel afin de vous mettre en relation avec des entreprise qui souhaite embaucher de jeunes diplômés </i></p> </h1>
+      <p class="txt_slogan"><i>Postwork vous permet de poster vos portefolio et projet personnel afin de vous mettre en relation avec des entreprises qui souhaitent embaucher de jeunes diplômés </i></p> </h1>
     </div>  
     <div class="container">
       <div class="row">
@@ -143,7 +143,7 @@ if (isset($_SESSION['IdUtilisateur'])) {
               <a href="https://www.nginx.com/"><img src="vue/contenu/image/host.png" alt="icon" /> </a>
               <span class="templatemo-service-item-header">PwHost</span>
             </div>
-            <p>PwHost est le service qui vous permet de vous donner accès a un serveur web (NGINX) ainsi qu'un transfert de fichier securisé grace MysecureShell.</p>
+            <p>PwHost est le service qui vous permet de vous donner accès a un serveur web (NGINX) ainsi qu'un transfert de fichiers securisé grace MysecureShell.</p>
            <br class="clearfix"/>
           </div>
           <div class="clearfix"></div>
@@ -169,7 +169,7 @@ if (isset($_SESSION['IdUtilisateur'])) {
               <img src="vue/contenu/image/name.png" alt="icon"/> </a>
               <span class="templatemo-service-item-header">PwName</span>
             </div>
-            <p>Cette fonctionnalité vous permettera de créer un FQDN pour vos sites et projets. Un Qrcode sera automatiquement pour chaque site!</p>
+            <p>Cette fonctionnalité vous permettera de créer un FQDN pour vos sites et projets. Un Qrcode sera automatiquement généré pour chaque site!</p>
             <br class="clearfix"/>
           </div>
           <br class="clearfix"/>
